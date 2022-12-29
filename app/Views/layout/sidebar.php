@@ -1,9 +1,13 @@
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-main1">
+  <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-main1 sidebar-no-expand" >
     <!-- Brand Logo -->
     <div class="">
-      <img src="<?php echo base_url().'/image/logo.png';?>" class="img-circle">
-      <span class="">GAPENSI</span>
+      <div class="d-flex justify-content-around p-3">
+        <img src="<?php echo base_url().'/image/logo.png';?>" class="img-circle" style="max-width : -webkit-fill-available">
+      </div>
+      <div class="d-flex justify-content-center px-3">
+        <h5 class="brand-text text-center">GKB Management App Keuangan</h5> 
+      </div>
     </div>
 
     <!-- Sidebar -->
@@ -12,17 +16,15 @@
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          <li class="nav-item">
-            <a href="pages/gallery.html" class="nav-link">
-              <i class="nav-icon far fa-image"></i>
-              <p>
-                Gallery
-              </p>
-            </a>
-          </li>
+
+        <?= $this->include('layout/sidebar_pegawai') ?>
+        <?= $this->include('layout/sidebar_direktur') ?>
+          
+
+          
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

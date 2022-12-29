@@ -1,6 +1,6 @@
 :root{
   --main1 : #193463;
-  --main2 : #b03336;
+  --main2 : #7587B9;
 }
 
 a.navbar{
@@ -47,6 +47,12 @@ td.text {
 td.number {
   text-align: right;
   vertical-align: middle;
+}
+
+
+/* Disable aside hover */
+.main-sidebar:not(.sidebar-no-expand):hover{
+  width: 250px;
 }
 
 /* The switch - the box around the slider */
@@ -112,3 +118,4 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+

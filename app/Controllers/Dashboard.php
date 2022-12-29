@@ -13,7 +13,6 @@ class Dashboard extends ResourceController{
     
     public function view(){
         $tohead['dependencies'] = $this->dependency('head');
-        
         return view('layout/layout_dashboard', $tohead);
     }
 
