@@ -1,0 +1,42 @@
+body{
+    font-family: 'Roboto', sans-serif;
+    /* font-family: 'Roboto Condensed', sans-serif; */
+}
+
+h1, h2, h3, h4, h5{
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: white;
+    text-align: center;
+}
+
+.header-utama, .sub-header{
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: white;
+    text-align: center;
+}
+
+.header-utama{
+    font-size: 32px;
+}
+
+.sub-header{
+    font-size: 21px;
+}
+
+.background{
+    min-height: 572px;
+    min-width: 310px;
+    max-width: 512px;
+}
+
+.input-group{
+    border-radius: 5px;
+}
+
+.tombol-sign{
+    color: white;
+    background: #7587B9;
+    border-radius: 5px;
+}
