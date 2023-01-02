@@ -9,13 +9,18 @@
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     
+    <!-- Fungsi ini untuk pasang dependency yang sudah ditetapkan di Controllers/Dashboard -->
     <?php 
+        // Bila dependensi ada, tuliskan dependensi CSS
+        // Diterima dari Controllers/Dashboard::dependency
         if (isset($dependencies)) {
             foreach ($dependencies['css'] as $key => $val) {
                 echo "\n    <!--".$key."-->\n    <link rel='stylesheet' href='".$val."'>";
             }
         }
 
+        // Bila dependensi ada, tuliskan dependensi JS
+        // Diterima dari Controllers/Dashboard::dependency
         if (isset($dependencies)) {
             foreach ($dependencies['js'] as $key => $val) {
                 echo "\n    <!--".$key."-->\n    <script src='".$val."'></script>";
@@ -43,10 +48,27 @@
         </nav>
         <!-- /.navbar -->
 
+        <!-- Tampilkan layout sidebar dari Views/sidebar.php -->
         <?= $this->include('layout/sidebar') ?>
 
-        <div class="content-wrapper p-3">
+        <div class="content-wrapper p-2">
+
+            <div class="card p-3">
+                <h5>RENCANA KERJA DAN ANGGARAN</h5>
+                <?= 
+                    view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn','table_name'=>'itu','modal_id'=>'wah'] /* dalam sini array sebagai variabel*/)
+                    /*  isi array yang dibutuhkan adalah
+                        ['table_name'],
+                        ['document_uuid'],
+                        ['modal_id'],
+                    */
+                ?>
+            </div>
+            
         </div>
+
+
+
     </div>
 </body>
 </html>

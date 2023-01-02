@@ -1,5 +1,16 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4 bg-main1 sidebar-no-expand" >
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+            </ul>
+        </nav>
+        <!-- /.navbar -->  
+  
     <!-- Brand Logo -->
     <div class="">
       <div class="d-flex justify-content-around p-3">
@@ -20,8 +31,11 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-        <?= $this->include('layout/sidebar_pegawai') ?>
+        <!-- Check level pengguna -->
+        <!-- Jika level pengguna direktur, tampilkan sidebar_direktur -->
         <?= $this->include('layout/sidebar_direktur') ?>
+        <!-- Jika level pengguna pegawai, tampilkan sidebar_pegawai -->
+        <?= $this->include('layout/sidebar_pegawai') ?>
           
 
           

@@ -11,7 +11,13 @@ a.navbar{
   background-color: var(--main1);
   color: white;
 }
-.bg-main2{
+
+.bg-outline-main1, .btn-outline-main1{
+  border-color: var(--main1);
+  color: var(--main1);
+}
+
+.bg-main2, .btn-main2{
   background-color: var(--main2);
   color: white;
 }

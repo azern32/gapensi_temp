@@ -20,6 +20,9 @@ class Dashboard extends ResourceController{
 
     
     // -----------------------------------------------------------------
+    
+    
+    // Fungsi dependency untuk listkan dependency yang dibutuhkan sama halaman
     public function dependency($part=''){
         if ($part == 'head') {
             return [
