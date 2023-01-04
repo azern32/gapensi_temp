@@ -30,8 +30,8 @@
         <!-- <p class="header-utama">Gapensi</p> -->
         <p class="sub-header my-3">GKB Management App - Keuangan</p>
         
-        <div class="m-5 p-3">
-          <form class="" action="#" method="post">
+        <div class="m-5 p-3 d-flex-inline justify-content-center">
+          <form id='form-login' action="<?= base_url()?>/login/signin" method="post">
             <div class="input-group my-3">
               <input id="userLogin" class="form-control" type="text" name="username" value="" placeholder="Username">
             </div>
@@ -45,8 +45,10 @@
                 <span id="visibilityIcon" class="input-group-text material-icons" onclick="changeVisibility()">visibility</span>
               </div>
             </div>
-
-            <button class="btn btn-block mt-3 tombol-sign" type="button" onclick="login()" name="button">Sign In</button>
+            <?php if (isset($flash)) {?>
+              <small class="text-red mx-auto"><?= $flash?></small>
+            <?php }?>
+            <button class="btn btn-block mt-3 tombol-sign" type="submit" name="button">Sign In</button>
 
           </form>
         </div>
@@ -56,15 +58,22 @@
 
     <!-- Scripts -->
     <script>
+      // $('#form-login').on('submit',(e)=>{
+      //   e.preventDefault()
+      //   login()
+      // })
+
+
+
         async function login() { //fungsi login ketika tombol sign in dipencet
             // data dari form dibentuk sebagai Formdata()
             let form = new FormData($('form')[0]);
-
             await fetch('<?php echo base_url()?>/login/post', {
                 method:'post',
                 body: form,
             }).then(res => {
-                console.log(res.json());
+                // console.log(res.json());
+                // window.location.href = '<?php echo base_url()?>/dashboard'
             }).catch(err => {
                 console.log(err);
             })

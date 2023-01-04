@@ -39,8 +39,8 @@ $routes->setAutoRoute(true);
 // $routes->get('/', 'Home::index');
 
 $routes->group('login', static function ($routes){
+    $routes->post('/signin', 'Login::signin');
     $routes->get('/', 'Login::view');
-    $routes->post('/post', 'Login::login');
     $routes->get('/logout', 'Login::logout');
 });
 

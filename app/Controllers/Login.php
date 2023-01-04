@@ -6,29 +6,83 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\RequestTrait;
 
-class Login extends ResourceController{
+helper('auth');
+// class Login extends ResourceController{
+class Login extends BaseController{
     use RequestTrait;
     use ResponseTrait;
     
     public function view(){
+        // set variabel $session
+        $session = session();
+
+        // Jika berhasil autologin, otomatis masuk ke dashboard
+        if ($this->autoLogin($session->get('username'))) {
+            return redirect()->to('/dashboard');
+        }
+
+        // Terima flashdata dalam session
+        $tohead['flash'] = $session->get('flash');
+
+        // Gunakan dependency yang sudah ditetapkan
         $tohead['dependencies'] = $this->dependency('head');
+
+        // load view dengan data dalam $tohead
         return view('login', $tohead);
     }
 
-    public function post(){
-        $response = [
-            'status'   => 200,
-            'body'     => $_POST,
-            'messages' => [
-                'success' => 'Ta tambah ji',
-            ]
-        ];
+    public function signin(){
+        // set variabel $session
+        $session = session();
 
-        return $this->respond($response);
+        // Cek apakah username ada
+        // Jika tidak, redirect ke login dengan flashdata
+        if (!is_user_exist('a')) {
+            $session->setFlashdata('flash', 'Username atau password salah');
+            return redirect()->to('/login');
+        }
+
+
+        // Buatkan variabel untuk username dan password
+        $username = $_POST['username'];
+        $password = md5($_POST['password']);
+
+        // Cek apakah username dan password sesuai
+        // Jika tidak, redirect ke login dengan flashdata        
+        if (!authenticate($username,$password)) {
+            $session->setFlashdata('flash', 'Username atau password salah');
+            return redirect()->to('/login');
+        }
+
+        // Set session dengan data dari database user
+        $session->set(is_user_exist($username));
+
+        // Hilangkan data tentang password
+        $session->remove('password');
+
+        // Redirect ke dashboard
+        return redirect()->to('/dashboard');
+
+        // Testing purpose
+        // return view('test');
+    }
+
+    public function autoLogin($x){
+        // Jika tidak ada username, abaikan fungsi setelahnya
+        if (!$x) {return;}
+
+        // Ambil data dari database user untuk lakukan auntentifikasi
+        // Lalu redirect ke dashboard
+        $result = is_user_exist($x);
+        authenticate($result['username'], $result['password']);
+        return redirect()->to('/dashboard');
     }
 
     public function logout(){
-        # code...
+        // Kosongkan session dan redirect ke login
+        $session = session();
+        $session->destroy();
+        return redirect()->to('/login');
     }
 
 

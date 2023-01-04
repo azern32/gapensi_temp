@@ -6,13 +6,27 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\RequestTrait;
 
-class Dashboard extends ResourceController{
-// class Dashboard extends BaseController{
+helper('auth');
+// class Dashboard extends ResourceController{
+class Dashboard extends BaseController{
     use RequestTrait;
     use ResponseTrait;
     
+
     public function view(){
+        $session = session();
+
+        // Cek jika ada level user
+        // Jika tidak, kembali ke login
+        if (!$session->get('level')) {
+            return redirect()->to('/login');
+        }
+
+        // Simpan dalam variabel dependency dan session
         $tohead['dependencies'] = $this->dependency('head');
+        $tohead['session'] = $session->get();
+        
+        // Simpan dalam variabel dependency dan session        
         return view('layout/layout_dashboard', $tohead);
     }
 

@@ -70,5 +70,9 @@
 
 
     </div>
+
+    <script>
+        console.log(<?php //echo json_encode($session)?>);
+    </script>
 </body>
 </html>
