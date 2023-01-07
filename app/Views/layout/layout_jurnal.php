@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Jurnal</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
@@ -52,27 +52,8 @@
         <?= $this->include('layout/sidebar') ?>
 
         <div class="content-wrapper p-2">
-
             <div class="card p-3">
-                <h5>RENCANA KERJA DAN ANGGARAN</h5>
-                <div class="d-flex">
-                    <?= 
-                        view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn','table_name'=>'itu','modal_id'=>'wah'] /* dalam sini array sebagai variabel*/)
-                        /*  isi array yang dibutuhkan adalah
-                            ['table_name'],
-                            ['document_uuid'],
-                            ['modal_id'],
-                        */
-                    ?>
-                    <?= 
-                        view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn2','table_name'=>'itu2','modal_id'=>'wah'] /* dalam sini array sebagai variabel*/)
-                        /*  isi array yang dibutuhkan adalah
-                            ['table_name'],
-                            ['document_uuid'],
-                            ['modal_id'],
-                        */
-                    ?>
-                </div>
+                
             </div>            
         </div>
     </div>

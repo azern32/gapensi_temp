@@ -91,26 +91,6 @@
                         </div>
                     </div>
 
-                    <!-- <div class="form-group row">
-                        <label for="bisa_kirim" class="col-sm-4 col-form-label">Bisa Kirim</label>
-                        <div class="col-sm">
-                            <label for="bisa_kirim" class="switch">
-                                <input class="form-control" type="checkbox" name="bisa_kirim" id="bisa_kirim">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group row">
-                        <label for="bisa_terima" class="col-sm-4 col-form-label">Bisa Terima</label>
-                        <div class="col-sm">
-                            <label for="bisa_terima" class="switch">
-                                <input class="form-control" type="checkbox" name="bisa_terima" id="bisa_terima">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                    </div> -->
-
 
 
                 </form>
@@ -149,25 +129,6 @@
                         </div>
                     </div>
 
-                    <!-- <div class="form-group row">
-                        <label for="bisa_kirim_edit" class="col-sm-4 col-form-label">Bisa kirim</label>
-                        <div class="col-sm">
-                            <label for="bisa_kirim_edit" class="switch">
-                                <input class="form-control" type="checkbox" name="bisa_kirim_edit" id="bisa_kirim_edit">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group row">
-                        <label for="bisa_terima_edit" class="col-sm-4 col-form-label">Bisa Terima</label>
-                        <div class="col-sm">
-                            <label for="bisa_terima_edit" class="switch">
-                                <input class="form-control" type="checkbox" name="bisa_terima_edit" id="bisa_terima_edit">
-                                <span class="slider round"></span>
-                            </label>
-                        </div>
-                    </div> -->
                 </form>
             </div>
 
@@ -265,10 +226,8 @@
         for (let i = 0; i < item.length; i++) {            
             $(`<tr>
                 <td class="text">${item[i]['kode_akun']}</td>
-                <td class="text">${item[i]['nama_akun']}</td>`+
-                // <td class="symbol">${Number(item[i]['bisa_kirim']) ? "✔":"❌" }</td>
-                // <td class="symbol">${Number(item[i]['bisa_terima']) ? "✔":"❌"}</td>
-                `<td class="number">Rp. ${toIDCurrency(item[i]['debit'])}</td>
+                <td class="text">${item[i]['nama_akun']}</td>
+                <td class="number">Rp. ${toIDCurrency(item[i]['debit'])}</td>
                 <td class="number">Rp. ${toIDCurrency(item[i]['kredit'])}</td>
                 <td class="number">Rp. ${toIDCurrency(item[i]['saldo'])}</td>
                 <td class="symbol">
@@ -298,8 +257,6 @@
         let form = new FormData();
         form.append('kode_akun', $('#kode_akun').val());
         form.append('nama_akun', $('#nama_akun').val());
-        // form.append('bisa_kirim', Number($('#bisa_kirim').prop('checked')));
-        // form.append('bisa_terima', Number($('#bisa_terima').prop('checked')));
 
         await fetch('<?= base_url().'/rekening/add/akunrekening';?>', {
             method:'post',
@@ -318,8 +275,6 @@
                 $('#modal_edit').modal('toggle')
                 $('#kode_akun_edit').val(el.kode_akun)
                 $('#nama_akun_edit').val(el.nama_akun)
-                // $('#bisa_kirim_edit').prop('checked', Number(el.bisa_kirim))
-                // $('#bisa_terima_edit').prop('checked', Number(el.bisa_terima))
                 $('#kirim_edit').attr('onclick', `editAkun('${el.kode_akun}')`)
             }
         });        
@@ -329,8 +284,6 @@
         let form = new FormData();
         form.append('kode_akun', $('#kode_akun_edit').val());
         form.append('nama_akun', $('#nama_akun_edit').val());
-        // form.append('bisa_kirim', Number($('#bisa_kirim_edit').prop('checked')));
-        // form.append('bisa_terima', Number($('#bisa_terima_edit').prop('checked')));
 
         await fetch(`<?= base_url().'/rekening/edit/';?>${kode_akun}`, {
             method:'post',

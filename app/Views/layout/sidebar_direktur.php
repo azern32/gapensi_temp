@@ -1,5 +1,5 @@
 <li class="nav-item my-2">
-    <a href="#" class="nav-link">
+    <a href="<?= base_url()?>/Dashboard" class="nav-link">
         <i class="nav-icon fas fa-table"></i>
         <p>
         Dashboard

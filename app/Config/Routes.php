@@ -38,6 +38,9 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 // $routes->get('/', 'Home::index');
 
+$routes->addPlaceholder('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}');
+
+
 $routes->group('login', static function ($routes){
     $routes->post('/signin', 'Login::signin');
     $routes->get('/', 'Login::view');
@@ -45,7 +48,25 @@ $routes->group('login', static function ($routes){
 });
 
 $routes->group('dashboard', static function ($routes){
+    $routes->post('/update', 'Dashboard::rka_update');
+    $routes->post('/newlog', 'Dashboard::log_update');
     $routes->get('/', 'Dashboard::view');
+    $routes->get('/history/(:alpha)', 'Dashboard::history/$1');
+});
+
+$routes->group('jurnal', static function ($routes){
+    $routes->get('/', 'Jurnal::view');
+});
+
+$routes->group('neraca', static function ($routes){
+    $routes->get('/', 'Neraca::view');
+});
+
+$routes->group('rekening', static function ($routes){
+    $routes->get('/', 'Rekening::view');
+    $routes->get('/list', 'Rekening::list');
+    $routes->post('/add', 'Rekening::add');
+    $routes->post('/edit/(:uuid)', 'Rekening::edit/$1');
 });
 
 

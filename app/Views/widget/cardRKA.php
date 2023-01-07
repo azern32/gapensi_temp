@@ -1,6 +1,6 @@
 
 
-<div class="card" style="max-width: 24rem;">
+<div class="card mx-2" style="min-width: 24rem;">
     <div class="card-body">
         <div class="mx-auto d-flex flex-column align-items-center" <?php if (isset($document_uuid)){ echo 'data-toggle="modal" data-target="#preview-'.$document_uuid.'"'; }?>>
             <i class="fas fa-file-pdf" style="font-size: 6rem;"></i>
@@ -16,10 +16,12 @@
                 <i class="fas fa-history"></i>
                 History 
             </button>
-            <button class="btn btn-bg btn-main2" <?php if (isset($modal_id)){ echo 'data-toggle="modal" data-target="#update-'.$modal_id.'"'; }?>>
-                <i class="fas fa-sync"></i>
-                Update
-            </button>
+            <?php if ($session['level'] != 2) { ?>
+                <button class="btn btn-bg btn-main2" <?php if (isset($modal_id)){ echo 'data-toggle="modal" data-target="#update-'.$modal_id.'"'; }?>>
+                    <i class="fas fa-sync"></i>
+                    Update
+                </button>
+            <?php }?>
         </div>
     </div>
 </div>
