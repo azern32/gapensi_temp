@@ -46,7 +46,7 @@ class Dashboard extends BaseController{
                     'Font Awesome' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css',
 
 
-                    'adminlte'=>base_url()."/adminlte/css/adminlte.min.css",
+                    'adminlte'=>base_url()."/adminlte/css/adminlte.min.css" ,
                     'myown'=>base_url()."/css/myown.css",
                 ],
                 'js'  => [
