@@ -67,8 +67,7 @@
                                 <tr>
                                     <th>Kode Akun</th>
                                     <th>Nama Akun</th>
-                                    <!-- <th>Bisa Kirim</th> -->
-                                    <!-- <th>Bisa Terima</th> -->
+                                    <th>Tipe Akun</th>
                                     <th>Jumlah Debit</th>
                                     <th>Jumlah Kredit</th>
                                     <th>Total Saldo</th>
@@ -84,86 +83,226 @@
 
 
             </div>
+
+            
+            <!-- Modal Tambah akun -->
+            <div class="modal fade" id="modal_tambah">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+
+                        </div>
+
+                        <div class="modal-body">
+                            <form id="tambah_akun" class="">
+                                <div class="form-group row">
+                                    <label for="kode_akun" class="col-sm-4 col-form-label">Kode Akun</label>
+                                    <div class="col-sm">
+                                        <input class="form-control" type="text" name="kode_akun" id="kode_akun" maxlength="6">
+                                        <small class="text-red">Maksimum 6 karakter</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="kode_akun" class="col-sm-4 col-form-label">Tipe Akun</label>
+                                    <div class="col-sm">
+                                        <select class="custom-select" name="tipe_akun" id="tipe_akun">
+                                            <option value="no-account">--- Pilih ---</option>
+                                            <option value="wah">Wah</option>
+                                            <option value="wah2">Wah2</option>
+                                        </select>
+                                        <!-- <input class="form-control" type="text" name="kode_akun" id="kode_akun"> -->
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="nama_akun" class="col-sm-4 col-form-label">Nama Akun</label>
+                                    <div class="col-sm">
+                                        <input class="form-control" type="text" name="nama_akun" id="nama_akun">
+                                    </div>
+                                </div>
+
+
+
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="button" class="btn btn-primary" onclick="addAkun()">Tambah akun</button>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+
+            <!-- Modal Edit akun -->
+            <div class="modal fade" id="modal_edit">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+
+                        </div>
+
+                        <div class="modal-body">
+                            <form id="edit_akun" class="">
+                                <div class="form-group row">
+                                    <label for="kode_akun_edit" class="col-sm-4 col-form-label">Kode Akun</label>
+                                    <div class="col-sm">
+                                        <input class="form-control" type="text" name="kode_akun_edit" id="kode_akun_edit" maxlength="6">
+                                        <small class="text-red">Maksimum 6 karakter</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="nama_akun_edit" class="col-sm-4 col-form-label">Nama Akun</label>
+                                    <div class="col-sm">
+                                        <input class="form-control" type="text" name="nama_akun_edit" id="nama_akun_edit">
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button id="kirim_edit" type="button" class="btn btn-primary" onclick="editAkun()">Edit akun</button>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+
+<!-- =========================================================================== -->
+<!-- =========================================================================== -->
+
+            <div class="card p-3">
+                <div class="card-header px-5 d-flex justify-content-between">
+                    <h4>List Tipe Rekening</h4>
+                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal_tambah_tipe">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                </div> 
+
+                <div class="card-body" >
+                    <div class="p-3">
+                        <table class="table table-responsive table-striped " id="list_tipe">
+                            <thead>
+                                <tr>
+                                    <th>Kode Tipe</th>
+                                    <th>Nama Tipe</th>
+                                    <th>Kategori</th>
+                                    <th style="width: 130px;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Di sini diisi pake script list.foreach() -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+            
+
+            <!-- Modal Tambah tipe -->
+            <div class="modal fade" id="modal_tambah_tipe">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+
+                        </div>
+
+                        <div class="modal-body">
+                            <form id="tambah_akun_tipe" class="">
+                                <div class="form-group row">
+                                    <label for="kode_tipe" class="col-sm-4 col-form-label">Kode Tipe</label>
+                                    <div class="col-sm">
+                                        <input class="form-control" type="text" name="kode_tipe" id="kode_tipe" maxlength="6">
+                                        <small class="text-red">Maksimum 6 karakter</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="kategori" class="col-sm-4 col-form-label">Tipe Akun</label>
+                                    <div class="col-sm">
+                                        <select class="custom-select" name="kategori" id="kategori">
+                                            <option value="no-account">--- Pilih ---</option>
+                                            <option value="Current Assets">Current Assets</option>
+                                            <option value="Fixed Assets">Fixed Assets</option>
+                                            <option value="Accumulated Depreciation">Accumulated Depreciation</option>
+                                            <option value="Liabilities">Liabilities</option>
+                                            <option value="Long-term Liabilities">Long-term Liabilities</option>
+                                            <option value="Long-term Liabilities">Balance of Profit</option>
+                                        </select>
+                                        <!-- <input class="form-control" type="text" name="kode_akun" id="kode_akun"> -->
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="nama_akun" class="col-sm-4 col-form-label">Nama Akun</label>
+                                    <div class="col-sm">
+                                        <input class="form-control" type="text" name="nama_akun" id="nama_akun">
+                                    </div>
+                                </div>
+
+
+
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button type="button" class="btn btn-primary" onclick="addAkun()">Tambah akun</button>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+
+            <!-- Modal Edit tipe -->
+            <div class="modal fade" id="modal_edit">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"></h5>
+
+                        </div>
+
+                        <div class="modal-body">
+                            <form id="edit_akun" class="">
+                                <div class="form-group row">
+                                    <label for="kode_akun_edit" class="col-sm-4 col-form-label">Kode Akun</label>
+                                    <div class="col-sm">
+                                        <input class="form-control" type="text" name="kode_akun_edit" id="kode_akun_edit" maxlength="6">
+                                        <small class="text-red">Maksimum 6 karakter</small>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="nama_akun_edit" class="col-sm-4 col-form-label">Nama Akun</label>
+                                    <div class="col-sm">
+                                        <input class="form-control" type="text" name="nama_akun_edit" id="nama_akun_edit">
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                            <button id="kirim_edit" type="button" class="btn btn-primary" onclick="editAkun()">Edit akun</button>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+
         </div>
     </div>
 
 
     
-<!-- Modal Tambah akun -->
-<div class="modal fade" id="modal_tambah">
-    <div class="modal-dialog ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"></h5>
-
-            </div>
-
-            <div class="modal-body">
-                <form id="tambah_akun" class="">
-                    <div class="form-group row">
-                        <label for="kode_akun" class="col-sm-4 col-form-label">Kode Akun</label>
-                        <div class="col-sm">
-                            <input class="form-control" type="text" name="kode_akun" id="kode_akun" maxlength="6">
-                            <small class="text-red">Maksimum 6 karakter</small>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="nama_akun" class="col-sm-4 col-form-label">Nama Akun</label>
-                        <div class="col-sm">
-                            <input class="form-control" type="text" name="nama_akun" id="nama_akun">
-                        </div>
-                    </div>
-
-
-
-                </form>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary" onclick="addAkun()">Tambah akun</button>
-            </div>
-        </div>
-    </div>    
-</div>
-
-<!-- Modal Edit akun -->
-<div class="modal fade" id="modal_edit">
-    <div class="modal-dialog ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"></h5>
-
-            </div>
-
-            <div class="modal-body">
-                <form id="edit_akun" class="">
-                    <div class="form-group row">
-                        <label for="kode_akun_edit" class="col-sm-4 col-form-label">Kode Akun</label>
-                        <div class="col-sm">
-                            <input class="form-control" type="text" name="kode_akun_edit" id="kode_akun_edit" maxlength="6">
-                            <small class="text-red">Maksimum 6 karakter</small>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="nama_akun_edit" class="col-sm-4 col-form-label">Nama Akun</label>
-                        <div class="col-sm">
-                            <input class="form-control" type="text" name="nama_akun_edit" id="nama_akun_edit">
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                <button id="kirim_edit" type="button" class="btn btn-primary" onclick="editAkun()">Edit akun</button>
-            </div>
-        </div>
-    </div>    
-</div>
 
 
     <script>
@@ -176,6 +315,7 @@
                 $(`<tr>
                     <td class="text">${item[i]['kode_akun']}</td>
                     <td class="text">${item[i]['nama_akun']}</td>
+                    <td class="text">${item[i]['tipe_akun']}</td>
                     <td class="number">Rp. ${toIDCurrency(item[i]['debit'])}</td>
                     <td class="number">Rp. ${toIDCurrency(item[i]['kredit'])}</td>
                     <td class="number">Rp. ${toIDCurrency(item[i]['saldo'])}</td>

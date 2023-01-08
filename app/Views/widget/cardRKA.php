@@ -4,7 +4,7 @@
     <div class="card-body">
         <div class="mx-auto d-flex flex-column align-items-center" <?php if (isset($document_uuid)){ echo 'data-toggle="modal" data-target="#preview-'.$document_uuid.'"'; }?>>
             <i class="fas fa-file-pdf" style="font-size: 6rem;"></i>
-            <strong class="my-2" style="text-decoration: underline; font-size:4ren">RKA Tahunan</strong>
+            <strong class="my-2" style="text-decoration: underline; font-size:4ren"><?= $RKA_type?></strong>
             <small>Update - 21/22/2022</small>
         </div>
         <div class="d-flex my-3" style="justify-content: space-evenly;">

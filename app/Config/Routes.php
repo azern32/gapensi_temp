@@ -56,6 +56,9 @@ $routes->group('dashboard', static function ($routes){
 
 $routes->group('jurnal', static function ($routes){
     $routes->get('/', 'Jurnal::view');
+    $routes->get('/list/(:alpha)', 'Jurnal::list/$1');
+    $routes->get('/add/(:alpha)', 'Jurnal::add/$1');
+    $routes->post('/remove/(:alpha)', 'Jurnal::remove/$1');
 });
 
 $routes->group('neraca', static function ($routes){
@@ -68,6 +71,14 @@ $routes->group('rekening', static function ($routes){
     $routes->post('/add', 'Rekening::add');
     $routes->post('/edit/(:uuid)', 'Rekening::edit/$1');
 });
+
+$routes->group('tipe', static function ($routes){
+    $routes->get('/list', 'Tipe::list');
+    $routes->post('/add', 'Tipe::add');
+    $routes->post('/edit/(:uuid)', 'Tipe::edit/$1');
+    $routes->post('/remove/(:uuid)', 'Tipe::remove/$1');
+});
+
 
 
 /*

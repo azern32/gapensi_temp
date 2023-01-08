@@ -57,7 +57,7 @@
                 <h5>RENCANA KERJA DAN ANGGARAN</h5>
                 <div class="d-flex">
                     <?= 
-                        view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn','table_name'=>'itu','modal_id'=>'wah'] /* dalam sini array sebagai variabel*/)
+                        view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn','table_name'=>'rka_tahunan','modal_id'=>'wah'] /* dalam sini array sebagai variabel*/)
                         /*  isi array yang dibutuhkan adalah
                             ['table_name'],
                             ['document_uuid'],
@@ -65,7 +65,7 @@
                         */
                     ?>
                     <?= 
-                        view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn2','table_name'=>'itu2','modal_id'=>'wah'] /* dalam sini array sebagai variabel*/)
+                        view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn2','table_name'=>'rka_jangka_panjang','modal_id'=>'wah'] /* dalam sini array sebagai variabel*/)
                         /*  isi array yang dibutuhkan adalah
                             ['table_name'],
                             ['document_uuid'],
@@ -73,12 +73,30 @@
                         */
                     ?>
                 </div>
-            </div>            
+
+            </div>
+            
+            <div class="card p-3">
+                <h5>ARUS KAS</h5>
+                <?= view_cell('\App\Libraries\Widget::cardArusKas',['document_uuid'=>'damn2'])?>
+            </div>
         </div>
     </div>
 
     <script>
         console.log(<?php //echo json_encode($session)?>);
+    </script>
+
+    <script>
+        $(document).ready( function(){
+            $('#tabel_arus_kas').DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": true,
+                "searching": true,
+                // order : [[0, 'dsc']]
+            });
+        });
     </script>
 </body>
 </html>
