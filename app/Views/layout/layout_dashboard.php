@@ -57,7 +57,7 @@
                 <h5>RENCANA KERJA DAN ANGGARAN</h5>
                 <div class="d-flex">
                     <?= 
-                        view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn','table_name'=>'rka_tahunan','modal_id'=>'wah'] /* dalam sini array sebagai variabel*/)
+                        view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn','table_name'=>'rka_tahunan','modal_id'=>'rka_tahunan'] /* dalam sini array sebagai variabel*/)
                         /*  isi array yang dibutuhkan adalah
                             ['table_name'],
                             ['document_uuid'],
@@ -65,7 +65,7 @@
                         */
                     ?>
                     <?= 
-                        view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn2','table_name'=>'rka_jangka_panjang','modal_id'=>'wah'] /* dalam sini array sebagai variabel*/)
+                        view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn2','table_name'=>'rka_jangka_panjang','modal_id'=>'rka_jangka_panjang'] /* dalam sini array sebagai variabel*/)
                         /*  isi array yang dibutuhkan adalah
                             ['table_name'],
                             ['document_uuid'],
@@ -77,8 +77,74 @@
             </div>
             
             <div class="card p-3">
-                <h5>ARUS KAS</h5>
+                <div class="d-flex justify-content-between my-3">
+                    <h5>ARUS KAS</h5>
+                    <button class="btn btn-main1" data-toggle="modal" data-target="#modal_input_kegiatan">
+                        <i class="fas fa-plus"></i>
+                        Tambah
+                    </button>
+                </div>
                 <?= view_cell('\App\Libraries\Widget::cardArusKas',['document_uuid'=>'damn2'])?>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal_input_kegiatan">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>TAMBAH ARUS KAS</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="form-group">
+                            <label for="tanggal">Tanggal Kegiatan</label>
+                            <input class="form-control"  type="date" id="tanggal" name="tanggal" style="max-width:200px;">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="keterangan">Keterangan</label>
+                            <textarea class="form-control" name="keterangan" id="keterangan"></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col form-group">
+                                <label for="akun_debet">Akun Debet</label>
+                                <select class="form-control" name="akun_debet" id="akun_debet">
+                                    <option value="wah">wah</option>
+                                </select>
+                            </div>
+
+                            <div class="col form-group">
+                                <label for="akun_kredit">Akun Kredit</label>
+                                <select class="form-control" name="akun_kredit" id="akun_kredit">
+                                    <option value="wah">wah</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="nilai">Nilai</label>
+                            <input class="form-control" type="number" style="max-width:400px;" id="nilai" name="nilai">
+                        </div>
+                        
+                        
+                        <div class="form-group">
+                            <label for="bukti_transaksi">Bukti Transaksi</label>
+                            <div class="input-group" style="max-width:400px;" >
+                                <div class="custom-file">
+                                    <label for="bukti_transaksi" class="custom-file-label">File berupa *.pdf</label>
+                                    <input class="custom-file-input" type="file" id="bukti_transaksi" name="bukti_transaksi">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-main1" data-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-main1">Submit</button>
+                </div>
             </div>
         </div>
     </div>
@@ -87,16 +153,6 @@
         console.log(<?php //echo json_encode($session)?>);
     </script>
 
-    <script>
-        $(document).ready( function(){
-            $('#tabel_arus_kas').DataTable({
-                "responsive": true,
-                "lengthChange": true,
-                "autoWidth": true,
-                "searching": true,
-                // order : [[0, 'dsc']]
-            });
-        });
-    </script>
+    
 </body>
 </html>

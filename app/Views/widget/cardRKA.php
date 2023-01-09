@@ -43,10 +43,30 @@
 <?php if (isset($table_name)) { ?>
     <!-- Modal history -->
     <div class="modal fade" id='history-<?= $table_name?>'>
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    
+                    <table id="history-tabel-<?= $table_name?>" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Tanggal Upload</th>
+                                <th>Nama File</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php //foreach ($list as $key => $value) {?>
+                                <tr>
+                                    <td class="text-center">tanggal</td>
+                                    <td class="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
+                                    <td class="d-flex justify-content-center">
+                                        <button class="btn btn-sm btn-outline-info m-2"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-outline-danger m-2"><i class="far fa-trash-alt"></i></button>
+                                    </td>
+                                </tr>
+                            <?php //}?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -59,7 +79,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <p>Upload RKA Terbaru</p>
+                    <p>Upload <?= $RKA_type?> Terbaru</p>
                     <div class="input-group mb-3">
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" id="updateFile" >
@@ -88,7 +108,7 @@
                 </div>
 
                 <div class="modal-footer d-flex">
-                    <button class="btn btn-outline-main1">
+                    <button class="btn btn-outline-main1" data-dismiss="modal">
                         <i class="fas fa-times"></i>
                         Batal
                     </button>
@@ -105,5 +125,14 @@
 
 <!-- Script only for this file -->
 <script>
+    $(document).ready( function(){
+        $('#history-tabel-<?= $table_name?>').DataTable({
+            "responsive": true,
+            "lengthChange": true,
+            "autoWidth": true,
+            "searching": true,
+            // order : [[0, 'dsc']]
+        });
+    });
 
 </script>

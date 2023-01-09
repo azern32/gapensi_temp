@@ -1,3 +1,5 @@
+
+
 <table id="tabel_arus_kas" class="table table-striped">
     <thead>
         <tr>
@@ -25,4 +27,19 @@
         <?php //}?>
     </tbody>
 </table>
+
+<script>
+    $(document).ready( function(){
+        $('#tabel_arus_kas').DataTable({
+            "responsive": true,
+            "lengthChange": true,
+            "autoWidth": true,
+            "searching": true,                
+            // order : [[0, 'dsc']]
+        });
+    });
+</script>
+
+
+
 
