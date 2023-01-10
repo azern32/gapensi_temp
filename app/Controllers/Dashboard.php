@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Model_Jurnal;
+use App\Models\Model_Daftar_Akun;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\RequestTrait;

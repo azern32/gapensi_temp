@@ -52,15 +52,15 @@
         <?= $this->include('layout/sidebar') ?>
 
         <div class="content-wrapper p-2">
-            <div class="card p-3">
+            <div class="card p-3 m-2">
                 <div class="card-header px-5 d-flex justify-content-between">
                     <h4>List Akun Rekening</h4>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal_tambah">
-                        <i class="fas fa-plus"></i>
+                    <button type="button" class="btn btn-main1" data-toggle="modal" data-target="#modal_tambah">
+                        <i class="fas fa-plus"></i> Tambah Akun
                     </button>
                 </div> 
 
-                <div class="card-body" >
+                <div class="card-body">
                     <div class="p-3">
                         <table class="table table-responsive table-striped " id="list_akun">
                             <thead>
@@ -84,7 +84,6 @@
 
             </div>
 
-            
             <!-- Modal Tambah akun -->
             <div class="modal fade" id="modal_tambah">
                 <div class="modal-dialog ">
@@ -109,10 +108,7 @@
                                     <div class="col-sm">
                                         <select class="custom-select" name="tipe_akun" id="tipe_akun">
                                             <option value="no-account">--- Pilih ---</option>
-                                            <option value="wah">Wah</option>
-                                            <option value="wah2">Wah2</option>
                                         </select>
-                                        <!-- <input class="form-control" type="text" name="kode_akun" id="kode_akun"> -->
                                     </div>
                                 </div>
 
@@ -122,9 +118,6 @@
                                         <input class="form-control" type="text" name="nama_akun" id="nama_akun">
                                     </div>
                                 </div>
-
-
-
                             </form>
                         </div>
 
@@ -176,14 +169,14 @@
 <!-- =========================================================================== -->
 <!-- =========================================================================== -->
 
-            <div class="card p-3">
+            <div class="card p-3 m-2">
                 <div class="card-header px-5 d-flex justify-content-between">
                     <h4>List Tipe Rekening</h4>
-                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal_tambah_tipe">
-                        <i class="fas fa-plus"></i>
+                    <button type="button" class="btn btn-main1" data-toggle="modal" data-target="#modal_tambah_tipe">
+                        <i class="fas fa-plus"></i> Tambah Tipe
                     </button>
                 </div> 
-
+                    
                 <div class="card-body" >
                     <div class="p-3">
                         <table class="table table-responsive table-striped " id="list_tipe">
@@ -235,16 +228,15 @@
                                             <option value="Accumulated Depreciation">Accumulated Depreciation</option>
                                             <option value="Liabilities">Liabilities</option>
                                             <option value="Long-term Liabilities">Long-term Liabilities</option>
-                                            <option value="Long-term Liabilities">Balance of Profit</option>
+                                            <option value="Balance of Profit">Balance of Profit</option>
                                         </select>
-                                        <!-- <input class="form-control" type="text" name="kode_akun" id="kode_akun"> -->
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="nama_akun" class="col-sm-4 col-form-label">Nama Akun</label>
+                                    <label for="nama_tipe" class="col-sm-4 col-form-label">Nama Akun</label>
                                     <div class="col-sm">
-                                        <input class="form-control" type="text" name="nama_akun" id="nama_akun">
+                                        <input class="form-control" type="text" name="nama_tipe" id="nama_tipe">
                                     </div>
                                 </div>
 
@@ -255,14 +247,14 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                            <button type="button" class="btn btn-primary" onclick="addAkun()">Tambah akun</button>
+                            <button type="button" class="btn btn-primary" onclick="addTipe()">Tambah akun</button>
                         </div>
                     </div>
                 </div>    
             </div>
 
             <!-- Modal Edit tipe -->
-            <div class="modal fade" id="modal_edit">
+            <div class="modal fade" id="modal_edit_tipe">
                 <div class="modal-dialog ">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -273,26 +265,42 @@
                         <div class="modal-body">
                             <form id="edit_akun" class="">
                                 <div class="form-group row">
-                                    <label for="kode_akun_edit" class="col-sm-4 col-form-label">Kode Akun</label>
+                                    <label for="kode_tipe_edit" class="col-sm-4 col-form-label">Kode Akun</label>
                                     <div class="col-sm">
-                                        <input class="form-control" type="text" name="kode_akun_edit" id="kode_akun_edit" maxlength="6">
+                                        <input class="form-control" type="text" name="kode_tipe_edit" id="kode_tipe_edit" maxlength="6">
                                         <small class="text-red">Maksimum 6 karakter</small>
                                     </div>
                                 </div>
 
                                 <div class="form-group row">
-                                    <label for="nama_akun_edit" class="col-sm-4 col-form-label">Nama Akun</label>
+                                    <label for="nama_tipe_edit" class="col-sm-4 col-form-label">Nama Akun</label>
                                     <div class="col-sm">
-                                        <input class="form-control" type="text" name="nama_akun_edit" id="nama_akun_edit">
+                                        <input class="form-control" type="text" name="nama_tipe_edit" id="nama_tipe_edit">
                                     </div>
                                 </div>
+
+                                <div class="form-group row">
+                                    <label for="kategori_edit" class="col-sm-4 col-form-label">Tipe Akun</label>
+                                    <div class="col-sm">
+                                        <select class="custom-select" name="kategori_edit" id="kategori_edit">
+                                            <option value="no-account">--- Pilih ---</option>
+                                            <option value="Current Assets">Current Assets</option>
+                                            <option value="Fixed Assets">Fixed Assets</option>
+                                            <option value="Accumulated Depreciation">Accumulated Depreciation</option>
+                                            <option value="Liabilities">Liabilities</option>
+                                            <option value="Long-term Liabilities">Long-term Liabilities</option>
+                                            <option value="Balance of Profit">Balance of Profit</option>
+                                        </select>
+                                    </div>
+                                </div>
+
 
                             </form>
                         </div>
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                            <button id="kirim_edit" type="button" class="btn btn-primary" onclick="editAkun()">Edit akun</button>
+                            <button id="kirim_edit" type="button" class="btn btn-primary" onclick="editTipe()">Edit akun</button>
                         </div>
                     </div>
                 </div>    
@@ -306,8 +314,6 @@
 
 
     <script>
-        console.log(<?php //echo json_encode($session)?>);
-
         let list = [];
         function updateListAkun(item) {
             $('#list_akun tbody').empty();
@@ -334,10 +340,10 @@
         }
 
         async function updateList() {
-            let result = await fetch('<?= base_url().'/rekening/list';?>')
+            let result = await fetch('<?= base_url();?>/rekening/list/akun')
             list = await result.json();
             updateListAkun(list)
-            return 
+            return
         }
 
         async function addAkun() {
@@ -347,7 +353,7 @@
             form.append('kode_akun', $('#kode_akun').val());
             form.append('nama_akun', $('#nama_akun').val());
 
-            await fetch('<?= base_url().'/rekening/add/akunrekening';?>', {
+            await fetch('<?= base_url();?>/rekening/add/akun', {
                 method:'post',
                 body: form,
             }).then(res => {
@@ -389,8 +395,116 @@
 
     </script>
 
+    
+
+    <script>
+        let listtipe = [];
+        function updateListTipe(item) {
+            $('#list_tipe tbody').empty();
+            for (let i = 0; i < item.length; i++) {            
+                $(`<tr>
+                    <td class="text">${item[i]['kode_tipe']}</td>
+                    <td class="text">${item[i]['nama_tipe']}</td>
+                    <td class="text">${item[i]['kategori']}</td>
+                    <td class="symbol">
+                        <button class='btn btn-sm btn-outline-info m-2' onclick="toggleEditTipe('${item[i]['uuid']}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    
+                        <button class='btn btn-sm btn-danger m-2' hidden>
+                            <i class="fas fa-trash-alt"></i> 
+                        </button>
+                    </td>
+                </tr>`).appendTo('#list_tipe tbody')
+
+                $('#tipe_akun').append(`<option value="${item[i]['uuid']}">${item[i]['nama_tipe']}</option>`)
+                console.log(item[i]);
+            }
+        }
+
+        async function updateTipe() {
+            let result = await fetch('<?= base_url();?>/rekening/list/tipe')
+            listtipe = await result.json();
+            updateListTipe(listtipe)
+            return
+        }
+
+        async function addTipe() {
+            $('#modal_tambah_tipe').modal('toggle')
+            let form = new FormData();
+            form.append('uuid', crypto.randomUUID());
+            form.append('kode_tipe', $('#kode_tipe').val());
+            form.append('nama_tipe', $('#nama_tipe').val());
+            form.append('kategori', $('#kategori').val());
+
+            await fetch("<?= base_url();?>/rekening/add/tipe", {
+                method:'post',
+                body: form,
+            }).then(res => {
+                // console.log(res);
+                updateTipe();
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+
+        function toggleEditTipe(uuid){
+            listtipe.forEach(el => {
+                if (el.uuid == uuid) {
+                    $('#modal_edit_tipe').modal('toggle')
+                    $('#kode_tipe_edit').val(el.kode_tipe)
+                    $('#nama_tipe_edit').val(el.nama_tipe)
+                    $('#kategori_edit').val(el.kategori)
+                    $('#kirim_edit').attr('onclick', `editTipe('${el.uuid}')`)
+                }
+            });        
+        }
+
+        async function editTipe(uuid) {
+            let form = new FormData();
+            form.append('kode_akun', $('#kode_akun_edit').val());
+            form.append('nama_akun', $('#nama_akun_edit').val());
+
+            await fetch(`<?= base_url().'/rekening/edit/';?>${uuid}`, {
+                method:'post',
+                body: form,
+            }).then(res => {
+                console.log(res.json());
+                updateList();
+            }).catch(err => {
+                console.log(err);
+            })
+            
+            $('#modal_edit_tipe').modal('toggle')
+        }
+
+    </script>
+
     <script>
         updateList()
+        updateTipe()
+    </script>
+
+    <script>
+        $(document).ready( function(){
+            $('#list_akun').DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "searching": true,
+                // order : [[0, 'dsc']]
+            });
+        });
+
+        $(document).ready( function(){
+            $('#list_tipe').DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "searching": true,
+                // order : [[0, 'dsc']]
+            });
+        });
     </script>
 </body>
 </html>

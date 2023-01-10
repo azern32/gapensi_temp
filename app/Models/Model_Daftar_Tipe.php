@@ -5,7 +5,7 @@ namespace App\Models;
 use CodeIgniter\Model;
 
 class Model_Daftar_Tipe extends Model {
-    protected $table      = 'kategori_akun';
+    protected $table      = 'daftar_tipe';
     protected $primaryKey = 'uuid';
 
     protected $useAutoIncrement = false;

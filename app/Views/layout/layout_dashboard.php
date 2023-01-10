@@ -153,6 +153,11 @@
         console.log(<?php //echo json_encode($session)?>);
     </script>
 
+    <!-- Script to add -->
+    <script>
+
+    </script>
+
     
 </body>
 </html>
