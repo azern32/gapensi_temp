@@ -42,17 +42,18 @@ $routes->addPlaceholder('uuid', '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}
 
 
 $routes->group('login', static function ($routes){
-    $routes->post('/signin', 'Login::signin');
-    $routes->get('/', 'Login::view');
-    $routes->get('/logout', 'Login::logout');
+    $routes->post('/signin', 'Login::signin'); //login
+    $routes->get('/', 'Login::view'); //view halaman login
+    $routes->get('/logout', 'Login::logout'); //logout
 });
 
 $routes->group('dashboard', static function ($routes){
-    $routes->post('/update', 'Dashboard::rka_update');
-    $routes->post('/newlog', 'Dashboard::log_update');
-    $routes->post('/add', 'Dashboard::add');
-    $routes->get('/', 'Dashboard::view');
-    $routes->get('/history/(:alpha)', 'Dashboard::history/$1');
+    $routes->post('/rka_new/(:alpha)', 'Dashboard::rka_new/$1'); //tambah RKA
+    $routes->get('/rka/(:alpha)/(:uuid)', 'Dashboard::rka/$1/$2'); //ambil detail RKA spesifik
+
+    $routes->post('/add', 'Dashboard::add'); //tambah catatan
+    $routes->get('/list', 'Dashboard::list'); //ambil seluruh catatan
+    $routes->get('/', 'Dashboard::view'); //view halaman
 });
 
 $routes->group('jurnal', static function ($routes){

@@ -56,6 +56,11 @@ class Dashboard extends BaseController{
             }
         }
 
+        // Hitung akun ========================
+        $this->hitungAkun($_POST['akun_kredit'], $_POST['akun_debet'], $_POST['nilai']);
+        $this->hitungSaldo($_POST['akun_kredit']);
+        $this->hitungSaldo($_POST['akun_debet']);
+
         // Masukkan data ke database ========================
         // Panggil databasenya
         $jurnal = new Model_Jurnal();
@@ -63,15 +68,50 @@ class Dashboard extends BaseController{
         $_POST['bukti_transaksi'] = json_encode($_POST['bukti_transaksi']);
         // Simpan ke database
         $jurnal->insert($_POST);
+        
 
         // laporan
-        return $this->respond(['path' => $path, 'post'=>$_POST]);
+        return $this->respond(['path' => $path, 'post'=>$_POST, ]);
+    }
+
+    public function list(){
+        
     }
 
 
 
 
     
+    // -----------------------------------------------------------------
+
+    public function hitungAkun($uuid_kredit, $uuid_debet, $nominal = 0, $flip = false){
+        $akun = new Model_Daftar_Akun();
+        $sumber = $akun->where('uuid', $uuid_kredit)->first();
+        $tujuan = $akun->where('uuid', $uuid_debet)->first();
+
+        if ($flip) { $nominal *= -1; }
+
+        $akun->update($sumber, ['kredit' => $sumber['kredit'] + $nominal ]);
+        $akun->update($tujuan, ['debit' => $tujuan['debit'] + $nominal ]);
+    }
+
+    public function hitungSaldo($uuid_akun){
+        $akun = new Model_Daftar_Akun();
+        $rekening = $akun->where('uuid', $uuid_akun)->first();
+
+        $akun->update($uuid_akun, 
+            ['saldo' => $rekening['debit'] - $rekening['kredit']]
+        );
+    }
+
+
+
+
+
+
+
+
+
     // -----------------------------------------------------------------
     
     
