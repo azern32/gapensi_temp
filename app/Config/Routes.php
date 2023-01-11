@@ -50,6 +50,7 @@ $routes->group('login', static function ($routes){
 $routes->group('dashboard', static function ($routes){
     $routes->post('/update', 'Dashboard::rka_update');
     $routes->post('/newlog', 'Dashboard::log_update');
+    $routes->post('/add', 'Dashboard::add');
     $routes->get('/', 'Dashboard::view');
     $routes->get('/history/(:alpha)', 'Dashboard::history/$1');
 });

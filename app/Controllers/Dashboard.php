@@ -13,6 +13,7 @@ helper('auth');
 class Dashboard extends BaseController{
     use RequestTrait;
     use ResponseTrait;
+    protected $helpers = ['form'];
     
 
     public function view(){
@@ -24,6 +25,9 @@ class Dashboard extends BaseController{
             return redirect()->to('/login');
         }
 
+        $tohead['list_akun'] = new Model_Daftar_Akun();
+
+
         // Simpan dalam variabel dependency dan session
         $tohead['dependencies'] = $this->dependency('head');
         $tohead['session'] = $session->get();
@@ -31,6 +35,39 @@ class Dashboard extends BaseController{
         // Simpan dalam variabel dependency dan session        
         return view('layout/layout_dashboard', $tohead);
     }
+
+
+    public function add(){
+        $_POST['bukti_transaksi'] = array();
+        // Upload Files ========================
+        // Buat pathnya
+        $path = WRITEPATH.'uploads/'.$_POST['uuid'];
+        // Buat foldernya
+        mkdir($path, 0777, true);
+        // Untuk setiap file yang diupload, simpan satu-satu
+        foreach ($_FILES["bukti_transaksi"]["error"] as $key => $error) {
+            if ($error == UPLOAD_ERR_OK) {
+                $tmp_name = $_FILES["bukti_transaksi"]["tmp_name"][$key];
+                // basename() may prevent filesystem traversal attacks;
+                // further validation/sanitation of the filename may be appropriate
+                $name = basename($_FILES["bukti_transaksi"]["name"][$key]);
+                array_push($_POST['bukti_transaksi'], $name);
+                move_uploaded_file($tmp_name, "$path/$name");
+            }
+        }
+
+        // Masukkan data ke database ========================
+        // Panggil databasenya
+        $jurnal = new Model_Jurnal();
+        // Ubah array ke string
+        $_POST['bukti_transaksi'] = json_encode($_POST['bukti_transaksi']);
+        // Simpan ke database
+        $jurnal->insert($_POST);
+
+        // laporan
+        return $this->respond(['path' => $path, 'post'=>$_POST]);
+    }
+
 
 
 
@@ -59,6 +96,7 @@ class Dashboard extends BaseController{
                     'Datables' => 'https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js',
                     'DatatablesBootstrap' => 'https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js', 
                     'adminlte'=>base_url().'/adminlte/js/adminlte.min.js',
+                    'file input'=>base_url().'/adminlte/plugins/bs-custom-file-input/bs-custom-file-input.min.js',
                     'myown'=>base_url()."/js/myown.js",
 
                 ]

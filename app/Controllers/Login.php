@@ -64,6 +64,7 @@ class Login extends BaseController{
         return redirect()->to('/dashboard');
 
         // Testing purpose
+        // var_dump($_POST);
         // return view('test');
     }
 
