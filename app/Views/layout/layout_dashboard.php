@@ -183,10 +183,9 @@
             }).then(res => {
                 console.log(res.json());
                 $('#tambah_jurnal')[0].reset()
+                $('#modal_input_kegiatan').modal('hide')
             }).catch(err => {
                 console.log(err.message);
-            }).finally(()=>{
-                $('#modal_tambah_tipe').modal('toggle')
             })
         }
     </script>

@@ -8,12 +8,12 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\RequestTrait;
 
-helper('auth');
+// helper('auth');
 // class Dashboard extends ResourceController{
 class Dashboard extends BaseController{
     use RequestTrait;
     use ResponseTrait;
-    protected $helpers = ['form'];
+    protected $helpers = ['form', 'auth', 'account'];
     
 
     public function view(){
@@ -26,6 +26,12 @@ class Dashboard extends BaseController{
         }
 
         $tohead['list_akun'] = new Model_Daftar_Akun();
+
+        $db      = \Config\Database::connect();
+        $builder = $db->table('jurnal');
+        $query = $builder->orderBy('timestamp', 'DESC')->get(15000, 0);
+
+        $tohead['list'] =  $query->getResult();
 
 
         // Simpan dalam variabel dependency dan session
