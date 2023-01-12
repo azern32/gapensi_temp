@@ -53,6 +53,7 @@ $routes->group('dashboard', static function ($routes){
 
     $routes->post('/add', 'Dashboard::add'); //tambah catatan
     $routes->get('/list', 'Dashboard::list'); //ambil seluruh catatan
+    $routes->get('/listlatest/(:num)', 'Dashboard::listlatest/$1'); //ambil catatan terakhir
     $routes->get('/', 'Dashboard::view'); //view halaman
 });
 

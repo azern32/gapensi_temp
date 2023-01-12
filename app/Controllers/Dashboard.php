@@ -34,6 +34,7 @@ class Dashboard extends BaseController{
         $tohead['list'] =  $query->getResult();
 
 
+
         // Simpan dalam variabel dependency dan session
         $tohead['dependencies'] = $this->dependency('head');
         $tohead['session'] = $session->get();
@@ -81,7 +82,19 @@ class Dashboard extends BaseController{
     }
 
     public function list(){
-        
+        $akun = new Model_Daftar_Akun();
+        return $this->respond($akun->findAll());
+
+    }
+
+    public function listlatest($timestamp){
+        $akun = new Model_Jurnal();
+        return $this->respond($akun->where('timestamp', $timestamp)->first());
+    }
+
+    public function getAccount($uuid){
+        $akun = new Model_Daftar_Akun();
+        return $this->respond($akun->where('uuid', $uuid));
     }
 
 
