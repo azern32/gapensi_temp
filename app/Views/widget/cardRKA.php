@@ -55,16 +55,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php //foreach ($list as $key => $value) {?>
-                                <tr>
-                                    <td class="text-center">tanggal</td>
-                                    <td class="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
-                                    <td class="d-flex justify-content-center">
-                                        <button class="btn btn-sm btn-outline-info m-2"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-sm btn-outline-danger m-2"><i class="far fa-trash-alt"></i></button>
-                                    </td>
-                                </tr>
-                            <?php //}?>
+
                         </tbody>
                     </table>
                 </div>
@@ -76,10 +67,10 @@
 <?php if (isset($modal_id)) { ?>
     <!-- Modal update -->
     <div class="modal fade" id='update-<?= $modal_id?>'>
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog " role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <p>Upload <?= $RKA_type?> Terbaru</p>
+                    <h5>Upload <?= $RKA_type?> Terbaru</h5>
                     <div class="input-group mb-3">
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" id="updateFile_<?=$modal_id?>" name="updateFile_<?=$modal_id?>" accept="application/pdf">
@@ -118,7 +109,7 @@
                         <i class="fas fa-times"></i>
                         Batal
                     </button>
-                    <button class="btn btn-main1">
+                    <button class="btn btn-main1" onclick="submit('<?= $table_name?>')">
                         <i class="fas fa-file-upload"></i>
                         Submit
                     </button>
@@ -129,27 +120,58 @@
 <?php }?>
 
 
-<!-- Script only for this file -->
-<script>
-    $(document).ready( function(){
-        $('#history-tabel-<?= $table_name?>').DataTable({
-            "responsive": true,
-            "lengthChange": true,
-            "autoWidth": true,
-            "searching": true,
-            // order : [[0, 'dsc']]
-        });
-    });
 
+
+
+<script>
+    async function rka_list<?= $table_name?>() {
+        await fetch(`<?= base_url()?>/dashboard/rka_list/<?= $table_name?>`)
+        .then(res => {
+            return res.json()
+        }).then(data=>{
+            console.log(data);
+            data.forEach(el => {
+                $(`#history-tabel-<?= $table_name?> tbody`).append(`
+                    <tr>
+                        <td class="text-center">${tanggal(Number(el.timestamp))}</td>
+                        <td class="text-center">${el.judul_file}</td>
+                        <td class="d-flex justify-content-center">
+                            <button class="btn btn-sm btn-outline-info m-2"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-outline-danger m-2"><i class="far fa-trash-alt"></i></button>
+                        </td>
+                    </tr>
+                `)
+            });
+        }).then(x=>{
+            (function(){
+                $('#history-tabel-<?= $table_name?>').DataTable({
+                    "responsive": true,
+                    "lengthChange": true,
+                    "autoWidth": true,
+                    "searching": true,
+                    // order : [[0, 'dsc']]
+                });
+            })()
+        })
+    }
+
+    rka_list<?= $table_name?>()
 </script>
 
-<script>
-    var uploadField = $('#updateFile_<?=$modal_id?>')[0];
 
-    if (uploadField != undefined) {
-        uploadField.onchange = function() {
+
+<script>
+    // var uploadField = $('#updateFile_<?=$modal_id?>')[0];
+
+    if ($('#updateFile_<?=$modal_id?>')[0] != undefined) {
+        $('#updateFile_<?=$modal_id?>')[0].onchange = function() {
             if(this.files[0].size > (3 * 1048576)){
                 alert("File terlalu besar! Maximum 3MB");
+                this.value = "";
+            };
+
+            if(this.files[0].name.length > 255){
+                alert("Jumlah karakter nama file terlalu panjang");
                 this.value = "";
             };
 
@@ -157,4 +179,28 @@
             $('#upload_tanggal_<?=$modal_id?>').text(tanggal(Date.now()))
         };
     }
+
+    function submit(tipe) {
+        let form = new FormData();
+        form.append('uuid', crypto.randomUUID())
+        form.append('timestamp', Date.now())
+        form.append('nama_file', $('#updateFile_<?=$modal_id?>')[0].files[0].name)
+        form.append('judul_file', $('#judul_file_<?=$modal_id?>').val())
+        form.append('file', $('#updateFile_<?=$modal_id?>')[0].files[0])
+
+        fetch(`<?= base_url()?>/dashboard/rka_new/${tipe}`, {
+            method:'post',
+            body:form
+        }).then(x=>{
+            console.log(x.json())
+        })
+    }
+
+</script>
+
+
+<!-- Script only for this file -->
+<script>
+
+
 </script>

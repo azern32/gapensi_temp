@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Model_RKA_Tahunan;
+use App\Models\Model_RKA_Jangka_Panjang;
 use App\Models\Model_Jurnal;
 use App\Models\Model_Daftar_Akun;
 use CodeIgniter\RESTful\ResourceController;
@@ -99,11 +101,51 @@ class Dashboard extends BaseController{
 
 
     public function rka_new($tipe){
-        if ($tipe == '') {
-            # code...
+        if ($tipe == 'tahunan') {
+            $rka = new Model_RKA_Tahunan();
+        } elseif ($tipe == 'jangka_panjang') {
+            $rka = new Model_RKA_Jangka_Panjang();
         }
+
+        // Upload Files ========================
+        // Buat pathnya
+        $path = WRITEPATH.$tipe.'/'.$_POST['uuid'];
+        // Buat foldernya
+        mkdir($path, 0777, true);
+        if ($_FILES["file"]['error'] == UPLOAD_ERR_OK) {
+            $tmp_name = $_FILES["file"]["tmp_name"];
+            // basename() may prevent filesystem traversal attacks;
+            // further validation/sanitation of the filename may be appropriate
+            $name = basename($_FILES["file"]["name"]);
+            move_uploaded_file($tmp_name, "$path/$name");
+        }
+
+        $rka->insert($_POST);
+
+        return $this->respond($_POST);
     }
 
+    public function rka($tipe, $uuid){
+        if ($tipe == 'tahunan') {
+            $rka = new Model_RKA_Tahunan();
+        } elseif ($tipe == 'jangka_panjang') {
+            $rka = new Model_RKA_Jangka_Panjang();
+        }
+
+        $selected = $rka->find($uuid);
+
+        return $this->respond($selected);
+    }
+
+    public function rka_list($tipe){
+        if ($tipe == 'tahunan') {
+            $rka = new Model_RKA_Tahunan();
+        } elseif ($tipe == 'jangka_panjang') {
+            $rka = new Model_RKA_Jangka_Panjang();
+        }
+
+        return $this->respond( $rka->findAll());
+    }
 
 
 

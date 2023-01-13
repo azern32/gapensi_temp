@@ -50,6 +50,7 @@ $routes->group('login', static function ($routes){
 $routes->group('dashboard', static function ($routes){
     $routes->post('/rka_new/(:alpha)', 'Dashboard::rka_new/$1'); //tambah RKA
     $routes->get('/rka/(:alpha)/(:uuid)', 'Dashboard::rka/$1/$2'); //ambil detail RKA spesifik
+    $routes->get('/rka_list/(:alpha)', 'Dashboard::rka/$1'); //ambil daftar RKA
 
     $routes->post('/add', 'Dashboard::add'); //tambah catatan
     $routes->get('/list', 'Dashboard::list'); //ambil seluruh catatan
