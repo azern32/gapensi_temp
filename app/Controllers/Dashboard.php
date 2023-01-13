@@ -98,6 +98,13 @@ class Dashboard extends BaseController{
     }
 
 
+    public function rka_new($tipe){
+        if ($tipe == '') {
+            # code...
+        }
+    }
+
+
 
 
     

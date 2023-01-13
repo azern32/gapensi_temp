@@ -57,20 +57,12 @@
                 <h5>RENCANA KERJA DAN ANGGARAN</h5>
                 <div class="d-flex">
                     <?= 
+                        // $cardrka1 = ;
                         view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn','table_name'=>'rka_tahunan','modal_id'=>'rka_tahunan'] /* dalam sini array sebagai variabel*/)
-                        /*  isi array yang dibutuhkan adalah
-                            ['table_name'],
-                            ['document_uuid'],
-                            ['modal_id'],
-                        */
                     ?>
                     <?= 
-                        view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn2','table_name'=>'rka_jangka_panjang','modal_id'=>'rka_jangka_panjang'] /* dalam sini array sebagai variabel*/)
-                        /*  isi array yang dibutuhkan adalah
-                            ['table_name'],
-                            ['document_uuid'],
-                            ['modal_id'],
-                        */
+                        // $cardrka2 = ['document_uuid'=>'damn2','table_name'=>'rka_jangka_panjang','modal_id'=>'rka_jangka_panjang'];
+                        view_cell('\App\Libraries\Widget::cardRKA', ['document_uuid'=>'damn2','table_name'=>'rka_jangka_panjang','modal_id'=>'rka_jangka_panjang']/* dalam sini array sebagai variabel*/)
                     ?>
                 </div>
 

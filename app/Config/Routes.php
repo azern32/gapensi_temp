@@ -69,10 +69,10 @@ $routes->group('neraca', static function ($routes){
 });
 
 $routes->group('rekening', static function ($routes){
-    $routes->get('/', 'Rekening::view');
-    $routes->get('/list/(:alpha)', 'Rekening::list/$1');
     $routes->post('/add/(:alpha)', 'Rekening::add/$1');
     $routes->post('/edit/(:alpha)/(:uuid)', 'Rekening::edit/$1/$2');
+    $routes->get('/', 'Rekening::view');
+    $routes->get('/list/(:alpha)', 'Rekening::list/$1');
 });
 
 $routes->group('tipe', static function ($routes){

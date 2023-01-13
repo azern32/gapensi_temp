@@ -82,9 +82,15 @@
                     <p>Upload <?= $RKA_type?> Terbaru</p>
                     <div class="input-group mb-3">
                         <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="updateFile" >
-                            <label class="custom-file-label" for="updateFile"></label>
+                            <input type="file" class="custom-file-input" id="updateFile_<?=$modal_id?>" name="updateFile_<?=$modal_id?>" accept="application/pdf">
+
+                            <label class="custom-file-label" for="updateFile_<?=$modal_id?>"></label>
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nilai">Judul RKA</label>
+                        <input class="form-control" type="text" id="judul_file_<?=$modal_id?>" name="judul_file_<?=$modal_id?>">
                     </div>
 
                     <div class="row">
@@ -92,7 +98,7 @@
                             <small>Ukuran File</small> 
                         </div>
                         <div class="col">
-                            <small>:  <span id="upload_ukuran">sekian MB</span></small>
+                            <small>:  <span id="upload_ukuran_<?=$modal_id?>">0</span> MB</small>
                         </div>
                     </div>
 
@@ -101,7 +107,7 @@
                             <small>Tanggal Upload</small> 
                         </div>
                         <div class="col">
-                            <small>: <span id="upload_tanggal">Sekarang</span></small> 
+                            <small>: <span id="upload_tanggal_<?=$modal_id?>"></span></small> 
                         </div>
                     </div>
 
@@ -135,4 +141,20 @@
         });
     });
 
+</script>
+
+<script>
+    var uploadField = $('#updateFile_<?=$modal_id?>')[0];
+
+    if (uploadField != undefined) {
+        uploadField.onchange = function() {
+            if(this.files[0].size > (3 * 1048576)){
+                alert("File terlalu besar! Maximum 3MB");
+                this.value = "";
+            };
+
+            $('#upload_ukuran_<?=$modal_id?>').text(`${(this.files[0].size / 1048576).toFixed(2)}`)
+            $('#upload_tanggal_<?=$modal_id?>').text(tanggal(Date.now()))
+        };
+    }
 </script>

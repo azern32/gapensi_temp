@@ -149,6 +149,15 @@
                                 </div>
 
                                 <div class="form-group row">
+                                    <label for="kode_akun" class="col-sm-4 col-form-label">Tipe Akun</label>
+                                    <div class="col-sm">
+                                        <select class="custom-select" name="tipe_akun_edit" id="tipe_akun_edit">
+                                            <option value="no-account">--- Pilih ---</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
                                     <label for="nama_akun_edit" class="col-sm-4 col-form-label">Nama Akun</label>
                                     <div class="col-sm">
                                         <input class="form-control" type="text" name="nama_akun_edit" id="nama_akun_edit">
@@ -321,7 +330,7 @@
                 $(`<tr>
                     <td class="text">${item[i]['kode_akun']}</td>
                     <td class="text">${item[i]['nama_akun']}</td>
-                    <td class="text">${item[i]['tipe_akun']}</td>
+                    <td class="text">${namaTipe(item[i]['tipe_akun'])}</td>
                     <td class="number">Rp. ${toIDCurrency(item[i]['debit'])}</td>
                     <td class="number">Rp. ${toIDCurrency(item[i]['kredit'])}</td>
                     <td class="number">Rp. ${toIDCurrency(item[i]['saldo'])}</td>
@@ -335,7 +344,7 @@
                         </button>
                     </td>
                 </tr>`).appendTo('#list_akun tbody')
-                console.log(item[i]);
+                // console.log(item[i]);
             }
         }
 
@@ -348,10 +357,8 @@
 
         async function addAkun() {
             $('#modal_tambah').modal('toggle')
-            let form = new FormData();
+            let form = new FormData($('#tambah_akun')[0]);
             form.append('uuid', crypto.randomUUID());
-            form.append('kode_akun', $('#kode_akun').val());
-            form.append('nama_akun', $('#nama_akun').val());
 
             await fetch('<?= base_url();?>/rekening/add/akun', {
                 method:'post',
@@ -369,6 +376,7 @@
                 if (el.uuid == uuid) {
                     $('#modal_edit').modal('toggle')
                     $('#kode_akun_edit').val(el.kode_akun)
+                    $('#tipe_akun_edit').val(el.tipe_akun)
                     $('#nama_akun_edit').val(el.nama_akun)
                     $('#kirim_edit').attr('onclick', `editAkun('${el.uuid}')`)
                 }
@@ -377,10 +385,11 @@
 
         async function editAkun(uuid) {
             let form = new FormData();
-            form.append('kode_akun', $('#kode_akun_edit').val());
-            form.append('nama_akun', $('#nama_akun_edit').val());
+            form.append('kode_akun', $('#kode_akun_edit').val())
+            form.append('nama_akun', $('#nama_akun_edit').val())
+            form.append('tipe_akun', $('#tipe_akun_edit').val())
 
-            await fetch(`<?= base_url().'/rekening/edit/';?>${uuid}`, {
+            await fetch(`<?= base_url().'/rekening/edit/akun/';?>${uuid}`, {
                 method:'post',
                 body: form,
             }).then(res => {
@@ -418,6 +427,7 @@
                 </tr>`).appendTo('#list_tipe tbody')
 
                 $('#tipe_akun').append(`<option value="${item[i]['uuid']}">${item[i]['nama_tipe']}</option>`)
+                $('#tipe_akun_edit').append(`<option value="${item[i]['uuid']}">${item[i]['nama_tipe']}</option>`)
                 console.log(item[i]);
             }
         }
@@ -505,6 +515,14 @@
                 // order : [[0, 'dsc']]
             });
         });
+
+        function namaTipe(uuid) {
+            for (let i = 0; i < listtipe.length; i++) {
+                if (uuid == listtipe[i].uuid) {
+                    return listtipe[i].nama_tipe
+                }
+            }
+        }
     </script>
 </body>
 </html>

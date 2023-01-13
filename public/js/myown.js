@@ -23,6 +23,9 @@ function namaAkun(uuid) {
 }
 
 
+
+
+
 function changeVisibility() {
     if ($('#visibilityIcon').text() == 'visibility') {
         $('#visibilityIcon').text('visibility_off')

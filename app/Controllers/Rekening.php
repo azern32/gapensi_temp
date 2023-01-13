@@ -89,6 +89,7 @@ class Rekening extends BaseController{
             'messages' => [
                 'uuid' => $uuid,
                 'post data' => $_POST,
+                'var' => $var,
             ]
         ];
         return $this->respond($response);

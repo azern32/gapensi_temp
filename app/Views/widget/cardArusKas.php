@@ -78,8 +78,8 @@
                         <label for="bukti_transaksi">Bukti Transaksi</label>
                         <div class="input-group" style="max-width:400px;" >
                             <div class="custom-file">
-                                <label for="bukti_transaksi" class="custom-file-label">File berupa *.pdf</label>
-                                <input class="custom-file-input" multiple type="file" id="bukti_transaksi" name="bukti_transaksi[]" accept="application/pdf">
+                                <label for="bukti_transaksi" class="custom-file-label">File berupa *.png, *.jpeg, atau *.jgg, </label>
+                                <input class="custom-file-input" multiple type="file" id="bukti_transaksi" name="bukti_transaksi[]" accept="image/png, image/jpeg, image/jpg">
                             </div>
                         </div>
                     </div>
@@ -104,9 +104,9 @@
             "lengthChange": true,
             "autoWidth": true,
             "searching": true,
-            "pageLength": 100,
+            "pageLength": 50,
             "columnDefs":[
-                // {target:0, visible:false},
+                {target:0, visible:false},
                 {target:6, className: "d-flex justify-content-center"},
                 {target:[1,2,3,4,5], className: "text-center"}
             ]
