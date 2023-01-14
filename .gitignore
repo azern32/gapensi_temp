@@ -69,6 +69,11 @@ writable/**/*.sqlite
 php_errors.log
 
 #-------------------------
+# Public Files
+#-------------------------
+public/uploads/*
+
+#-------------------------
 # User Guide Temp Files
 #-------------------------
 user_guide_src/build/*

@@ -33,28 +33,7 @@
 </div>
 
 
-<?php if (isset($document['uuid'])) { ?>
-    <!-- Modal preview -->
-    <div class="modal fade" id='preview-<?= $document['uuid']?>'>
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body" id="preview-embed-<?= $document['uuid']?>">               
-                <!-- <iframe src="<?= base_url()."/uploads/$table_name/".$document['uuid'].'/'.$document['nama_file']?>" frameborder="0" width="100%" height="500px"></iframe> -->
-                </div>
-                <div class="modal-footer d-flex justify-content-between">
-                    <a href="<?= base_url()."/uploads/$table_name/".$document['uuid'].'/'.$document['nama_file']?>" download class="btn btn-main1" >
-                        <i class="fas fa-download"></i>
-                        Download
-                    </a>
-                    <button class="btn btn-outline-main1" data-dismiss="modal">
-                        <i class="fas fa-times"></i>
-                        Tutup
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php }?>
+
 
 <?php if (isset($table_name)) { ?>
     <!-- Modal history -->
