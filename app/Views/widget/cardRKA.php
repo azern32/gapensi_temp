@@ -2,16 +2,22 @@
 
 <div class="card mx-2" style="min-width: 24rem;">
     <div class="card-body">
-        <div class="mx-auto d-flex flex-column align-items-center" <?php if (isset($document_uuid)){ echo 'data-toggle="modal" data-target="#preview-'.$document_uuid.'"'; }?>>
-            <i class="fas fa-file-pdf" style="font-size: 6rem;"></i>
+        <div class="mx-auto d-flex flex-column align-items-center" onclick="openpdf<?= $table_name?>()"<?php //if (isset($document['uuid'])){ echo 'data-toggle="modal" data-target="#preview-'.$document['uuid'].'"'; }?>>
+            <?php 
+                if (isset($document['uuid'])) {
+                    echo '<i class="fas fa-file-pdf" style="font-size: 6rem;"></i>';
+                } else {
+                    echo '<i class="fas fa-search-minus" style="font-size: 6rem;"></i>';
+                }
+            ?>
             <strong class="my-2" style="text-decoration: underline; font-size:4ren"><?= $RKA_type?></strong>
-            <small>Update - 21/22/2022</small>
+            <small>Update - <span id="update_<?= $table_name?>"></span></small>
         </div>
         <div class="d-flex my-3" style="justify-content: space-evenly;">
-            <button class="btn btn-bg btn-main1">
+            <a class="btn btn-bg btn-main1" href="<?php if(!empty($document)){echo base_url()."/uploads/$table_name/".$document['uuid'].'/'.$document['nama_file'];} ?>" download >
                 <i class="fas fa-download"></i>
                 Download 
-            </button>
+            </a>
             <button class="btn btn-bg btn-outline-main1" <?php if (isset($table_name)){ echo 'data-toggle="modal" data-target="#history-'.$table_name.'"'; }?>>
                 <i class="fas fa-history"></i>
                 History 
@@ -27,13 +33,23 @@
 </div>
 
 
-<?php if (isset($document_uuid)) { ?>
+<?php if (isset($document['uuid'])) { ?>
     <!-- Modal preview -->
-    <div class="modal fade" id='preview-<?= $document_uuid?>'>
+    <div class="modal fade" id='preview-<?= $document['uuid']?>'>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-body">
-                    Modal preview pdf
+                <div class="modal-body" id="preview-embed-<?= $document['uuid']?>">               
+                <!-- <iframe src="<?= base_url()."/uploads/$table_name/".$document['uuid'].'/'.$document['nama_file']?>" frameborder="0" width="100%" height="500px"></iframe> -->
+                </div>
+                <div class="modal-footer d-flex justify-content-between">
+                    <a href="<?= base_url()."/uploads/$table_name/".$document['uuid'].'/'.$document['nama_file']?>" download class="btn btn-main1" >
+                        <i class="fas fa-download"></i>
+                        Download
+                    </a>
+                    <button class="btn btn-outline-main1" data-dismiss="modal">
+                        <i class="fas fa-times"></i>
+                        Tutup
+                    </button>
                 </div>
             </div>
         </div>
@@ -109,7 +125,7 @@
                         <i class="fas fa-times"></i>
                         Batal
                     </button>
-                    <button class="btn btn-main1" onclick="submit('<?= $table_name?>')">
+                    <button class="btn btn-main1" onclick="submit<?= $table_name?>()">
                         <i class="fas fa-file-upload"></i>
                         Submit
                     </button>
@@ -129,7 +145,7 @@
         .then(res => {
             return res.json()
         }).then(data=>{
-            console.log(data);
+            // console.log(data);
             data.forEach(el => {
                 $(`#history-tabel-<?= $table_name?> tbody`).append(`
                     <tr>
@@ -180,7 +196,7 @@
         };
     }
 
-    function submit(tipe) {
+    function submit<?=$table_name?>() {
         let form = new FormData();
         form.append('uuid', crypto.randomUUID())
         form.append('timestamp', Date.now())
@@ -188,12 +204,17 @@
         form.append('judul_file', $('#judul_file_<?=$modal_id?>').val())
         form.append('file', $('#updateFile_<?=$modal_id?>')[0].files[0])
 
-        fetch(`<?= base_url()?>/dashboard/rka_new/${tipe}`, {
+        fetch(`<?= base_url()?>/dashboard/rka_new/<?=$table_name?>`, {
             method:'post',
             body:form
         }).then(x=>{
             console.log(x.json())
+            $('#update-<?= $modal_id?>').modal('hide')
         })
+    }
+
+    function openpdf<?= $table_name?>() {
+        window.open('<?php if(!empty($document)){echo base_url()."/uploads/$table_name/".$document['uuid'].'/'.$document['nama_file'];} ?>')
     }
 
 </script>
@@ -201,6 +222,14 @@
 
 <!-- Script only for this file -->
 <script>
-
-
+    console.log('<?php if(!empty($document)){echo $document['timestamp'];} ?>');
+    $('#update_<?= $table_name?>').text(`
+        <?php if (empty($document)) {
+                echo 'Belum ada dokumen';
+            } else {
+                echo '${tanggal('.$document['timestamp'].')}';
+            }
+        ?>
+    `)
+        
 </script>

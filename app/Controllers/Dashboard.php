@@ -15,7 +15,7 @@ use CodeIgniter\HTTP\RequestTrait;
 class Dashboard extends BaseController{
     use RequestTrait;
     use ResponseTrait;
-    protected $helpers = ['form', 'auth', 'account'];
+    protected $helpers = ['form', 'auth', 'account', 'filesystem'];
     
 
     public function view(){
@@ -28,13 +28,17 @@ class Dashboard extends BaseController{
         }
 
         $tohead['list_akun'] = new Model_Daftar_Akun();
-
         $db      = \Config\Database::connect();
         $builder = $db->table('jurnal');
         $query = $builder->orderBy('timestamp', 'DESC')->get(15000, 0);
-
         $tohead['list'] =  $query->getResult();
 
+
+        $rka_tahunan = new Model_RKA_Tahunan();
+        $tohead['rka_tahunan'] = $rka_tahunan->orderBy('timestamp', 'DESC')->first();
+        
+        $rka_jangka_panjang = new Model_RKA_Jangka_Panjang();
+        $tohead['rka_jangka_panjang'] = $rka_jangka_panjang->orderBy('timestamp', 'DESC')->first();
 
 
         // Simpan dalam variabel dependency dan session
@@ -50,7 +54,7 @@ class Dashboard extends BaseController{
         $_POST['bukti_transaksi'] = array();
         // Upload Files ========================
         // Buat pathnya
-        $path = WRITEPATH.'uploads/'.$_POST['uuid'];
+        $path = ROOTPATH.'public/uploads/'.'bukti_transaksi/'.$_POST['uuid'];
         // Buat foldernya
         mkdir($path, 0777, true);
         // Untuk setiap file yang diupload, simpan satu-satu
@@ -109,7 +113,7 @@ class Dashboard extends BaseController{
 
         // Upload Files ========================
         // Buat pathnya
-        $path = WRITEPATH.$tipe.'/'.$_POST['uuid'];
+        $path = ROOTPATH.'public/uploads/'.$tipe.'/'.$_POST['uuid'];
         // Buat foldernya
         mkdir($path, 0777, true);
         if ($_FILES["file"]['error'] == UPLOAD_ERR_OK) {
@@ -202,7 +206,7 @@ class Dashboard extends BaseController{
                     'popper'=>"https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js",
                     'bootstrap'=>"https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js",
                     'Datables' => 'https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js',
-                    'DatatablesBootstrap' => 'https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js', 
+                    'DatatablesBootstrap' => 'https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js',
                     'adminlte'=>base_url().'/adminlte/js/adminlte.min.js',
                     'file input'=>base_url().'/adminlte/plugins/bs-custom-file-input/bs-custom-file-input.min.js',
                     'myown'=>base_url()."/js/myown.js",

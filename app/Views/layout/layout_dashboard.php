@@ -56,11 +56,11 @@
             <div class="card p-3">
                 <h5>RENCANA KERJA DAN ANGGARAN</h5>
                 <div class="d-flex">
-                    <?= 
-                        view_cell('\App\Libraries\Widget::cardRKA', ['RKA_type'=>'RKA Tahunan','document_uuid'=>'damn','table_name'=>'tahunan','modal_id'=>'rka_tahunan'] /* dalam sini array sebagai variabel*/)
+                    <?php 
+                        echo view_cell('\App\Libraries\Widget::cardRKA', ['RKA_type'=>'RKA Tahunan','document'=>!empty($rka_tahunan) ? $rka_tahunan : '0' ,'table_name'=>'tahunan','modal_id'=>'rka_tahunan'] /* dalam sini array sebagai variabel*/)
                     ?>
-                    <?= 
-                        view_cell('\App\Libraries\Widget::cardRKA', ['RKA_type'=>'RKA Jangka Panjang','document_uuid'=>'damn2','table_name'=>'jangka_panjang','modal_id'=>'rka_jangka_panjang']/* dalam sini array sebagai variabel*/)
+                    <?php 
+                        echo view_cell('\App\Libraries\Widget::cardRKA', ['RKA_type'=>'RKA Jangka Panjang','document'=>!empty($rka_jangka_panjang) ? $rka_jangka_panjang : '0','table_name'=>'jangka_panjang','modal_id'=>'rka_jangka_panjang']/* dalam sini array sebagai variabel*/)
                     ?>
                 </div>
 
@@ -83,7 +83,7 @@
 
 
     <script>
-        console.log(<?php //echo json_encode($session)?>);
+        console.log(<?php echo json_encode($rka_jangka_panjang)?>);
         
         async function getList() {
             let list;
