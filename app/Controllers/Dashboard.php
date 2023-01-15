@@ -93,6 +93,44 @@ class Dashboard extends BaseController{
 
     }
 
+    public function edit($uuid){
+        $jurnal = new Model_Jurnal();
+
+    }
+
+    public function remove($uuid){
+        $jurnal = new Model_Jurnal();
+        $spesifik = $jurnal->find($uuid);
+
+        // Hitung terbalik catatannya
+        $this->hitungAkun($spesifik['akun_kredit'], $spesifik['akun_debet'], $spesifik['nilai'], true);
+        $this->hitungSaldo($spesifik['akun_kredit']);
+        $this->hitungSaldo($spesifik['akun_debet']);
+
+        // Ambil list gambar
+        $listGambar = json_decode($spesifik['bukti_transaksi']);
+
+        // Tulis ulang jalur foldernya
+        $path = ROOTPATH.'public/uploads/bukti_transaksi/'.$spesifik['uuid'].'/';
+
+        // Hapus gambar jika ada
+        if (count($listGambar) > 0) {
+            foreach ($listGambar as $index => $value) {
+                if (is_file($path.$listGambar[$index])) {
+                    unlink($path.$listGambar[$index]);
+                };
+            }
+        }
+
+        // Hapus folder
+        rmdir($path);
+
+        // Hapus catatan
+        $jurnal->delete($uuid);
+
+        return $this->respond(['path' => $path]);
+    }
+
     public function listlatest($timestamp){
         $akun = new Model_Jurnal();
         return $this->respond($akun->where('timestamp', $timestamp)->first());
@@ -118,9 +156,12 @@ class Dashboard extends BaseController{
         mkdir($path, 0777, true);
         if ($_FILES["file"]['error'] == UPLOAD_ERR_OK) {
             $tmp_name = $_FILES["file"]["tmp_name"];
+            $namafile = $_FILES['file']['name'];
+            $ext = pathinfo($namafile, PATHINFO_EXTENSION);
             // basename() may prevent filesystem traversal attacks;
             // further validation/sanitation of the filename may be appropriate
-            $name = basename($_FILES["file"]["name"]);
+            // $name = basename($_FILES["file"]["name"]);
+            $name = $_POST["judul_file"].'.'.$ext;
             move_uploaded_file($tmp_name, "$path/$name");
         }
 
@@ -156,12 +197,12 @@ class Dashboard extends BaseController{
     
     // -----------------------------------------------------------------
 
-    public function hitungAkun($uuid_kredit, $uuid_debet, $nominal = 0, $flip = false){
+    public function hitungAkun($uuid_kredit, $uuid_debet, $nominal = 0, $remove = false){
         $akun = new Model_Daftar_Akun();
         $sumber = $akun->where('uuid', $uuid_kredit)->first();
         $tujuan = $akun->where('uuid', $uuid_debet)->first();
 
-        if ($flip) { $nominal *= -1; }
+        if ($remove) { $nominal *= -1; }
 
         $akun->update($sumber, ['kredit' => $sumber['kredit'] + $nominal ]);
         $akun->update($tujuan, ['debit' => $tujuan['debit'] + $nominal ]);

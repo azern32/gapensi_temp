@@ -14,7 +14,7 @@
     </thead>
     <tbody>
         <?php foreach ($list as $key => $value) {?>
-            <tr>
+            <tr id="<?= $value->uuid?>">
                 <td class="text-center"><?= $value->timestamp?></td>
                 <td class="text-center"><?= $value->tanggal?></td>
                 <td class="text-center"><?= $value->keterangan?></td>
@@ -95,11 +95,14 @@
 
 
 <script>
+    let data4Jurnal = [];
     // console.log(<?php //echo json_encode($list)?>);
 
     $(document).ready( function(){
+        listingJurnal()
         $('#tabel_arus_kas').DataTable({
             order: [[0, 'desc']],
+            rowId: 'wah',
             "responsive": true,
             "lengthChange": true,
             "autoWidth": true,
@@ -110,18 +113,35 @@
                 {target:6, className: "d-flex justify-content-center"},
                 {target:[1,2,3,4,5], className: "text-center"}
             ]
-            // order : [[0, 'dsc']]
         });
     });
+
+
 </script>
 
 <script>
-    function editJurnal(uuid) {
+    async function listingJurnal() {
+        await fetch('<?= base_url('dashboard/list')?>').then(x =>{
+            return x.json()
+        }).then(x=>{
+            data4Jurnal = x;
+        }).catch(err => {
+            console.log('Error: ', err.message);
+        })
+    }
+
+    async function editJurnal(uuid) {
         console.log('mengedit '+uuid);
     }
 
-    function deleteJurnal(uuid) {
-        console.log('menghapus '+uuid);
+
+    async function deleteJurnal(uuid) {
+        await fetch(`<?= base_url();?>/dashboard/remove/${uuid}`)
+        .then(res => {
+            return res.json();
+        }).then(x=>{
+            $(`#${uuid}`).remove();
+        })
     }
 </script>
 
@@ -164,7 +184,7 @@
                 [namaAkun(data.akun_kredit)],
                 [data.nilai],
                 [tombolAksi(data.uuid)]
-            ]).draw().node()
+            ]).draw().node().id = data.uuid;
         })
     }
 </script>

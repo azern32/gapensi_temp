@@ -2,7 +2,7 @@
 
 <div class="card mx-2" style="min-width: 24rem;">
     <div class="card-body">
-        <div class="mx-auto d-flex flex-column align-items-center" onclick="openpdf<?= $table_name?>()"<?php //if (isset($document['uuid'])){ echo 'data-toggle="modal" data-target="#preview-'.$document['uuid'].'"'; }?>>
+        <div class="mx-auto d-flex flex-column align-items-center" onclick="openpdf<?= $table_name?>('<?php if(!empty($document)){echo $document['uuid'];}?>')">
             <?php 
                 if (isset($document['uuid'])) {
                     echo '<i class="fas fa-file-pdf" style="font-size: 6rem;"></i>';
@@ -131,8 +131,7 @@
                         <td class="text-center">${tanggal(Number(el.timestamp))}</td>
                         <td class="text-center">${el.judul_file}</td>
                         <td class="d-flex justify-content-center">
-                            <button class="btn btn-sm btn-outline-info m-2"><i class="fas fa-edit"></i></button>
-                            <button class="btn btn-sm btn-outline-danger m-2"><i class="far fa-trash-alt"></i></button>
+                            <button class="btn btn-sm btn-outline-info m-2" onclick="openpdf<?= $table_name?>('${el.uuid}')"><i class="far fa-eye"></i></button>
                         </td>
                     </tr>
                 `)
@@ -192,8 +191,8 @@
         })
     }
 
-    function openpdf<?= $table_name?>() {
-        window.open('<?php if(!empty($document)){echo base_url()."/uploads/$table_name/".$document['uuid'].'/'.$document['nama_file'];} ?>')
+    function openpdf<?= $table_name?>(uuid) {
+        window.open(`<?php if(!empty($document)){echo base_url()."/uploads/$table_name/"?>${uuid}/<?= $document['nama_file'];} ?>`)
     }
 
 </script>
