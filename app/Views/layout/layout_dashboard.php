@@ -92,6 +92,8 @@
             list.forEach(el => {
                 $('#akun_debet').append(`<option value="${el.uuid}">${el.nama_akun}</option>`)
                 $('#akun_kredit').append(`<option value="${el.uuid}">${el.nama_akun}</option>`)
+                $('#akun_debet_edit').append(`<option value="${el.uuid}">${el.nama_akun}</option>`)
+                $('#akun_kredit_edit').append(`<option value="${el.uuid}">${el.nama_akun}</option>`)
             });
             return
         }

@@ -125,3 +125,12 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 
+#file-view img:hover{
+  opacity: .1;
+  transition: .5s ease;
+}
+
+#file-view span:hover{
+  opacity: 100%;
+  transition: .5s ease;
+}

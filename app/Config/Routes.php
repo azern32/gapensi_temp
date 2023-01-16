@@ -56,6 +56,7 @@ $routes->group('dashboard', static function ($routes){
     $routes->post('/edit/(:uuid)', 'Dashboard::edit/$1'); //edit catatan
     $routes->get('/remove/(:uuid)', 'Dashboard::remove/$1'); //hapus catatan
     $routes->get('/list', 'Dashboard::list'); //ambil seluruh catatan
+    $routes->get('/getjurnal', 'Dashboard::getjurnal'); //ambil catatan spesifik
     $routes->get('/listlatest/(:num)', 'Dashboard::listlatest/$1'); //ambil catatan terakhir
     $routes->get('/', 'Dashboard::view'); //view halaman
 });

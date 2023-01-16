@@ -90,12 +90,18 @@ class Dashboard extends BaseController{
     public function list(){
         $akun = new Model_Daftar_Akun();
         return $this->respond($akun->findAll());
+    }
 
+    public function getjurnal($uuid){
+        $akun = new Model_Jurnal();
+        return $this->respond($akun->find($uuid));
     }
 
     public function edit($uuid){
         $jurnal = new Model_Jurnal();
 
+
+        
     }
 
     public function remove($uuid){
@@ -135,6 +141,8 @@ class Dashboard extends BaseController{
         $akun = new Model_Jurnal();
         return $this->respond($akun->where('timestamp', $timestamp)->first());
     }
+
+
 
     public function getAccount($uuid){
         $akun = new Model_Daftar_Akun();
