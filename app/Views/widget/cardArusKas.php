@@ -22,7 +22,7 @@
                 <td class="text-center"><?= getAccountName($value->akun_kredit)?></td>
                 <td class="text-center"><?= $value->nilai?></td>
                 <td class="d-flex justify-content-center">
-                    <button class="btn btn-sm btn-outline-info m-2" onclick="getJurnal('<?= $value->uuid?>')"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-sm btn-outline-info m-2" onclick="editJurnal('<?= $value->uuid?>')"><i class="fas fa-edit"></i></button>
                     <button class="btn btn-sm btn-outline-danger m-2" onclick="deleteJurnal('<?= $value->uuid?>')"><i class="far fa-trash-alt"></i></button>
                 </td>
             </tr>
@@ -146,17 +146,17 @@
                     
                     
                     <div class="form-group">
-                        <label for="bukti_transaksi">Bukti Transaksi</label>
+                        <label for="bukti_transaksi_edit">Bukti Transaksi</label>
                         <div class="input-group" style="max-width:400px;" >
                             <div class="custom-file">
-                                <label for="bukti_transaksi" class="custom-file-label">File berupa *.png, *.jpeg, atau *.jpg, </label>
+                                <label for="bukti_transaksi_edit" class="custom-file-label">File berupa *.png, *.jpeg, atau *.jpg, </label>
                                 <input class="custom-file-input" multiple type="file" id="bukti_transaksi_edit" name="bukti_transaksi_edit[]" accept="image/png, image/jpeg, image/jpg">
                             </div>
                         </div>
                     </div>
 
                     <div class="m-2">
-                        <div id="file-view" class="row d-flex justify-content-start"
+                        <div id="file-view_edit" class="row d-flex justify-content-start"
                             style="border: 1px solid #ced4da;border-radius: 0.5rem;height:20rem;overflow-y:scroll">
                         </div>
                     </div>
@@ -268,43 +268,137 @@
 
 <!-- Script untuk edit jurnal -->
 <script>
-    async function editJurnal(uuid) {
-        let form = new FormData();
-        form.append('timestamp', Date.now());
+    /*
+    Tarik nama file dari database
+    Gunakan nama file untuk lengkapi path gambar dari server
+    Gambar diubah kedalam Blob
+    Blob diubah kedalam File, masukkan ke dalam Datatransfer
+    Datatransfer.files masukkan ke dalam input_type_file.files
+    input_type_file.files dibaca dengan Filereader
+    Filereader.result digunakan sebagai src untuk tampilkan gambar
 
-        await fetch("<?= base_url();?>/dashboard/add",{
-            method:"post",
-            body: form,
-        }).then(res => {
-            // console.log(res.json());
-            return res.json()
-        }).then(x => {
-            latestJurnal(x.post.timestamp)
-            $('#tambah_jurnal')[0].reset()
-            $('#modal_input_kegiatan').modal('hide')
-        }).catch(err => {
-            console.error(err.message)
+    ketika menekan input_type_file, hanya menambahkan daftar Datatransfer
+    */
+    let dt_edit = new DataTransfer()
+
+    async function editJurnal(uuid) {
+        dt_edit.clearData()
+        let dataJurnal = await getJurnal(uuid)
+        let arrayGambar = JSON.parse(dataJurnal.bukti_transaksi)
+
+        $('#modal_edit_kegiatan').modal('show')
+
+        $('#tanggal_edit').val(dataJurnal.tanggal);
+        $('#keterangan_edit').val(dataJurnal.keterangan);
+        $('#akun_debet_edit').val(dataJurnal.akun_debet);
+        $('#akun_kredit_edit').val(dataJurnal.akun_kredit);
+        $('#nilai_edit').val(dataJurnal.nilai);
+        $('#submit_button_edit').attr('onclick', `updateJurnal('${dataJurnal.uuid}')`);
+
+        for (let i = 0; i < arrayGambar.length; i++) {
+            dt_edit.items.add(await getImageFile(path_transaksi(uuid)+arrayGambar[i], arrayGambar[i]))
+        }
+
+        updatelistgambar()
+    }
+
+    async function updateJurnal(uuid) {
+        let form = new FormData($('#edit_jurnal')[0])
+
+        form.set('timestamp', Date.now())
+        form.set('tanggal', $('#tanggal_edit').val())
+        form.set('keterangan', $('#keterangan_edit').val())
+        form.set('akun_debet', $('#akun_debet_edit').val())
+        form.set('akun_kredit', $('#akun_kredit_edit').val())
+        form.set('nilai', $('#nilai_edit').val())
+        form.delete('uuid')
+
+        await fetch(`<?= base_url('dashboard/edit')?>/${uuid}`,{
+            method:'post',
+            body:form,
+        }).then(x=>{
+            // return x.json()
+            console.log(x.json());
+            $('#modal_edit_kegiatan').modal('hide')
+            $('#edit_jurnal')[0].reset()
         })
 
+    }
+
+    $('#bukti_transaksi_edit').change(()=>{
+        let addedDT = $('#bukti_transaksi_edit')[0].files;
+
+        for (let i = 0; i < addedDT.length; i++) {
+            dt_edit.items.add(addedDT[i])
+        }
+
+        updatelistgambar()
+    })
+
+    function path_transaksi(uuid) {
+        return `<?= base_url()."/uploads/bukti_transaksi/"?>${uuid}/`
     }
 
     async function getJurnal(uuid) {
-        await fetch(`<?= base_url();?>/dashboard/getjurnal/${uuid}`)
-        .then(res => {
-            // console.log(res.json());
-            $('#modal_edit_kegiatan').modal('toggle')
-            return res.json()
-        }).then(res =>{
-            $('#tanggal_edit').val(res.tanggal)
-            $('#keterangan_edit').val(res.keterangan)
-            $('#akun_debet_edit').val(res.akun_debet)
-            $('#akun_kredit_edit').val(res.akun_kredit)
-            $('#nilai_edit').val(res.nilai)
-            $('#submit_button_edit').attr('onclick', `editJurnal(${res.uuid})`)
-            console.log(res.bukti_transaksi);
+        let res = await fetch(`<?= base_url();?>/dashboard/getjurnal/${uuid}`)
+        return res.json()
+    }    
 
-        })
+    async function getImageFile(url, name) {
+        let hasil = await fetch(url)
+                    .then(res=>{return res.blob()})
+                    .then(res=>{return new File([res], name, {type:res.type})})
+        return hasil
     }
+
+    function showImage(file, id) {
+        let reader = new FileReader()
+        if (/\.(jpe?g|png)$/i.test(file.name)) {
+            reader.addEventListener('load', ()=>{
+                $(`#file-view_edit`).append(
+                    `<div style="">
+                        <img style="position:relative;z-index:5; max-height:150px" title="${file.name}" src="${reader.result}" class="m-2" id="img_preview_edit_${id}" onclick="removeFileFromFileList_edit(${id}, 'bukti_transaksi_edit')">
+                        <span style="position:relative;text-align: center;right: 50%; color:red;"><i class="fas fa-trash-alt"></i> Delete ?</span>
+                    </div>`
+                )
+            },false)
+
+            return reader.readAsDataURL(file);
+        }
+    }
+
+
+    function removeFileFromFileList_edit(index, tagID) {
+        let dt = new DataTransfer
+        let input = $(`#${tagID}`)[0]
+        let { files } = input
+
+        // console.log(files[index]);
+
+        for (let i = 0; i < files.length; i++) {
+            let file = files[i]
+            if (index !== i) {
+                dt.items.add(file) // here you exclude the file. thus removing it.
+            }
+        }
+
+        dt_edit = dt
+        updatelistgambar()
+    }
+
+    function updatelistgambar() {
+        // console.log('updatelistgambar');
+        $(`#file-view_edit`).empty();
+        for (let i = 0; i < dt_edit.files.length; i++) {
+            showImage(dt_edit.files[i], i)
+        }
+        $('#bukti_transaksi_edit')[0].files = dt_edit.files
+        console.log(dt_edit);
+    }
+
+
+
+
 </script>
 
 
@@ -339,10 +433,10 @@
         if (/\.(jpe?g|png)$/i.test(file.name)) {
             let reader = new FileReader();
             reader.addEventListener("load", ()=>{
-                console.log(reader);
+                console.log(reader.result);
                 $(`#file-view`).append(
                     `<div style="">
-                        <img style="position:relative;z-index:5; max-height:150px" title="${file.name}" src="${reader.result}" class="m-2" id="img_preview_${imgID}" onclick="removeFileFromFileList(${imgID})">
+                        <img style="position:relative;z-index:5; max-height:150px" title="${file.name}" src="${reader.result}" class="m-2" id="img_preview_${imgID}" onclick="removeFileFromFileList(${imgID}, 'bukti_transaksi')">
                         <span style="position:relative;text-align: center;right: 50%; color:red;"><i class="fas fa-trash-alt"></i> Delete ?</span>
                     </div>`
                 )
@@ -351,9 +445,9 @@
         }
     }
 
-    function removeFileFromFileList(index) {
+    function removeFileFromFileList(index, tagID) {
         let dt = new DataTransfer()
-        let input = $('#bukti_transaksi')[0]
+        let input = $(`#${tagID}`)[0]
         let { files } = input
         console.log(files[index]);
         for (let i = 0; i < files.length; i++) {

@@ -133,4 +133,13 @@ input:checked + .slider:before {
 #file-view span:hover{
   opacity: 100%;
   transition: .5s ease;
+
+}#file-view_edit img:hover{
+  opacity: .1;
+  transition: .5s ease;
+}
+
+#file-view_edit span:hover{
+  opacity: 100%;
+  transition: .5s ease;
 }
