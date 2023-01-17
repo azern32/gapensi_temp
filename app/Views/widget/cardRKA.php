@@ -178,6 +178,7 @@
         let form = new FormData();
         form.append('uuid', crypto.randomUUID())
         form.append('timestamp', Date.now())
+        form.append('tahun', new Date().getFullYear())
         form.append('nama_file', $('#updateFile_<?=$modal_id?>')[0].files[0].name)
         form.append('judul_file', $('#judul_file_<?=$modal_id?>').val())
         form.append('file', $('#updateFile_<?=$modal_id?>')[0].files[0])
@@ -192,7 +193,7 @@
     }
 
     function openpdf<?= $table_name?>(uuid) {
-        window.open(`<?php if(!empty($document)){echo base_url()."/uploads/$table_name/"?>${uuid}/<?= $document['nama_file'];} ?>`)
+        window.open(`<?php if(!empty($document)){echo base_url()."/uploads/$table_name/"?>${uuid}/<?= $document['judul_file'];} ?>.pdf`)
     }
 
 </script>

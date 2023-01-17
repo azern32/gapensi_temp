@@ -229,6 +229,7 @@
         let form = new FormData($('#tambah_jurnal')[0]);
         form.append('uuid', crypto.randomUUID());
         form.append('timestamp', Date.now());
+        form.append('tahun', new Date($('#tanggal').val()).getFullYear())
 
         await fetch("<?= base_url();?>/dashboard/add",{
             method:"post",
@@ -311,6 +312,7 @@
         form.set('akun_debet', $('#akun_debet_edit').val())
         form.set('akun_kredit', $('#akun_kredit_edit').val())
         form.set('nilai', $('#nilai_edit').val())
+        form.append('tahun', new Date($('#tanggal_edit').val()).getFullYear())
         form.delete('uuid')
 
         await fetch(`<?= base_url('dashboard/edit')?>/${uuid}`,{
@@ -433,7 +435,6 @@
         if (/\.(jpe?g|png)$/i.test(file.name)) {
             let reader = new FileReader();
             reader.addEventListener("load", ()=>{
-                console.log(reader.result);
                 $(`#file-view`).append(
                     `<div style="">
                         <img style="position:relative;z-index:5; max-height:150px" title="${file.name}" src="${reader.result}" class="m-2" id="img_preview_${imgID}" onclick="removeFileFromFileList(${imgID}, 'bukti_transaksi')">
@@ -449,7 +450,6 @@
         let dt = new DataTransfer()
         let input = $(`#${tagID}`)[0]
         let { files } = input
-        console.log(files[index]);
         for (let i = 0; i < files.length; i++) {
             let file = files[i]
             if (index !== i) {
