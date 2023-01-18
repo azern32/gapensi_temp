@@ -1,4 +1,10 @@
-
+<div class="d-flex justify-content-between my-3">
+    <h5>ARUS KAS</h5>
+    <button class="btn btn-main1" data-toggle="modal" data-target="#modal_input_kegiatan">
+        <i class="fas fa-plus"></i>
+        Tambah
+    </button>
+</div>
 
 <table id="tabel_arus_kas" class="table table-striped">
     <thead>

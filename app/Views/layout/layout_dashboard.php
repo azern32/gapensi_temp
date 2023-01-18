@@ -67,14 +67,24 @@
             </div>
             
             <div class="card p-3">
-                <div class="d-flex justify-content-between my-3">
-                    <h5>ARUS KAS</h5>
-                    <button class="btn btn-main1" data-toggle="modal" data-target="#modal_input_kegiatan">
-                        <i class="fas fa-plus"></i>
-                        Tambah
-                    </button>
-                </div>
-                <?= view_cell('\App\Libraries\Widget::cardArusKas',['document_uuid'=>'damn2'])?>
+                <!-- Check level pengguna -->
+                <?php switch ($session['level']) {
+                case 1:
+                    // Jika level pengguna pegawai, tampilkan sidebar_pegawai
+                    echo view_cell('\App\Libraries\Widget::cardArusKas',['document_uuid'=>'damn2']);
+                    break;
+                
+                    case 2:
+                    // Jika level pengguna direktur, tampilkan sidebar_direktur
+                    break;
+
+                default:
+                    // Untuk keperluan debugging 
+                    // Jika levelnya tidak ditemukan, otomatis jadi root
+                    echo view_cell('\App\Libraries\Widget::cardArusKas',['document_uuid'=>'damn2']);
+                    break;
+                }?>
+
             </div>
         </div>
     </div>
