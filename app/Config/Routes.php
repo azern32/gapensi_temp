@@ -56,20 +56,21 @@ $routes->group('dashboard', static function ($routes){
     $routes->post('/edit/(:uuid)', 'Dashboard::edit/$1'); //edit catatan
     $routes->get('/remove/(:uuid)', 'Dashboard::remove/$1'); //hapus catatan
     $routes->get('/list', 'Dashboard::list'); //ambil seluruh catatan
-    $routes->get('/getjurnal', 'Dashboard::getjurnal'); //ambil catatan spesifik
+    $routes->get('/getjurnal/(:uuid)', 'Dashboard::getjurnal/$1'); //ambil catatan spesifik
     $routes->get('/listlatest/(:num)', 'Dashboard::listlatest/$1'); //ambil catatan terakhir
     $routes->get('/', 'Dashboard::view'); //view halaman
 });
 
 $routes->group('jurnal', static function ($routes){
     $routes->get('/', 'Jurnal::view');
-    $routes->get('/list/(:alpha)', 'Jurnal::list/$1');
+    $routes->get('/list', 'Jurnal::list');
     $routes->get('/add/(:alpha)', 'Jurnal::add/$1');
     $routes->post('/remove/(:alpha)', 'Jurnal::remove/$1');
 });
 
 $routes->group('neraca', static function ($routes){
     $routes->get('/', 'Neraca::view');
+    $routes->get('/list', 'Neraca::list');
 });
 
 $routes->group('rekening', static function ($routes){

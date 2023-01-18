@@ -53,17 +53,13 @@
 
         <div class="content-wrapper p-2">
             <div class="card p-3">
-                <div class="d-flex justify-content-between my-3">
-                    <h5>ARUS KAS</h5>
-                </div>
-
-                <?= view_cell('\App\Libraries\Widget::cardLogJurnal')?>
+                
             </div>            
         </div>
     </div>
 
     <script>
-        console.log(<?php echo json_encode($list)?>);
+        console.log(<?php //echo json_encode($session)?>);
     </script>
 </body>
 </html>

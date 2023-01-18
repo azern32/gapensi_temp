@@ -24,4 +24,8 @@ class Widget
     public function cardArusKas(array $arg = null){
         return view('widget/cardArusKas', $arg);
     }
+
+    public function cardLogJurnal(array $arg = null){
+        return view('widget/cardLogJurnal', $arg);
+    }
 }
