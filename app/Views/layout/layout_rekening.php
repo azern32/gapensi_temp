@@ -98,8 +98,8 @@
                                 <div class="form-group row">
                                     <label for="kode_akun" class="col-sm-4 col-form-label">Kode Akun</label>
                                     <div class="col-sm">
-                                        <input class="form-control" type="text" name="kode_akun" id="kode_akun" maxlength="6">
-                                        <small class="text-red">Maksimum 6 karakter</small>
+                                        <input class="form-control" type="text" name="kode_akun" id="kode_akun" maxlength="10">
+                                        <small class="text-red">Maksimum 10 karakter</small>
                                     </div>
                                 </div>
 
@@ -143,8 +143,8 @@
                                 <div class="form-group row">
                                     <label for="kode_akun_edit" class="col-sm-4 col-form-label">Kode Akun</label>
                                     <div class="col-sm">
-                                        <input class="form-control" type="text" name="kode_akun_edit" id="kode_akun_edit" maxlength="6">
-                                        <small class="text-red">Maksimum 6 karakter</small>
+                                        <input class="form-control" type="text" name="kode_akun_edit" id="kode_akun_edit" maxlength="10">
+                                        <small class="text-red">Maksimum 10 karakter</small>
                                     </div>
                                 </div>
 
@@ -169,7 +169,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                            <button id="kirim_edit" type="button" class="btn btn-primary" onclick="editAkun()">Edit akun</button>
+                            <button id="kirim_edit_akun" type="button" class="btn btn-primary" onclick="editAkun()">Edit akun</button>
                         </div>
                     </div>
                 </div>    
@@ -191,7 +191,6 @@
                         <table class="table table-responsive table-striped " id="list_tipe">
                             <thead>
                                 <tr>
-                                    <th>Kode Tipe</th>
                                     <th>Nama Tipe</th>
                                     <th>Kategori</th>
                                     <th style="width: 130px;">Aksi</th>
@@ -219,13 +218,6 @@
 
                         <div class="modal-body">
                             <form id="tambah_akun_tipe" class="">
-                                <div class="form-group row">
-                                    <label for="kode_tipe" class="col-sm-4 col-form-label">Kode Tipe</label>
-                                    <div class="col-sm">
-                                        <input class="form-control" type="text" name="kode_tipe" id="kode_tipe" maxlength="6">
-                                        <small class="text-red">Maksimum 6 karakter</small>
-                                    </div>
-                                </div>
 
                                 <div class="form-group row">
                                     <label for="kategori" class="col-sm-4 col-form-label">Tipe Akun</label>
@@ -238,6 +230,8 @@
                                             <option value="Liabilities">Liabilities</option>
                                             <option value="Long-term Liabilities">Long-term Liabilities</option>
                                             <option value="Balance of Profit">Balance of Profit</option>
+                                            <option value="Other Assets">Other Assets</option>
+                                            <option value="Deposit">Deposit</option>
                                         </select>
                                     </div>
                                 </div>
@@ -273,13 +267,7 @@
 
                         <div class="modal-body">
                             <form id="edit_akun" class="">
-                                <div class="form-group row">
-                                    <label for="kode_tipe_edit" class="col-sm-4 col-form-label">Kode Akun</label>
-                                    <div class="col-sm">
-                                        <input class="form-control" type="text" name="kode_tipe_edit" id="kode_tipe_edit" maxlength="6">
-                                        <small class="text-red">Maksimum 6 karakter</small>
-                                    </div>
-                                </div>
+
 
                                 <div class="form-group row">
                                     <label for="nama_tipe_edit" class="col-sm-4 col-form-label">Nama Akun</label>
@@ -309,7 +297,7 @@
 
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                            <button id="kirim_edit" type="button" class="btn btn-primary" onclick="editTipe()">Edit akun</button>
+                            <button id="kirim_edit_tipe" type="button" class="btn btn-primary" onclick="editTipe()">Edit akun</button>
                         </div>
                     </div>
                 </div>    
@@ -324,34 +312,78 @@
 
     <script>
         let list = [];
+
+
+
+
+
         function updateListAkun(item) {
-            $('#list_akun tbody').empty();
-            for (let i = 0; i < item.length; i++) {            
-                $(`<tr>
-                    <td class="text">${item[i]['kode_akun']}</td>
-                    <td class="text">${item[i]['nama_akun']}</td>
-                    <td class="text">${namaTipe(item[i]['tipe_akun'])}</td>
-                    <td class="number">Rp. ${toIDCurrency(item[i]['debit'])}</td>
-                    <td class="number">Rp. ${toIDCurrency(item[i]['kredit'])}</td>
-                    <td class="number">Rp. ${toIDCurrency(item[i]['saldo'])}</td>
-                    <td class="symbol">
-                        <button class='btn btn-sm btn-outline-info m-2' onclick="toggleEditAkun('${item[i]['uuid']}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    
-                        <button class='btn btn-sm btn-danger m-2' hidden>
-                            <i class="fas fa-trash-alt"></i> 
-                        </button>
-                    </td>
-                </tr>`).appendTo('#list_akun tbody')
-                // console.log(item[i]);
+            for (let i = 0; i < item.length; i++) {
+                $('#list_akun').DataTable().row.add([
+                    [item[i]['kode_akun']],
+                    [item[i]['nama_akun']],
+                    [namaTipe(item[i]['tipe_akun'])],
+                    [`Rp. ${toIDCurrency(item[i]['debit'])}`],
+                    [`Rp. ${toIDCurrency(item[i]['kredit'])}`],
+                    [`Rp. ${toIDCurrency(item[i]['saldo'])}`],
+                    [tombolAksiAkun(item[i]['uuid'])]
+                ]).draw().node().id = item[i]['uuid']
             }
         }
 
+        function tombolAksiAkun(uuid) {
+            return `
+                    <button class='btn btn-sm btn-outline-info m-2' onclick="toggleEditAkun('${uuid}')">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                
+                    <button class='btn btn-sm btn-danger m-2' hidden>
+                        <i class="fas fa-trash-alt"></i> 
+                            <i class="fas fa-trash-alt"></i> 
+                        <i class="fas fa-trash-alt"></i> 
+                    </button>
+            `
+        }
+
         async function updateList() {
-            let result = await fetch('<?= base_url();?>/rekening/list/akun')
-            list = await result.json();
-            updateListAkun(list)
+            let res = await fetch(`<?= base_url();?>/rekening/list/akun`)
+            let item = await res.json()
+
+            for (let i = 0; i < item.length; i++) {
+                let {nama_tipe} = await fetch(`<?= base_url();?>/rekening/tipe/${item[i].tipe_akun}`).then(res=>{return res.json()});
+
+                $('#list_akun').DataTable().row.add([
+                    [item[i].kode_akun],
+                    [item[i].nama_akun],
+                    [nama_tipe],
+                    [`Rp. ${toIDCurrency(item[i].debit)}`],
+                    [`Rp. ${toIDCurrency(item[i].kredit)}`],
+                    [`Rp. ${toIDCurrency(item[i].saldo)}`],
+                    [tombolAksiAkun(item[i].uuid)]
+                ]).draw().node().id = item[i].uuid
+
+            }
+        }
+
+        function tulisListAkun(arr) {
+            arr.forEach(el => {
+                let wah = namaTipe(el.tipe_akun)
+
+                $('#list_akun').DataTable().row.add([
+                    [el.kode_akun],
+                    [el.nama_akun],
+                    [wah],
+                    [`Rp. ${toIDCurrency(el.debit)}`],
+                    [`Rp. ${toIDCurrency(el.kredit)}`],
+                    [`Rp. ${toIDCurrency(el.saldo)}`],
+                    [tombolAksiAkun(el.uuid)]
+                ]).draw().node().id = el.uuid
+            });
+        }
+
+        async function updateListLatest(uuid) {
+            let result = await fetch(`<?= base_url();?>/rekening/listlatest/akun/${uuid}`)
+            updateListAkun([await result.json()])
             return
         }
 
@@ -360,15 +392,13 @@
             let form = new FormData($('#tambah_akun')[0]);
             form.append('uuid', crypto.randomUUID());
 
-            await fetch('<?= base_url();?>/rekening/add/akun', {
+            let data = await fetch('<?= base_url();?>/rekening/add/akun', {
                 method:'post',
                 body: form,
-            }).then(res => {
-                // console.log(res);
-                updateList();
-            }).catch(err => {
-                console.log(err);
             })
+
+            let res = await data.json()
+            updateListLatest(res.body.uuid);
         }
 
         function toggleEditAkun(uuid){
@@ -378,7 +408,7 @@
                     $('#kode_akun_edit').val(el.kode_akun)
                     $('#tipe_akun_edit').val(el.tipe_akun)
                     $('#nama_akun_edit').val(el.nama_akun)
-                    $('#kirim_edit').attr('onclick', `editAkun('${el.uuid}')`)
+                    $('#kirim_edit_akun').attr('onclick', `editAkun('${el.uuid}')`)
                 }
             });        
         }
@@ -394,7 +424,7 @@
                 body: form,
             }).then(res => {
                 console.log(res.json());
-                updateList();
+                updateList()
             }).catch(err => {
                 console.log(err);
             })
@@ -407,24 +437,15 @@
     
 
     <script>
-        let listtipe = [];
+
+
         function updateListTipe(item) {
-            $('#list_tipe tbody').empty();
-            for (let i = 0; i < item.length; i++) {            
-                $(`<tr>
-                    <td class="text">${item[i]['kode_tipe']}</td>
-                    <td class="text">${item[i]['nama_tipe']}</td>
-                    <td class="text">${item[i]['kategori']}</td>
-                    <td class="symbol">
-                        <button class='btn btn-sm btn-outline-info m-2' onclick="toggleEditTipe('${item[i]['uuid']}')">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    
-                        <button class='btn btn-sm btn-danger m-2' hidden>
-                            <i class="fas fa-trash-alt"></i> 
-                        </button>
-                    </td>
-                </tr>`).appendTo('#list_tipe tbody')
+            for (let i = 0; i < item.length; i++) {
+                $('#list_tipe').DataTable().row.add([
+                    [item[i]['nama_tipe']],
+                    [item[i]['kategori']],
+                    [tombolAksiTipe(item[i]['uuid'])]
+                ]).draw().node().id = item[i]['uuid']
 
                 $('#tipe_akun').append(`<option value="${item[i]['uuid']}">${item[i]['nama_tipe']}</option>`)
                 $('#tipe_akun_edit').append(`<option value="${item[i]['uuid']}">${item[i]['nama_tipe']}</option>`)
@@ -432,18 +453,42 @@
             }
         }
 
+        function tombolAksiTipe(uuid) {
+            return `
+                <button class='btn btn-sm btn-outline-info m-2' onclick="toggleEditTipe('${uuid}')">
+                    <i class="fas fa-edit"></i>
+                </button>
+                `
+        }
+
         async function updateTipe() {
-            let result = await fetch('<?= base_url();?>/rekening/list/tipe')
-            listtipe = await result.json();
-            updateListTipe(listtipe)
-            return
+            let res = await fetch(`<?= base_url();?>/rekening/list/tipe`)
+            let item = await res.json()
+
+            for (let i = 0; i < item.length; i++) {
+                $('#list_tipe').DataTable().row.add([
+                    [item[i]['nama_tipe']],
+                    [item[i]['kategori']],
+                    [tombolAksiTipe(item[i]['uuid'])]
+                ]).draw().node().id = item[i]['uuid']
+
+                $('#tipe_akun').append(`<option value="${item[i]['uuid']}">${item[i]['nama_tipe']}</option>`)
+                $('#tipe_akun_edit').append(`<option value="${item[i]['uuid']}">${item[i]['nama_tipe']}</option>`)
+                console.log(item[i]);
+            }
+        }
+
+        async function updateTipeLatest(uuid) {
+            let result = await fetch(`<?= base_url();?>/rekening/list/tipe/${uuid}`)
+            let x = await result.json()
+            updateListTipe(x)
+            return 
         }
 
         async function addTipe() {
             $('#modal_tambah_tipe').modal('toggle')
             let form = new FormData();
             form.append('uuid', crypto.randomUUID());
-            form.append('kode_tipe', $('#kode_tipe').val());
             form.append('nama_tipe', $('#nama_tipe').val());
             form.append('kategori', $('#kategori').val());
 
@@ -452,22 +497,21 @@
                 body: form,
             }).then(res => {
                 // console.log(res);
-                updateTipe();
+                updateTipeLatest(form.get('uuid'));
             }).catch(err => {
                 console.log(err);
             })
         }
 
-        function toggleEditTipe(uuid){
-            listtipe.forEach(el => {
-                if (el.uuid == uuid) {
-                    $('#modal_edit_tipe').modal('toggle')
-                    $('#kode_tipe_edit').val(el.kode_tipe)
-                    $('#nama_tipe_edit').val(el.nama_tipe)
-                    $('#kategori_edit').val(el.kategori)
-                    $('#kirim_edit').attr('onclick', `editTipe('${el.uuid}')`)
-                }
-            });        
+        async function toggleEditTipe(uuid){
+            let data = await fetch(`<?= base_url();?>/rekening/tipe/${uuid}`).then(res=>{return res.json()})
+
+            $('#nama_tipe_edit').val(data.nama_tipe)
+            $('#kategori_edit').val(data.kategori)
+            $('#kirim_edit_tipe').attr('onclick', `editTipe('${data.uuid}')`)
+            console.log(data.uuid);
+            
+            $('#modal_edit_tipe').modal('toggle')
         }
 
         async function editTipe(uuid) {
@@ -479,8 +523,7 @@
                 method:'post',
                 body: form,
             }).then(res => {
-                console.log(res.json());
-                updateList();
+                updateTipe();
             }).catch(err => {
                 console.log(err);
             })
@@ -490,10 +533,6 @@
 
     </script>
 
-    <script>
-        updateList()
-        updateTipe()
-    </script>
 
     <script>
         $(document).ready( function(){
@@ -502,27 +541,21 @@
                 "lengthChange": false,
                 "autoWidth": false,
                 "searching": true,
-                // order : [[0, 'dsc']]
             });
-        });
 
-        $(document).ready( function(){
             $('#list_tipe').DataTable({
                 "responsive": true,
-                "lengthChange": false,
+                "lengthChange": true,
                 "autoWidth": false,
                 "searching": true,
-                // order : [[0, 'dsc']]
             });
-        });
 
-        function namaTipe(uuid) {
-            for (let i = 0; i < listtipe.length; i++) {
-                if (uuid == listtipe[i].uuid) {
-                    return listtipe[i].nama_tipe
-                }
-            }
-        }
+        });
+        
+        updateTipe()
+        updateList()
+
+
     </script>
 </body>
 </html>

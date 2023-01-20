@@ -71,17 +71,19 @@
                 <?php switch ($session['level']) {
                 case 1:
                     // Jika level pengguna pegawai, tampilkan sidebar_pegawai
-                    echo view_cell('\App\Libraries\Widget::cardArusKas',['document_uuid'=>'damn2']);
+                    echo view_cell('\App\Libraries\Widget::cardArusKas',['document_uuid'=>'null']);
                     break;
                 
                     case 2:
                     // Jika level pengguna direktur, tampilkan sidebar_direktur
+                    echo view_cell('\App\Libraries\Widget::cardNeracaSaldo',['document_uuid'=>'null']);
                     break;
 
                 default:
                     // Untuk keperluan debugging 
                     // Jika levelnya tidak ditemukan, otomatis jadi root
-                    echo view_cell('\App\Libraries\Widget::cardArusKas',['document_uuid'=>'damn2']);
+                    echo view_cell('\App\Libraries\Widget::cardArusKas',['document_uuid'=>'null']);
+                    echo view_cell('\App\Libraries\Widget::cardNeracaSaldo',['document_uuid'=>'null']);
                     break;
                 }?>
 

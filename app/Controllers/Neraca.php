@@ -32,22 +32,16 @@ class Neraca extends BaseController{
 
 
     
-    public function list($table_name){
+    public function list(){
+        $akun = new Model_Jurnal();
+        $data = $akun->find($uuid);
+        return $this->respond($data);
+    }
+
+    public function listSpesifik($bulan, $tanggal){
         
     }
 
-    public function add($table_name){
-        
-    }
-
-    public function remove($table_name){
-        
-    }
-
-
-    public function listRKA($table_name){
-        
-    }
 
 
     

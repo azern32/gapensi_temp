@@ -78,6 +78,8 @@ $routes->group('rekening', static function ($routes){
     $routes->post('/edit/(:alpha)/(:uuid)', 'Rekening::edit/$1/$2');
     $routes->get('/', 'Rekening::view');
     $routes->get('/list/(:alpha)', 'Rekening::list/$1');
+    $routes->get('/tipe/(:uuid)', 'Rekening::list/$1');
+    $routes->get('/listlatest/(:alpha)/(:uuid)', 'Rekening::listlatest/$1/$2');
 });
 
 $routes->group('tipe', static function ($routes){

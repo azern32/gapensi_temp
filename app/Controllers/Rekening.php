@@ -35,13 +35,27 @@ class Rekening extends BaseController{
     public function list($var){
         if ($var == 'tipe') {
             $list = new Model_Daftar_Tipe();
+            $list = $list->orderBy('nama_tipe', 'asc');
+        } elseif ($var == 'akun') {
+            $list = new Model_Daftar_Akun();
+            $list = $list->orderBy('kode_akun', 'asc');
+        } else {
+            return $this->respond(['message'=>'no database found']);
+        }
+        
+        return $this->respond($list->findAll());
+    }
+
+    public function listlatest($var, $uuid){
+        if ($var == 'tipe') {
+            $list = new Model_Daftar_Tipe();
         } elseif ($var == 'akun') {
             $list = new Model_Daftar_Akun();
         } else {
             return $this->respond(['message'=>'no database found']);
         }
         
-        return $this->respond($list->findAll());
+        return $this->respond($list->find($uuid));
     }
 
     public function add($var){
@@ -95,7 +109,10 @@ class Rekening extends BaseController{
         return $this->respond($response);
     }
 
-
+    public function tipe($uuid){
+        $list = new Model_Daftar_Tipe();
+        return $this->respond($list->find($uuid));
+    }
 
     
     // -----------------------------------------------------------------
@@ -120,7 +137,7 @@ class Rekening extends BaseController{
                     'popper'=>"https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js",
                     'bootstrap'=>"https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js",
                     'Datables' => 'https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js',
-                    'DatatablesBootstrap' => 'https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js', 
+                    'DatatablesBootstrap' => 'https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js',
                     'adminlte'=>base_url().'/adminlte/js/adminlte.min.js',
                     'myown'=>base_url()."/js/myown.js",
 

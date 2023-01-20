@@ -28,4 +28,8 @@ class Widget
     public function cardLogJurnal(array $arg = null){
         return view('widget/cardLogJurnal', $arg);
     }
+
+    public function cardNeracaSaldo(array $arg = null){
+        return view('widget/cardNeracaSaldo', $arg);
+    }
 }
