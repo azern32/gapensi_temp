@@ -2,6 +2,9 @@
 
 namespace App\Controllers;
 
+use App\Models\Model_Jurnal;
+use App\Models\Model_Daftar_Akun;
+use App\Models\Model_Daftar_Tipe;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\RequestTrait;
@@ -34,15 +37,104 @@ class Neraca extends BaseController{
     
     public function list(){
         $akun = new Model_Jurnal();
-        $data = $akun->find($uuid);
+        $data = $akun->findAll();
         return $this->respond($data);
     }
 
     public function listSpesifik($bulan, $tanggal){
+        $akun = new Model_Jurnal();
+        $data = $akun->findAll();
+        return $this->respond($data);
+    }
+
+    public function labarugi(){
+        /*
+        Tarik jurnal
+        Buat variabel bulan
+        Susun ulang jurnal ke dalam variabel bulan
+        Tiap bulan, cek masing-masing akun
+            masing-masing akun hitung debit dan kreditnya sendiri-sendiri
+
         
+        */ 
+        $jurnal = new Model_Jurnal();
+        $akun = new Model_Daftar_Akun();
+        $tipe = new Model_Daftar_Tipe();
+        $dataJurnal = $jurnal->findAll();
+        $dataAkun = $akun->findAll();
+        $dataTipe = $tipe->findAll();
+        $thisYear = date('Y');
+        $thisTanggal = 21;
+
+
+        $bulanan = [[],[],[],[],[],[],[],[],[],[],[],[]];
+        for ($i=0; $i < count($bulanan); $i++) { 
+            foreach ($dataJurnal as $index => $jurnal) {
+                $temp = $this->filterJurnal($jurnal, $thisYear, $i + 1, $thisTanggal); // pake fungsi filterJurnal yang dibikin di bawah, biar nda blepotan
+                if (!isset($temp)) {
+                    continue;
+                }
+                
+                $debet = $temp['akun_debet'];
+                $kredit = $temp['akun_kredit'];
+                $nilai = (int)$temp['nilai'];
+
+                if (!isset($bulanan[$i][$debet])) {
+                    $bulanan[$i][$debet] = ['debet'=>0, 'kredit'=>0];
+                }
+                
+                if (!isset($bulanan[$i][$kredit])) {
+                    $bulanan[$i][$kredit] = ['debet'=>0, 'kredit'=>0];
+                }
+
+                $bulanan[$i][$debet]['debet'] += $nilai;
+                $bulanan[$i][$kredit]['kredit'] += $nilai;
+            }
+        }
+
+        print_r($bulanan);
+
+
+
+        // return $this->respond($data);
+
     }
 
 
+
+
+
+    // -----------------------------------------------------------------
+
+    public function checkParent(array $tipe, array $akun){
+        return $akun['tipe_akun'] == $tipe['uuid'] ? true : false;
+    }
+
+    public function filterJurnal($jurnal, $tahun = 0, $bulan = 0, $tanggal = 0 ){
+        $date=strtotime($jurnal['tanggal']);
+        $dateOldest = strtotime("$tahun-".($bulan - 1)."-$tanggal");
+        $dateNewest = strtotime("$tahun-$bulan-$tanggal");
+
+        if ($date >= $dateNewest || $date < $dateOldest) {return NULL;}
+        return $jurnal;
+    }
+
+    // fungsi ini di loop nanti di dalam bulanan
+    public function extrakKredit(string $uuid_akun, array $jurnal){
+        $res = [ $uuid_akun => [
+            $jurnal['akun_kredit'] => $jurnal['nilai']
+        ]];
+        return $res;
+    }
+
+    public function hitungSaldo($uuid_akun){
+        $akun = new Model_Daftar_Akun();
+        $rekening = $akun->where('uuid', $uuid_akun)->first();
+
+        $akun->update($uuid_akun, 
+            ['saldo' => $rekening['debit'] - $rekening['kredit']]
+        );
+    }
 
     
     // -----------------------------------------------------------------

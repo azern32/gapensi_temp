@@ -71,6 +71,8 @@ $routes->group('jurnal', static function ($routes){
 $routes->group('neraca', static function ($routes){
     $routes->get('/', 'Neraca::view');
     $routes->get('/list', 'Neraca::list');
+    $routes->get('/labarugi', 'Neraca::labarugi');
+    $routes->get('/checkparent/(:uuid)/(:uuid)', 'Neraca::checkParent/$1/$2');
 });
 
 $routes->group('rekening', static function ($routes){
