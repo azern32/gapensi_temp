@@ -68,36 +68,107 @@ class Neraca extends BaseController{
 
 
         $bulanan = [[],[],[],[],[],[],[],[],[],[],[],[]];
-        for ($i=0; $i < count($bulanan); $i++) { 
-            foreach ($dataJurnal as $index => $jurnal) {
-                $temp = $this->filterJurnal($jurnal, $thisYear, $i + 1, $thisTanggal); // pake fungsi filterJurnal yang dibikin di bawah, biar nda blepotan
-                if (!isset($temp)) {
-                    continue;
-                }
-                
-                $debet = $temp['akun_debet'];
-                $kredit = $temp['akun_kredit'];
-                $nilai = (int)$temp['nilai'];
+        $arranged = $this->rearrangeLabaRugi();
 
-                if (!isset($bulanan[$i][$debet])) {
-                    $bulanan[$i][$debet] = ['debet'=>0, 'kredit'=>0];
-                }
-                
-                if (!isset($bulanan[$i][$kredit])) {
-                    $bulanan[$i][$kredit] = ['debet'=>0, 'kredit'=>0];
+        foreach ($arranged as $uuid_tipe => $akun) {
+            // $uuid_tipe itu string uuid tipe
+            // $akun itu array string uuid akun
+
+            foreach ($akun as $key => $uuid_akun) {
+                // $key itu int index
+                // $uuid_akun itu string uuid akun
+
+                $arranged[$uuid_tipe] = [$uuid_akun => $bulanan];
+
+                for ($i=0; $i < count($bulanan); $i++) {
+
+                    if (empty($arranged[$uuid_tipe][$uuid_akun][$i])) {
+                        $arranged[$uuid_tipe][$uuid_akun][$i]['debet'] = 0;
+                        $arranged[$uuid_tipe][$uuid_akun][$i]['kredit'] = 0;
+                    }
+
+                    foreach ($dataJurnal as $keyJurnal => $jurnal) {
+                        $temp = $this->filterJurnal($jurnal, $thisYear, $i + 1, $thisTanggal); // pake fungsi filterJurnal yang dibikin di bawah, biar nda blepotan
+
+                        if (!isset($temp)) {
+                            continue;
+                        }
+                        
+
+                        if ($uuid_akun == $temp['akun_debet']) {
+                            $arranged[$uuid_tipe][$uuid_akun][$i]['debet'] += $temp['nilai'];
+                        }
+
+                        if ($uuid_akun == $temp['akun_kredit']) {
+                            $arranged[$uuid_tipe][$uuid_akun][$i]['kredit'] += $temp['nilai'];
+                        }
+
+                        // cek uuid debet dan kredit terhadap uuid_akun
+                        // kalo sama, hitung
+
+
+
+
+                        // array_push($arranged[$uuid_tipe][$uuid_akun][$i], $temp);
+                        
+                        // $arranged[$uuid_tipe][$uuid_akun][$i] = $temp;
+                        // var_dump($temp);
+                        // var_dump($keyJurnal);
+                    }
                 }
 
-                $bulanan[$i][$debet]['debet'] += $nilai;
-                $bulanan[$i][$kredit]['kredit'] += $nilai;
+                // foreach ($dataJurnal as $indexJurnal => $jurnal) {
+                //     for ($i=0; $i < count($arranged[$uuid_tipe][$uuid_akun]); $i++) {
+                //         $temp = $this->filterJurnal($jurnal, $thisYear, $i + 1, $thisTanggal); // pake fungsi filterJurnal yang dibikin di bawah, biar nda blepotan
+                //         // var_dump($temp);
+
+                //         $arranged[$uuid_tipe][$uuid_akun][$i] = ['debet'=>0, 'kredit'=>0];
+                        
+                //         if (!isset($temp)) {
+                //             continue;
+                //         }
+
+                //         $arranged[$uuid_tipe][$uuid_akun][$i]['debet'] += (int)$temp['nilai'];
+                //         $arranged[$uuid_tipe][$uuid_akun][$i]['kredit'] += (int)$temp['nilai'];
+                //     }
+                // }
+
             }
         }
+        
+        // var_dump($arranged);
 
-        print_r($bulanan);
 
 
 
-        // return $this->respond($data);
 
+        // for ($i=0; $i < count($bulanan); $i++) { 
+        //     foreach ($dataJurnal as $index => $jurnal) {
+        //         $temp = $this->filterJurnal($jurnal, $thisYear, $i + 1, $thisTanggal); // pake fungsi filterJurnal yang dibikin di bawah, biar nda blepotan
+        //         if (!isset($temp)) {
+        //             continue;
+        //         }
+                
+        //         $debet = $temp['akun_debet'];
+        //         $kredit = $temp['akun_kredit'];
+        //         $nilai = (int)$temp['nilai'];
+
+        //         if (!isset($bulanan[$i][$debet])) {
+        //             $bulanan[$i][$debet] = ['debet'=>0, 'kredit'=>0];
+        //         }
+                
+        //         if (!isset($bulanan[$i][$kredit])) {
+        //             $bulanan[$i][$kredit] = ['debet'=>0, 'kredit'=>0];
+        //         }
+
+        //         $bulanan[$i][$debet]['debet'] += $nilai;
+        //         $bulanan[$i][$kredit]['kredit'] += $nilai;
+        //     }
+        // }
+
+
+
+        return $this->respond($arranged);
     }
 
 
@@ -115,10 +186,69 @@ class Neraca extends BaseController{
         $dateOldest = strtotime("$tahun-".($bulan - 1)."-$tanggal");
         $dateNewest = strtotime("$tahun-$bulan-$tanggal");
 
-        if ($date >= $dateNewest || $date < $dateOldest) {return NULL;}
+        if ($date >= $dateNewest || $date < $dateOldest) {
+            return NULL;
+        }
+
         return $jurnal;
     }
 
+
+    public function rearrangeLabaRugi(){
+        if (!isset($dataAkun)) {
+            $akun = new Model_Daftar_Akun();
+            $dataAkun = $akun->findAll();
+        }
+
+        if (!isset($dataTipe)) {
+            $tipe = new Model_Daftar_Tipe();
+            $dataTipe = $tipe->findAll();
+        }
+
+        $arranged=[];
+
+        foreach ($dataTipe as $key => $value) {
+            if (!isset($arranged[$value['uuid']])) {
+                $arranged[$value['uuid']] = [];
+            }
+        }
+
+        foreach ($dataAkun as $key => $value) {
+            if (array_key_exists($value['tipe_akun'], $arranged)) {
+                $tipe_uuid = $value['tipe_akun'];
+                array_push($arranged[$tipe_uuid], $value['uuid']);
+            }
+        }
+    
+        return $arranged;
+    }
+
+    public function finalArrayLabaRugi(array $bulanan, array $arrangedArray){
+        $res = [];
+        foreach ($arrangedArray as $key => $value) {
+            for ($i=0; $i < count($value); $i++) {
+
+                for ($j=0; $j < count($bulanan); $j++) { 
+                    foreach ($bulanan[$j] as $bulan => $isi) {
+                        if ($value[$i] == $bulan) {
+                            $res[$key][$i] = $isi;
+                        } else {
+                            $res[$key][$i] = 0;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        return $res;
+    }
+
+
+
+    
+    // -----------------------------------------------------------------
+    
     // fungsi ini di loop nanti di dalam bulanan
     public function extrakKredit(string $uuid_akun, array $jurnal){
         $res = [ $uuid_akun => [
