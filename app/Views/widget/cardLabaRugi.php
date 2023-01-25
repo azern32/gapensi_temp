@@ -10,7 +10,7 @@
 
 
 <div class="table-responsive">
-    <table class="table table-sm table-hover table-bordered">
+    <table class="table table-sm table-hover table-bordered" id="tabel-labarugi-<?= $document_uuid?>">
         <thead>
             <tr class="table-primary">
                 <th rowspan=2>
@@ -41,3 +41,81 @@
     </table>
 
 </div>
+
+<script >
+    // let dataLabaRugi = fetch('<?= base_url('neraca/labarugi')?>')
+    //     .then(res=>{
+    //         return res.json()
+    //     })
+
+    let datalabarugi, akun, tipe;
+    fetch('<?= base_url('neraca/labarugi')?>')
+    .then(res=>{
+        return res.json()
+    }).then(res=>{
+        datalabarugi = res.data
+        akun = res.akun
+        tipe = res.tipe
+
+        buatIsian()
+
+        return
+    })
+
+
+
+    function gantinama(uuid) {
+       
+        for (let i = 0; i < akun.length; i++) {
+            if (akun[i].uuid == uuid) {
+                return akun[i].nama_akun;
+            }            
+        }
+
+        for (let i = 0; i < tipe.length; i++) {
+            if (tipe[i].uuid == uuid) {
+                return tipe[i].nama_tipe;
+            }            
+        }
+    }
+
+</script>
+
+<script>
+    function makeRowAkun(uuid, tipe) {
+        let name = gantinama(uuid);
+        let debit_kredit = datalabarugi[tipe][uuid]
+
+        let isi = ''
+
+        for (let i = 0; i < debit_kredit.length; i++) {
+            isi += `<td>${Number(debit_kredit[i].debet) - Number(debit_kredit[i].kredit)}</td>`
+        }
+
+        return $('#tabel-labarugi-<?= $document_uuid?> tbody')
+        .append( `<tr id="${uuid}" class="text-center"><td>${name}</td>
+        ${isi}
+        <td></td>
+        </tr>`);
+
+    }
+
+    function makeRowTipe(uuid) {
+        let name = gantinama(uuid);
+
+        return $('#tabel-labarugi-<?= $document_uuid?> tbody').append( `<tr id="${uuid}"><th>${name}</th>
+        <th colspan=13></th>
+        </tr>`);
+    }
+
+    function buatIsian() {
+        for (let key in datalabarugi) {
+            makeRowTipe(key)
+
+            for (let uuid in datalabarugi[key]) {
+                makeRowAkun(uuid, key)
+            }
+        }
+    }
+
+</script>

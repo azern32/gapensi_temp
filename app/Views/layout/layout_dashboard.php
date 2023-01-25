@@ -77,7 +77,7 @@
                     case 2:
                     // Jika level pengguna direktur, tampilkan sidebar_direktur
                     echo view_cell('\App\Libraries\Widget::cardNeracaSaldo',['document_uuid'=>'null']);
-                    echo view_cell('\App\Libraries\Widget::cardLabaRugi',['document_uuid'=>'null']);
+                    echo view_cell('\App\Libraries\Widget::cardLabaRugi',['document_uuid'=>'wah']);
                     break;
 
                 default:

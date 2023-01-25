@@ -61,7 +61,7 @@ class Neraca extends BaseController{
         $akun = new Model_Daftar_Akun();
         $tipe = new Model_Daftar_Tipe();
         $dataJurnal = $jurnal->findAll();
-        $dataAkun = $akun->findAll();
+        $dataAkun = $akun->orderBy('kode_akun', 'asc')->findAll();
         $dataTipe = $tipe->findAll();
         $thisYear = date('Y');
         $thisTanggal = 21;
@@ -92,8 +92,7 @@ class Neraca extends BaseController{
 
                         if (!isset($temp)) {
                             continue;
-                        }
-                        
+                        }                        
 
                         if ($uuid_akun == $temp['akun_debet']) {
                             $arranged[$uuid_tipe][$uuid_akun][$i]['debet'] += $temp['nilai'];
@@ -101,74 +100,19 @@ class Neraca extends BaseController{
 
                         if ($uuid_akun == $temp['akun_kredit']) {
                             $arranged[$uuid_tipe][$uuid_akun][$i]['kredit'] += $temp['nilai'];
-                        }
-
-                        // cek uuid debet dan kredit terhadap uuid_akun
-                        // kalo sama, hitung
-
-
-
-
-                        // array_push($arranged[$uuid_tipe][$uuid_akun][$i], $temp);
-                        
-                        // $arranged[$uuid_tipe][$uuid_akun][$i] = $temp;
-                        // var_dump($temp);
-                        // var_dump($keyJurnal);
+                        }                        
                     }
                 }
-
-                // foreach ($dataJurnal as $indexJurnal => $jurnal) {
-                //     for ($i=0; $i < count($arranged[$uuid_tipe][$uuid_akun]); $i++) {
-                //         $temp = $this->filterJurnal($jurnal, $thisYear, $i + 1, $thisTanggal); // pake fungsi filterJurnal yang dibikin di bawah, biar nda blepotan
-                //         // var_dump($temp);
-
-                //         $arranged[$uuid_tipe][$uuid_akun][$i] = ['debet'=>0, 'kredit'=>0];
-                        
-                //         if (!isset($temp)) {
-                //             continue;
-                //         }
-
-                //         $arranged[$uuid_tipe][$uuid_akun][$i]['debet'] += (int)$temp['nilai'];
-                //         $arranged[$uuid_tipe][$uuid_akun][$i]['kredit'] += (int)$temp['nilai'];
-                //     }
-                // }
-
             }
         }
-        
-        // var_dump($arranged);
 
+        $data = [
+            'data'=>$arranged,
+            'akun'=>$dataAkun,
+            'tipe'=>$dataTipe,
+        ];
 
-
-
-
-        // for ($i=0; $i < count($bulanan); $i++) { 
-        //     foreach ($dataJurnal as $index => $jurnal) {
-        //         $temp = $this->filterJurnal($jurnal, $thisYear, $i + 1, $thisTanggal); // pake fungsi filterJurnal yang dibikin di bawah, biar nda blepotan
-        //         if (!isset($temp)) {
-        //             continue;
-        //         }
-                
-        //         $debet = $temp['akun_debet'];
-        //         $kredit = $temp['akun_kredit'];
-        //         $nilai = (int)$temp['nilai'];
-
-        //         if (!isset($bulanan[$i][$debet])) {
-        //             $bulanan[$i][$debet] = ['debet'=>0, 'kredit'=>0];
-        //         }
-                
-        //         if (!isset($bulanan[$i][$kredit])) {
-        //             $bulanan[$i][$kredit] = ['debet'=>0, 'kredit'=>0];
-        //         }
-
-        //         $bulanan[$i][$debet]['debet'] += $nilai;
-        //         $bulanan[$i][$kredit]['kredit'] += $nilai;
-        //     }
-        // }
-
-
-
-        return $this->respond($arranged);
+        return $this->respond($data);
     }
 
 
@@ -177,9 +121,7 @@ class Neraca extends BaseController{
 
     // -----------------------------------------------------------------
 
-    public function checkParent(array $tipe, array $akun){
-        return $akun['tipe_akun'] == $tipe['uuid'] ? true : false;
-    }
+
 
     public function filterJurnal($jurnal, $tahun = 0, $bulan = 0, $tanggal = 0 ){
         $date=strtotime($jurnal['tanggal']);
@@ -221,27 +163,6 @@ class Neraca extends BaseController{
         }
     
         return $arranged;
-    }
-
-    public function finalArrayLabaRugi(array $bulanan, array $arrangedArray){
-        $res = [];
-        foreach ($arrangedArray as $key => $value) {
-            for ($i=0; $i < count($value); $i++) {
-
-                for ($j=0; $j < count($bulanan); $j++) { 
-                    foreach ($bulanan[$j] as $bulan => $isi) {
-                        if ($value[$i] == $bulan) {
-                            $res[$key][$i] = $isi;
-                        } else {
-                            $res[$key][$i] = 0;
-                        }
-                    }
-                }
-
-            }
-        }
-
-        return $res;
     }
 
 
