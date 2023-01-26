@@ -87,15 +87,18 @@
         let debit_kredit = datalabarugi[tipe][uuid]
 
         let isi = ''
+        let totaldebet=0, totalkredit=0
 
         for (let i = 0; i < debit_kredit.length; i++) {
             isi += `<td>${Number(debit_kredit[i].debet) - Number(debit_kredit[i].kredit)}</td>`
+            totaldebet += Number(debit_kredit[i].debet)
+            totalkredit += Number(debit_kredit[i].kredit)
         }
 
         return $('#tabel-labarugi-<?= $document_uuid?> tbody')
         .append( `<tr id="${uuid}" class="text-center"><td>${name}</td>
         ${isi}
-        <td></td>
+        <td>${totaldebet - totalkredit}</td>
         </tr>`);
 
     }
