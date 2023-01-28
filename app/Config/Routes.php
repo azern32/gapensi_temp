@@ -47,6 +47,18 @@ $routes->group('login', static function ($routes){
     $routes->get('/logout', 'Login::logout'); //logout
 });
 
+$routes->group('input', static function ($routes){
+    $routes->get('/', 'Input::view'); //view halaman
+});
+
+$routes->group('rka', static function ($routes){
+    $routes->get('/', 'Input::view'); //view halaman
+
+    $routes->post('/add/(:alpha)', 'RKA::new/$1'); //tambah RKA
+    $routes->get('/detail/(:alpha)/(:uuid)', 'RKA::detail/$1/$2'); //ambil detail RKA spesifik
+    $routes->get('/list/(:alpha)', 'RKA::list/$1'); //ambil daftar RKA
+});
+
 $routes->group('dashboard', static function ($routes){
     $routes->post('/rka_new/(:alpha)', 'Dashboard::rka_new/$1'); //tambah RKA
     $routes->get('/rka/(:alpha)/(:uuid)', 'Dashboard::rka/$1/$2'); //ambil detail RKA spesifik
@@ -64,6 +76,7 @@ $routes->group('dashboard', static function ($routes){
 $routes->group('jurnal', static function ($routes){
     $routes->get('/', 'Jurnal::view');
     $routes->get('/list', 'Jurnal::list');
+    $routes->get('/get/(:uuid)', 'Jurnal::get/$1');
     $routes->get('/add/(:alpha)', 'Jurnal::add/$1');
     $routes->post('/remove/(:alpha)', 'Jurnal::remove/$1');
 });

@@ -44,7 +44,7 @@
                 <h5>TAMBAH ARUS KAS</h5>
             </div>
 
-            <form id="tambah_jurnal" action="<?= base_url()?>/dashboard/add" enctype="multipart/form-data" method="post">
+            <form id="tambah_jurnal" action="<?= base_url()?>/input/add" enctype="multipart/form-data" method="post">
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="tanggal">Tanggal Kegiatan</label>
@@ -203,7 +203,7 @@
 
 <script>
     async function listingJurnal() {
-        await fetch('<?= base_url('dashboard/list')?>').then(x =>{
+        await fetch('<?= base_url('input/list')?>').then(x =>{
             return x.json()
         }).then(x=>{
             data4Jurnal = x;
@@ -218,7 +218,7 @@
 
 
     async function deleteJurnal(uuid) {
-        await fetch(`<?= base_url();?>/dashboard/remove/${uuid}`)
+        await fetch(`<?= base_url();?>/input/remove/${uuid}`)
         .then(res => {
             return res.json();
         }).then(x=>{
@@ -237,7 +237,7 @@
         form.append('timestamp', Date.now());
         form.append('tahun', new Date($('#tanggal').val()).getFullYear())
 
-        await fetch("<?= base_url();?>/dashboard/add",{
+        await fetch("<?= base_url();?>/input/add",{
             method:"post",
             body: form,
         }).then(res => {
@@ -255,7 +255,7 @@
 
 
     async function latestJurnal(timestamp) {
-        await fetch(`<?= base_url();?>/dashboard/listlatest/${timestamp}`)
+        await fetch(`<?= base_url();?>/input/listlatest/${timestamp}`)
         .then((res) => {
             return res.json()
         }).then((data) => {
@@ -321,7 +321,7 @@
         form.append('tahun', new Date($('#tanggal_edit').val()).getFullYear())
         form.delete('uuid')
 
-        await fetch(`<?= base_url('dashboard/edit')?>/${uuid}`,{
+        await fetch(`<?= base_url('input/edit')?>/${uuid}`,{
             method:'post',
             body:form,
         }).then(x=>{
@@ -348,7 +348,7 @@
     }
 
     async function getJurnal(uuid) {
-        let res = await fetch(`<?= base_url();?>/dashboard/getjurnal/${uuid}`)
+        let res = await fetch(`<?= base_url();?>/input/getjurnal/${uuid}`)
         return res.json()
     }    
 

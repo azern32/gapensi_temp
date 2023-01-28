@@ -120,7 +120,7 @@
 
 <script>
     async function rka_list<?= $table_name?>() {
-        await fetch(`<?= base_url()?>/dashboard/rka_list/<?= $table_name?>`)
+        await fetch(`<?= base_url()?>/rka/list/<?= $table_name?>`)
         .then(res => {
             return res.json()
         }).then(data=>{
@@ -183,7 +183,7 @@
         form.append('judul_file', $('#judul_file_<?=$modal_id?>').val())
         form.append('file', $('#updateFile_<?=$modal_id?>')[0].files[0])
 
-        fetch(`<?= base_url()?>/dashboard/rka_new/<?=$table_name?>`, {
+        fetch(`<?= base_url()?>/rka/add/<?=$table_name?>`, {
             method:'post',
             body:form
         }).then(x=>{

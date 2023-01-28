@@ -1,5 +1,5 @@
 <li class="nav-item my-2">
-    <a href="<?= base_url()?>/dashboard" type="button" class="nav-link btn btn-block bg-main2" style="background-color: #7587B9;">
+    <a href="<?= base_url()?>/input" class="nav-link">
         <i class="nav-icon fas fa-plus"></i>
         <p>
         Input Keuangan

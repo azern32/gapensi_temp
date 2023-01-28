@@ -6,13 +6,11 @@ use App\Models\Model_RKA_Tahunan;
 use App\Models\Model_RKA_Jangka_Panjang;
 use App\Models\Model_Jurnal;
 use App\Models\Model_Daftar_Akun;
-use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\RequestTrait;
 
 // helper('auth');
-// class Dashboard extends ResourceController{
-class Dashboard extends BaseController{
+class Input extends BaseController{
     use RequestTrait;
     use ResponseTrait;
     protected $helpers = ['form', 'auth', 'account', 'filesystem'];
@@ -23,7 +21,7 @@ class Dashboard extends BaseController{
 
         // Cek jika ada level user
         // Jika tidak, kembali ke login
-        if (!$session->get('level')) {
+        if ($session->get('level') != 1) {
             return redirect()->to('/login');
         }
 
@@ -46,7 +44,7 @@ class Dashboard extends BaseController{
         $tohead['session'] = $session->get();
         
         // Simpan dalam variabel dependency dan session        
-        return view('layout/layout_dashboard', $tohead);
+        return view('layout/layout_input', $tohead);
     }
 
 
@@ -85,17 +83,6 @@ class Dashboard extends BaseController{
 
         // laporan
         return $this->respond(['path' => $path, 'post'=>$_POST, ]);
-    }
-
-    public function list(){
-        $akun = new Model_Daftar_Akun();
-        return $this->respond($akun->findAll());
-    }
-
-    public function getjurnal($uuid){
-        $akun = new Model_Jurnal();
-        $data = $akun->find($uuid);
-        return $this->respond($data);
     }
 
     public function edit($uuid){
@@ -139,6 +126,18 @@ class Dashboard extends BaseController{
 
         return $this->respond(['post' => $_POST, 'file' => $_FILES['bukti_transaksi_edit'], ]);
     }
+
+    public function list(){
+        $akun = new Model_Daftar_Akun();
+        return $this->respond($akun->findAll());
+    }
+
+    public function getjurnal($uuid){
+        $akun = new Model_Jurnal();
+        $data = $akun->find($uuid);
+        return $this->respond($data);
+    }
+
 
     public function remove($uuid){
         $jurnal = new Model_Jurnal();

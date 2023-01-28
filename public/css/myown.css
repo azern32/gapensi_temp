@@ -32,8 +32,14 @@ a.navbar{
   color: white;
 }
 
+.active {
+  background-color: var(--main2);
+  border-color: var(--main1);
+  color: white;
+}
+
 .card-main1{
-    min-width: 300;
+  min-width: 300;
 }
 
 .cursor{
