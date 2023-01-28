@@ -10,3 +10,4 @@
 - tombol "Input Keuangan" ganti jadi li saja, jangan tombol
 - halaman yang tampil, terhiglight di sidebar
 - rapikan susunan MVC keseluruhan
+- edit jurnal

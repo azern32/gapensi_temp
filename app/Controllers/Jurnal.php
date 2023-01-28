@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Model_Jurnal;
+use App\Models\Model_Daftar_Akun;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\RequestTrait;
@@ -83,7 +85,46 @@ class Jurnal extends BaseController{
         return $logbaru;
     }
 
+    public function get($uuid){
+        $akun = new Model_Jurnal();
+        $data = $akun->find($uuid);
+        return $this->respond($data);
+    }
+
     
+    public function latest($timestamp){
+        $akun = new Model_Jurnal();
+        return $this->respond($akun->where('timestamp', $timestamp)->first());
+    }
+
+
+    
+  
+    // -----------------------------------------------------------------
+
+    public function hitungAkun($uuid_kredit, $uuid_debet, $nominal = 0, $remove = false){
+        $akun = new Model_Daftar_Akun();
+        $sumber = $akun->where('uuid', $uuid_kredit)->first();
+        $tujuan = $akun->where('uuid', $uuid_debet)->first();
+
+        if ($remove) { $nominal *= -1; }
+
+        $akun->update($sumber, ['kredit' => $sumber['kredit'] + $nominal ]);
+        $akun->update($tujuan, ['debit' => $tujuan['debit'] + $nominal ]);
+    }
+
+    public function hitungSaldo($uuid_akun){
+        $akun = new Model_Daftar_Akun();
+        $rekening = $akun->where('uuid', $uuid_akun)->first();
+
+        $akun->update($uuid_akun, 
+            ['saldo' => $rekening['debit'] - $rekening['kredit']]
+        );
+    }
+
+
+
+
     // -----------------------------------------------------------------
     
     

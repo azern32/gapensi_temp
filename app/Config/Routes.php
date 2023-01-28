@@ -76,9 +76,8 @@ $routes->group('dashboard', static function ($routes){
 $routes->group('jurnal', static function ($routes){
     $routes->get('/', 'Jurnal::view');
     $routes->get('/list', 'Jurnal::list');
-    $routes->get('/get/(:uuid)', 'Jurnal::get/$1');
+    $routes->get('/get/(:uuid)', 'Jurnal::latest/$1');
     $routes->get('/add/(:alpha)', 'Jurnal::add/$1');
-    $routes->post('/remove/(:alpha)', 'Jurnal::remove/$1');
 });
 
 $routes->group('neraca', static function ($routes){

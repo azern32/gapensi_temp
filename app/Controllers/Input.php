@@ -47,6 +47,10 @@ class Input extends BaseController{
         return view('layout/layout_input', $tohead);
     }
 
+    public function list(){
+        $akun = new Model_Daftar_Akun();
+        return $this->respond($akun->findAll());
+    }
 
     public function add(){
         $_POST['bukti_transaksi'] = array();
@@ -127,18 +131,6 @@ class Input extends BaseController{
         return $this->respond(['post' => $_POST, 'file' => $_FILES['bukti_transaksi_edit'], ]);
     }
 
-    public function list(){
-        $akun = new Model_Daftar_Akun();
-        return $this->respond($akun->findAll());
-    }
-
-    public function getjurnal($uuid){
-        $akun = new Model_Jurnal();
-        $data = $akun->find($uuid);
-        return $this->respond($data);
-    }
-
-
     public function remove($uuid){
         $jurnal = new Model_Jurnal();
         $spesifik = $jurnal->find($uuid);
@@ -172,10 +164,6 @@ class Input extends BaseController{
         return $this->respond(['path' => $path]);
     }
 
-    public function listlatest($timestamp){
-        $akun = new Model_Jurnal();
-        return $this->respond($akun->where('timestamp', $timestamp)->first());
-    }
 
 
 

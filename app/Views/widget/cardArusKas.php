@@ -212,10 +212,6 @@
         })
     }
 
-    async function editJurnal(uuid) {
-        console.log('mengedit '+uuid);
-    }
-
 
     async function deleteJurnal(uuid) {
         await fetch(`<?= base_url();?>/input/remove/${uuid}`)
@@ -255,7 +251,7 @@
 
 
     async function latestJurnal(timestamp) {
-        await fetch(`<?= base_url();?>/input/listlatest/${timestamp}`)
+        await fetch(`<?= base_url();?>/jurnal/latest/${timestamp}`)
         .then((res) => {
             return res.json()
         }).then((data) => {
@@ -348,7 +344,7 @@
     }
 
     async function getJurnal(uuid) {
-        let res = await fetch(`<?= base_url();?>/input/getjurnal/${uuid}`)
+        let res = await fetch(`<?= base_url();?>/jurnal/get/${uuid}`)
         return res.json()
     }    
 
