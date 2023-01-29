@@ -1,5 +1,5 @@
-- bikin tabel bs & pl
-- bikin model bs & pl
+- ~~bikin tabel bs & pl~~
+- ~~bikin model bs & pl~~
 - bikin card untuk bs & pl
 - tambahkan input untuk buat akun
     - bs
