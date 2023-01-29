@@ -90,6 +90,7 @@ $routes->group('neraca', static function ($routes){
 $routes->group('akun', static function ($routes){
     $routes->post('/add/(:alpha)', 'Akun::add/$1');
     $routes->post('/edit/(:alpha)/(:uuid)', 'Akun::edit/$1/$2');
+    $routes->get('/remove/(:alpha)/(:uuid)', 'Akun::remove/$1/$2');
     $routes->get('/', 'Akun::view');
     $routes->get('/list/(:alpha)', 'Akun::list/$1');
     $routes->get('/tipe/(:uuid)', 'Akun::list/$1');

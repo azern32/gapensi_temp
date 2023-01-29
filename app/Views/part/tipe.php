@@ -1,6 +1,6 @@
 <div class="card p-3 m-2">
     <div class="card-header px-5 d-flex justify-content-between">
-        <h4>List Tipe Rekening</h4>
+        <h4>Daftar Tipe Akun</h4>
         <button type="button" class="btn btn-main1" data-toggle="modal" data-target="#modal_tambah_tipe">
             <i class="fas fa-plus"></i> Tambah Tipe
         </button>
@@ -132,15 +132,18 @@
             "searching": true,
         });
         
-        updateTipe()
+        updateTipe();
     })
-
 </script>
 
 
 
 <script>
+        let listtipe = [];
+
     function updateListTipe(item) {
+        $('#list_tipe').DataTable().clear().draw()
+
         for (let i = 0; i < item.length; i++) {
             $('#list_tipe').DataTable().row.add([
                 [item[i]['nama_tipe']],
@@ -159,12 +162,20 @@
             <button class='btn btn-sm btn-outline-info m-2' onclick="toggleEditTipe('${uuid}')">
                 <i class="fas fa-edit"></i>
             </button>
+
+            <button class='btn btn-sm btn-danger m-2' onclick="removetipe('${uuid}')">
+                <i class="fas fa-trash-alt"></i> 
+            </button>
             `
     }
 
     async function updateTipe() {
         let res = await fetch(`<?= base_url();?>/akun/list/tipe`)
         let item = await res.json()
+
+        listtipe = item
+
+        $('#list_tipe').DataTable().clear().draw()
 
         for (let i = 0; i < item.length; i++) {
             $('#list_tipe').DataTable().row.add([
@@ -217,10 +228,10 @@
 
     async function editTipe(uuid) {
         let form = new FormData();
-        form.append('kode_akun', $('#kode_akun_edit').val());
-        form.append('nama_akun', $('#nama_akun_edit').val());
+        form.append('kategori', $('#kategori_edit').val());
+        form.append('nama_tipe', $('#nama_tipe_edit').val());
 
-        await fetch(`<?= base_url().'/akun/edit/';?>${uuid}`, {
+        await fetch(`<?= base_url().'/akun/edit/tipe/';?>${uuid}`, {
             method:'post',
             body: form,
         }).then(res => {
@@ -230,6 +241,16 @@
         })
         
         $('#modal_edit_tipe').modal('toggle')
+    }
+
+    async function removetipe(uuid) {
+        await fetch(`<?= base_url().'/akun/remove/tipe/';?>${uuid}`)
+        .then(res=>{
+            updateTipe()
+            return res.json()
+        }).then(res=>{
+            return res.msg
+        })
     }
 
 </script>

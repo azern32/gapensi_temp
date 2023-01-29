@@ -60,11 +60,10 @@ class Login extends BaseController{
         // Hilangkan data tentang password
         $session->remove('password');
 
-        // Redirect ke dashboard
-        return redirect()->to('/dashboard');
+        return $this->enter();
 
         // Testing purpose
-        // var_dump($_POST);
+        // var_dump($session->get('level'));
         // return view('test');
     }
 
@@ -76,7 +75,31 @@ class Login extends BaseController{
         // Lalu redirect ke dashboard
         $result = is_user_exist($x);
         authenticate($result['username'], $result['password']);
-        return redirect()->to('/dashboard');
+
+        $this->enter();
+        // return redirect()->to('/dashboard');
+    }
+
+    public function enter(){
+        $session = session();
+
+        switch ($session->get('level')) {
+            case '1':
+                return redirect()->to('/input');
+            break;
+            
+            case '2':
+                return redirect()->to('/dashboard');
+            break;
+            
+            case '9':
+                return redirect()->to('/dashboard');
+            break;
+            
+            default:
+                return redirect()->to('/login');
+            break;
+        }
     }
 
     public function logout(){

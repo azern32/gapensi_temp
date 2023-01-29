@@ -38,6 +38,11 @@ a.navbar{
   color: white;
 }
 
+.nav-sidebar>.nav-item>.nav-link.active {
+  background-color: var(--main2) !important;
+  color: #fff !important;
+}
+
 .card-main1{
   min-width: 300;
 }

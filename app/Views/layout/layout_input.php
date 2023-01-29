@@ -80,7 +80,7 @@
         
         async function getList() {
             let list;
-            let result = await fetch('<?= base_url();?>/rekening/list/akun')
+            let result = await fetch('<?= base_url();?>/akun/list/akun')
             list = await result.json();
             list.forEach(el => {
                 $('#akun_debet').append(`<option value="${el.uuid}">${el.nama_akun}</option>`)

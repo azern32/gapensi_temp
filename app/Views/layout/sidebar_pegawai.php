@@ -1,5 +1,5 @@
 <li class="nav-item my-2">
-    <a href="<?= base_url()?>/input" class="nav-link">
+    <a href="<?= base_url()?>/index.php/input" class="nav-link">
         <i class="nav-icon fas fa-plus"></i>
         <p>
         Input Keuangan
@@ -8,7 +8,7 @@
 </li>
 
 <li class="nav-item my-2">
-    <a href="<?= base_url()?>/jurnal" class="nav-link">
+    <a href="<?= base_url()?>/index.php/jurnal" class="nav-link">
         <i class="nav-icon fas fa-file-alt"></i>
         <p>
         Jurnal Keuangan
@@ -17,7 +17,7 @@
 </li>
 
 <li class="nav-item my-2">
-    <a href="<?= base_url()?>/neraca" class="nav-link">
+    <a href="<?= base_url()?>/index.php/neraca" class="nav-link">
         <i class=" nav-icon fas fa-balance-scale"></i>
         <p>
         Neraca Keuangan
@@ -26,10 +26,16 @@
 </li>
 
 <li class="nav-item my-2">
-    <a href="<?= base_url()?>/akun" class="nav-link">
+    <a href="<?= base_url()?>/index.php/akun" class="nav-link">
         <i class="nav-icon fas fa-list"></i>
         <p>
-        Daftar Rekening
+        Daftar Akun
         </p>
     </a>
 </li>
+
+<script>
+    $(document).ready( function(){
+        $(`[href='${window.location.href}']`).addClass('active')
+    })
+</script>

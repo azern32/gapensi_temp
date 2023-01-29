@@ -1,14 +1,16 @@
 - ~~bikin tabel bs & pl~~
 - ~~bikin model bs & pl~~
-- bikin card untuk bs & pl
-- tambahkan input untuk buat akun
-    - bs
-    - pl
+- ~~bikin card untuk bs & pl~~
+- ~~tambahkan input untuk buat akun~~
+    - ~~bs~~
+    - ~~pl~~
+- tambahkan input untuk tambah jurnal
     - reference code
 - ~~tampilan card jurnal hilangkan nominal~~
 - atur ulang pengkategorian laba rugi
 - ~~tombol "Input Keuangan" ganti jadi li saja, jangan tombol~~
-- halaman yang tampil, terhiglight di sidebar
+- ~~halaman yang tampil, terhiglight di sidebar~~
 - rapikan susunan MVC keseluruhan
 - edit jurnal ketika sudah otomatis terganti
 - rka ketika mengupload otomatis terganti statusnya
+- daftar akun ketika input jurnal ada pembatasnya

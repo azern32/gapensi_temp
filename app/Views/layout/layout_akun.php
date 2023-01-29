@@ -56,31 +56,10 @@
 
             <?= view_cell('\App\Libraries\PartAkun::tipe')?>
 
-
-
+            <?= view_cell('\App\Libraries\PartAkun::pl')?>
+            
+            <?= view_cell('\App\Libraries\PartAkun::bs')?>
         </div>
     </div>
-
-
-
-
-    <script>
-        // $(document).ready( function(){
-
-
-        //     $('#list_tipe').DataTable({
-        //         "responsive": true,
-        //         "lengthChange": true,
-        //         "autoWidth": false,
-        //         "searching": true,
-        //     });
-
-        // });
-        
-        // updateTipe()
-        // updateList()
-
-
-    </script>
 </body>
 </html>

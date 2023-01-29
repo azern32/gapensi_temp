@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Model_Daftar_Akun;
+use App\Models\Model_Daftar_BS;
+use App\Models\Model_Daftar_PL;
 use App\Models\Model_Daftar_Tipe;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
@@ -39,6 +41,12 @@ class Akun extends BaseController{
         } elseif ($var == 'akun') {
             $list = new Model_Daftar_Akun();
             $list = $list->orderBy('kode_akun', 'asc');
+        } elseif ($var == 'bs') {
+            $list = new Model_Daftar_BS();
+            $list = $list->orderBy('nama_bs', 'asc');
+        } elseif ($var == 'pl') {
+            $list = new Model_Daftar_PL();
+            $list = $list->orderBy('nama_pl', 'asc');
         } else {
             return $this->respond(['message'=>'no database found']);
         }
@@ -51,6 +59,10 @@ class Akun extends BaseController{
             $list = new Model_Daftar_Tipe();
         } elseif ($var == 'akun') {
             $list = new Model_Daftar_Akun();
+        } elseif ($var == 'bs') {
+            $list = new Model_Daftar_BS();
+        } elseif ($var == 'pl') {
+            $list = new Model_Daftar_PL();
         } else {
             return $this->respond(['message'=>'no database found']);
         }
@@ -63,9 +75,14 @@ class Akun extends BaseController{
             $list = new Model_Daftar_Akun();
         } elseif ($var == 'tipe') {
             $list = new Model_Daftar_Tipe();
+        } elseif ($var == 'bs') {
+            $list = new Model_Daftar_BS();
+        } elseif ($var == 'pl') {
+            $list = new Model_Daftar_PL();
         } else {
             return $this->respond(['message'=>'no database found']);
         }
+        
         $list->insert($_POST);
         $response = [
             'status'   => 200,
@@ -79,7 +96,18 @@ class Akun extends BaseController{
     }
 
     public function edit($var, $uuid = null){
-        $akun_rekening = new Model_Daftar_Akun();
+        if ($var == 'akun') {
+            $list = new Model_Daftar_Akun();
+        } elseif ($var == 'tipe') {
+            $list = new Model_Daftar_Tipe();
+        } elseif ($var == 'bs') {
+            $list = new Model_Daftar_BS();
+        } elseif ($var == 'pl') {
+            $list = new Model_Daftar_PL();
+        } else {
+            return $this->respond(['message'=>'no database found']);
+        }
+
 
         if ($uuid == null) {
             $response = [
@@ -92,10 +120,10 @@ class Akun extends BaseController{
             return $this->respond($response);
         }
 
-        $data['toEdit'] = $akun_rekening->where('uuid', $uuid)->first();
+        $data['toEdit'] = $list->find($uuid);
         $data['req'] = $_POST;
         
-        $akun_rekening->update($uuid, $_POST);
+        $list->update($uuid, $_POST);
 
         $response = [
             'status'   => 200,
@@ -109,8 +137,36 @@ class Akun extends BaseController{
         return $this->respond($response);
     }
 
+    public function remove($var, $uuid = null){
+        if ($var == 'akun') {
+            $list = new Model_Daftar_Akun();
+        } elseif ($var == 'tipe') {
+            $list = new Model_Daftar_Tipe();
+        } elseif ($var == 'bs') {
+            $list = new Model_Daftar_BS();
+        } elseif ($var == 'pl') {
+            $list = new Model_Daftar_PL();
+        } else {
+            return $this->respond(['message'=>'no database found']);
+        }
+
+        $list->delete($uuid);
+
+        return $this->respond(['msg'=> "$uuid deleted"]);
+    }
+
     public function tipe($uuid){
         $list = new Model_Daftar_Tipe();
+        return $this->respond($list->find($uuid));
+    }
+
+    public function bs($uuid){
+        $list = new Model_Daftar_BS();
+        return $this->respond($list->find($uuid));
+    }
+
+    public function pl($uuid){
+        $list = new Model_Daftar_PL();
         return $this->respond($list->find($uuid));
     }
 
