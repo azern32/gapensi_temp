@@ -49,6 +49,10 @@ $routes->group('login', static function ($routes){
 
 $routes->group('input', static function ($routes){
     $routes->get('/', 'Input::view'); //view halaman
+
+    $routes->post('/add', 'Input::add'); //tambah catatan
+    $routes->post('/edit/(:uuid)', 'Input::edit/$1'); //edit catatan
+    $routes->get('/remove/(:uuid)', 'Input::remove/$1'); //hapus catatan
 });
 
 $routes->group('rka', static function ($routes){
@@ -76,7 +80,7 @@ $routes->group('dashboard', static function ($routes){
 $routes->group('jurnal', static function ($routes){
     $routes->get('/', 'Jurnal::view');
     $routes->get('/list', 'Jurnal::list');
-    $routes->get('/get/(:uuid)', 'Jurnal::latest/$1');
+    $routes->get('/latest/(:uuid)', 'Jurnal::latest/$1');
     $routes->get('/add/(:alpha)', 'Jurnal::add/$1');
 });
 

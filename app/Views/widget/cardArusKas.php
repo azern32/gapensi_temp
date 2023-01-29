@@ -46,9 +46,16 @@
 
             <form id="tambah_jurnal" action="<?= base_url()?>/input/add" enctype="multipart/form-data" method="post">
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="tanggal">Tanggal Kegiatan</label>
-                        <input class="form-control"  type="date" id="tanggal" name="tanggal" style="max-width:200px;">
+                    <div class="row">
+                        <div class="col form-group">
+                            <label for="referensi">Kode Referensi</label>
+                            <input class="form-control" type="text"  id="referensi" name="referensi">
+                        </div>
+
+                        <div class="col form-group">
+                            <label for="tanggal">Tanggal Kegiatan</label>
+                            <input class="form-control"  type="date" id="tanggal" name="tanggal" >
+                        </div>
                     </div>
 
                     <div class="form-group">

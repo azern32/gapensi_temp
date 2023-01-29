@@ -1,7 +1,7 @@
 <table id="tabel_arus_kas" class="table table-striped">
     <thead>
         <tr>
-            <th>Nomor Referensi</th>
+            <th>Kode Referensi</th>
             <th>Tanggal</th>
             <th>Akun</th>
             <th>Keterangan</th>
@@ -14,7 +14,7 @@
     <tbody>
         <?php foreach ($list as $key => $value) {?>
             <tr id="<?= $key?>">
-                <td class="text-center"> <?= $value->timestamp?> </td>
+                <td class="text-center"> <?= $value->referensi?> </td>
                 <td class="text-center"> <?= $value->tanggal?> </td>
                 <td class="text-center"> <?= getAccountName($value->akun)?> </td>
                 <td class="text-center"> <?= $value->keterangan?> </td>

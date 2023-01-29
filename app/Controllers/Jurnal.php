@@ -59,6 +59,7 @@ class Jurnal extends BaseController{
             array_push($logbaru, (object) 
                 [
                     'uuid'=>$value->uuid,
+                    'referensi'=>$value->referensi,
                     'timestamp'=>$value->timestamp,
                     'tanggal'=>$value->tanggal,
                     'akun'=>$value->akun_debet,
@@ -70,6 +71,7 @@ class Jurnal extends BaseController{
                 ], (object) 
                 [
                     'uuid'=>$value->uuid,
+                    'referensi'=>$value->referensi,
                     'timestamp'=>$value->timestamp,
                     'tanggal'=>$value->tanggal,
                     'akun'=>$value->akun_kredit,

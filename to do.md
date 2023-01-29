@@ -4,12 +4,12 @@
 - ~~tambahkan input untuk buat akun~~
     - ~~bs~~
     - ~~pl~~
-- tambahkan input untuk tambah jurnal
-    - reference code
+- ~~tambahkan input untuk tambah jurnal~~
+    - ~~reference code~~
 - ~~tampilan card jurnal hilangkan nominal~~
-- atur ulang pengkategorian laba rugi
 - ~~tombol "Input Keuangan" ganti jadi li saja, jangan tombol~~
 - ~~halaman yang tampil, terhiglight di sidebar~~
+- atur ulang pengkategorian laba rugi
 - rapikan susunan MVC keseluruhan
 - edit jurnal ketika sudah otomatis terganti
 - rka ketika mengupload otomatis terganti statusnya
