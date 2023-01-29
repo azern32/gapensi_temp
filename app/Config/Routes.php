@@ -87,13 +87,13 @@ $routes->group('neraca', static function ($routes){
     $routes->get('/checkparent/(:uuid)/(:uuid)', 'Neraca::checkParent/$1/$2');
 });
 
-$routes->group('rekening', static function ($routes){
-    $routes->post('/add/(:alpha)', 'Rekening::add/$1');
-    $routes->post('/edit/(:alpha)/(:uuid)', 'Rekening::edit/$1/$2');
-    $routes->get('/', 'Rekening::view');
-    $routes->get('/list/(:alpha)', 'Rekening::list/$1');
-    $routes->get('/tipe/(:uuid)', 'Rekening::list/$1');
-    $routes->get('/listlatest/(:alpha)/(:uuid)', 'Rekening::listlatest/$1/$2');
+$routes->group('akun', static function ($routes){
+    $routes->post('/add/(:alpha)', 'Akun::add/$1');
+    $routes->post('/edit/(:alpha)/(:uuid)', 'Akun::edit/$1/$2');
+    $routes->get('/', 'Akun::view');
+    $routes->get('/list/(:alpha)', 'Akun::list/$1');
+    $routes->get('/tipe/(:uuid)', 'Akun::list/$1');
+    $routes->get('/listlatest/(:alpha)/(:uuid)', 'Akun::listlatest/$1/$2');
 });
 
 $routes->group('tipe', static function ($routes){

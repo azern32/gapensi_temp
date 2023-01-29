@@ -10,7 +10,7 @@ use CodeIgniter\HTTP\RequestTrait;
 
 helper('auth');
 // class Rekening extends ResourceController{
-class Rekening extends BaseController{
+class Akun extends BaseController{
     use RequestTrait;
     use ResponseTrait;
     
@@ -29,7 +29,7 @@ class Rekening extends BaseController{
         $tohead['session'] = $session->get();
         
         // Simpan dalam variabel dependency dan session        
-        return view('layout/layout_rekening', $tohead);
+        return view('layout/layout_akun', $tohead);
     }
 
     public function list($var){

@@ -26,7 +26,7 @@
 </li>
 
 <li class="nav-item my-2">
-    <a href="<?= base_url()?>/rekening" class="nav-link">
+    <a href="<?= base_url()?>/akun" class="nav-link">
         <i class="nav-icon fas fa-list"></i>
         <p>
         Daftar Rekening

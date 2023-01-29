@@ -5,9 +5,10 @@
     - bs
     - pl
     - reference code
-- tampilan card jurnal hilangkan nominal
+- ~~tampilan card jurnal hilangkan nominal~~
 - atur ulang pengkategorian laba rugi
-- tombol "Input Keuangan" ganti jadi li saja, jangan tombol
+- ~~tombol "Input Keuangan" ganti jadi li saja, jangan tombol~~
 - halaman yang tampil, terhiglight di sidebar
 - rapikan susunan MVC keseluruhan
-- edit jurnal
+- edit jurnal ketika sudah otomatis terganti
+- rka ketika mengupload otomatis terganti statusnya

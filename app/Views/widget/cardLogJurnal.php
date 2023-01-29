@@ -5,7 +5,6 @@
             <th>Tanggal</th>
             <th>Akun</th>
             <th>Keterangan</th>
-            <th>Nominal</th>
             <th>D/C</th>
             <th>Nominal Debet</th>
             <th>Nominal Kredit</th>
@@ -19,7 +18,6 @@
                 <td class="text-center"> <?= $value->tanggal?> </td>
                 <td class="text-center"> <?= getAccountName($value->akun)?> </td>
                 <td class="text-center"> <?= $value->keterangan?> </td>
-                <td class="text-center"> <?= $value->nominal?> </td>
                 <td class="text-center"> <?= $value->tipe?> </td>
                 <td class="text-center"> <?= $value->nominal_debet?> </td>
                 <td class="text-center"> <?= $value->nominal_kredit?> </td>
