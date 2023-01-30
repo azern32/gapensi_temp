@@ -64,16 +64,17 @@ $routes->group('rka', static function ($routes){
 });
 
 $routes->group('dashboard', static function ($routes){
-    $routes->post('/rka_new/(:alpha)', 'Dashboard::rka_new/$1'); //tambah RKA
-    $routes->get('/rka/(:alpha)/(:uuid)', 'Dashboard::rka/$1/$2'); //ambil detail RKA spesifik
-    $routes->get('/rka_list/(:alpha)', 'Dashboard::rka/$1'); //ambil daftar RKA
+    // $routes->post('/rka_new/(:alpha)', 'Dashboard::rka_new/$1'); //tambah RKA
+    // $routes->get('/rka/(:alpha)/(:uuid)', 'Dashboard::rka/$1/$2'); //ambil detail RKA spesifik
+    // $routes->get('/rka_list/(:alpha)', 'Dashboard::rka/$1'); //ambil daftar RKA
 
-    $routes->post('/add', 'Dashboard::add'); //tambah catatan
-    $routes->post('/edit/(:uuid)', 'Dashboard::edit/$1'); //edit catatan
-    $routes->get('/remove/(:uuid)', 'Dashboard::remove/$1'); //hapus catatan
-    $routes->get('/list', 'Dashboard::list'); //ambil seluruh catatan
-    $routes->get('/getjurnal/(:uuid)', 'Dashboard::getjurnal/$1'); //ambil catatan spesifik
-    $routes->get('/listlatest/(:num)', 'Dashboard::listlatest/$1'); //ambil catatan terakhir
+    // $routes->post('/add', 'Dashboard::add'); //tambah catatan
+    // $routes->post('/edit/(:uuid)', 'Dashboard::edit/$1'); //edit catatan
+    // $routes->get('/remove/(:uuid)', 'Dashboard::remove/$1'); //hapus catatan
+    // $routes->get('/list', 'Dashboard::list'); //ambil seluruh catatan
+    // $routes->get('/getjurnal/(:uuid)', 'Dashboard::getjurnal/$1'); //ambil catatan spesifik
+    // $routes->get('/listlatest/(:num)', 'Dashboard::listlatest/$1'); //ambil catatan terakhir
+
     $routes->get('/', 'Dashboard::view'); //view halaman
 });
 

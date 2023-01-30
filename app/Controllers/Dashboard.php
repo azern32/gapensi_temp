@@ -50,140 +50,140 @@ class Dashboard extends BaseController{
     }
 
 
-    public function add(){
-        $_POST['bukti_transaksi'] = array();
-        // Upload Files ========================
-        // Buat pathnya
-        $path = ROOTPATH.'public/uploads/'.'bukti_transaksi/'.$_POST['uuid'];
-        // Buat foldernya
-        mkdir($path, 0777, true);
-        // Untuk setiap file yang diupload, simpan satu-satu
-        foreach ($_FILES["bukti_transaksi"]["error"] as $key => $error) {
-            if ($error == UPLOAD_ERR_OK) {
-                $tmp_name = $_FILES["bukti_transaksi"]["tmp_name"][$key];
-                // basename() may prevent filesystem traversal attacks;
-                // further validation/sanitation of the filename may be appropriate
-                $name = basename($_FILES["bukti_transaksi"]["name"][$key]);
-                array_push($_POST['bukti_transaksi'], $name);
-                move_uploaded_file($tmp_name, "$path/$name");
-            }
-        }
+    // public function add(){
+    //     $_POST['bukti_transaksi'] = array();
+    //     // Upload Files ========================
+    //     // Buat pathnya
+    //     $path = ROOTPATH.'public/uploads/'.'bukti_transaksi/'.$_POST['uuid'];
+    //     // Buat foldernya
+    //     mkdir($path, 0777, true);
+    //     // Untuk setiap file yang diupload, simpan satu-satu
+    //     foreach ($_FILES["bukti_transaksi"]["error"] as $key => $error) {
+    //         if ($error == UPLOAD_ERR_OK) {
+    //             $tmp_name = $_FILES["bukti_transaksi"]["tmp_name"][$key];
+    //             // basename() may prevent filesystem traversal attacks;
+    //             // further validation/sanitation of the filename may be appropriate
+    //             $name = basename($_FILES["bukti_transaksi"]["name"][$key]);
+    //             array_push($_POST['bukti_transaksi'], $name);
+    //             move_uploaded_file($tmp_name, "$path/$name");
+    //         }
+    //     }
 
-        // Hitung akun ========================
-        $this->hitungAkun($_POST['akun_kredit'], $_POST['akun_debet'], $_POST['nilai']);
-        $this->hitungSaldo($_POST['akun_kredit']);
-        $this->hitungSaldo($_POST['akun_debet']);
+    //     // Hitung akun ========================
+    //     $this->hitungAkun($_POST['akun_kredit'], $_POST['akun_debet'], $_POST['nilai']);
+    //     $this->hitungSaldo($_POST['akun_kredit']);
+    //     $this->hitungSaldo($_POST['akun_debet']);
 
-        // Masukkan data ke database ========================
-        // Panggil databasenya
-        $jurnal = new Model_Jurnal();
-        // Ubah array ke string
-        $_POST['bukti_transaksi'] = json_encode($_POST['bukti_transaksi']);
-        // Simpan ke database
-        $jurnal->insert($_POST);
+    //     // Masukkan data ke database ========================
+    //     // Panggil databasenya
+    //     $jurnal = new Model_Jurnal();
+    //     // Ubah array ke string
+    //     $_POST['bukti_transaksi'] = json_encode($_POST['bukti_transaksi']);
+    //     // Simpan ke database
+    //     $jurnal->insert($_POST);
         
 
-        // laporan
-        return $this->respond(['path' => $path, 'post'=>$_POST, ]);
-    }
+    //     // laporan
+    //     return $this->respond(['path' => $path, 'post'=>$_POST, ]);
+    // }
 
-    public function list(){
-        $akun = new Model_Daftar_Akun();
-        return $this->respond($akun->findAll());
-    }
+    // public function list(){
+    //     $akun = new Model_Daftar_Akun();
+    //     return $this->respond($akun->findAll());
+    // }
 
-    public function getjurnal($uuid){
-        $akun = new Model_Jurnal();
-        $data = $akun->find($uuid);
-        return $this->respond($data);
-    }
+    // public function getjurnal($uuid){
+    //     $akun = new Model_Jurnal();
+    //     $data = $akun->find($uuid);
+    //     return $this->respond($data);
+    // }
 
-    public function edit($uuid){
-        $jurnal = new Model_Jurnal();
-        $spesifik = $jurnal->find($uuid);
+    // public function edit($uuid){
+    //     $jurnal = new Model_Jurnal();
+    //     $spesifik = $jurnal->find($uuid);
 
-        // Hitung terbalik catatannya
-        $this->hitungAkun($spesifik['akun_kredit'], $spesifik['akun_debet'], $spesifik['nilai'], true);
-        $this->hitungSaldo($_POST['akun_kredit']);
-        $this->hitungSaldo($_POST['akun_debet']);
+    //     // Hitung terbalik catatannya
+    //     $this->hitungAkun($spesifik['akun_kredit'], $spesifik['akun_debet'], $spesifik['nilai'], true);
+    //     $this->hitungSaldo($_POST['akun_kredit']);
+    //     $this->hitungSaldo($_POST['akun_debet']);
 
-        // Hitung ulang catatannya
-        $this->hitungAkun($_POST['akun_kredit'], $_POST['akun_debet'], $_POST['nilai']);
-        $this->hitungSaldo($_POST['akun_kredit']);
-        $this->hitungSaldo($_POST['akun_debet']);
+    //     // Hitung ulang catatannya
+    //     $this->hitungAkun($_POST['akun_kredit'], $_POST['akun_debet'], $_POST['nilai']);
+    //     $this->hitungSaldo($_POST['akun_kredit']);
+    //     $this->hitungSaldo($_POST['akun_debet']);
 
-        $_POST['bukti_transaksi'] = array();
-        // Upload Files ========================
-        // Buat pathnya
-        $path = ROOTPATH.'public/uploads/'.'bukti_transaksi/'.$uuid;
-        // Untuk setiap file yang diupload, simpan satu-satu
-        foreach ($_FILES["bukti_transaksi_edit"]["error"] as $key => $error) {
-            if ($error == UPLOAD_ERR_OK) {
-                $tmp_name = $_FILES["bukti_transaksi_edit"]["tmp_name"][$key];
-                // basename() may prevent filesystem traversal attacks;
-                // further validation/sanitation of the filename may be appropriate
-                $name = basename($_FILES["bukti_transaksi_edit"]["name"][$key]);
-                array_push($_POST['bukti_transaksi'], $name);
-                if (file_exists("$path/$name")) {
-                    unlink("$path/$name");
-                }
-                move_uploaded_file($tmp_name, "$path/$name");
-            }
-        }
+    //     $_POST['bukti_transaksi'] = array();
+    //     // Upload Files ========================
+    //     // Buat pathnya
+    //     $path = ROOTPATH.'public/uploads/'.'bukti_transaksi/'.$uuid;
+    //     // Untuk setiap file yang diupload, simpan satu-satu
+    //     foreach ($_FILES["bukti_transaksi_edit"]["error"] as $key => $error) {
+    //         if ($error == UPLOAD_ERR_OK) {
+    //             $tmp_name = $_FILES["bukti_transaksi_edit"]["tmp_name"][$key];
+    //             // basename() may prevent filesystem traversal attacks;
+    //             // further validation/sanitation of the filename may be appropriate
+    //             $name = basename($_FILES["bukti_transaksi_edit"]["name"][$key]);
+    //             array_push($_POST['bukti_transaksi'], $name);
+    //             if (file_exists("$path/$name")) {
+    //                 unlink("$path/$name");
+    //             }
+    //             move_uploaded_file($tmp_name, "$path/$name");
+    //         }
+    //     }
 
-        // Ubah array ke string
-        $_POST['bukti_transaksi'] = json_encode($_POST['bukti_transaksi']);
-        // Simpan ke database
-        $jurnal->update($uuid, $_POST);
-
-
-        return $this->respond(['post' => $_POST, 'file' => $_FILES['bukti_transaksi_edit'], ]);
-    }
-
-    public function remove($uuid){
-        $jurnal = new Model_Jurnal();
-        $spesifik = $jurnal->find($uuid);
-
-        // Hitung terbalik catatannya
-        $this->hitungAkun($spesifik['akun_kredit'], $spesifik['akun_debet'], $spesifik['nilai'], true);
-        $this->hitungSaldo($spesifik['akun_kredit']);
-        $this->hitungSaldo($spesifik['akun_debet']);
-
-        // Ambil list gambar
-        $listGambar = json_decode($spesifik['bukti_transaksi']);
-
-        // Tulis ulang jalur foldernya
-        $path = ROOTPATH.'public/uploads/bukti_transaksi/'.$spesifik['uuid'].'/';
-
-        // Hapus gambar jika ada
-        if (count($listGambar) > 0) {
-            foreach ($listGambar as $index => $value) {
-                if (is_file($path.$listGambar[$index])) {
-                    unlink($path.$listGambar[$index]);
-                };
-            }
-        }
-
-        // Hapus folder
-        rmdir($path);
-
-        // Hapus catatan
-        $jurnal->delete($uuid);
-
-        return $this->respond(['path' => $path]);
-    }
-
-    public function listlatest($timestamp){
-        $akun = new Model_Jurnal();
-        return $this->respond($akun->where('timestamp', $timestamp)->first());
-    }
+    //     // Ubah array ke string
+    //     $_POST['bukti_transaksi'] = json_encode($_POST['bukti_transaksi']);
+    //     // Simpan ke database
+    //     $jurnal->update($uuid, $_POST);
 
 
+    //     return $this->respond(['post' => $_POST, 'file' => $_FILES['bukti_transaksi_edit'], ]);
+    // }
 
-    public function getAccount($uuid){
-        $akun = new Model_Daftar_Akun();
-        return $this->respond($akun->where('uuid', $uuid));
-    }
+    // public function remove($uuid){
+    //     $jurnal = new Model_Jurnal();
+    //     $spesifik = $jurnal->find($uuid);
+
+    //     // Hitung terbalik catatannya
+    //     $this->hitungAkun($spesifik['akun_kredit'], $spesifik['akun_debet'], $spesifik['nilai'], true);
+    //     $this->hitungSaldo($spesifik['akun_kredit']);
+    //     $this->hitungSaldo($spesifik['akun_debet']);
+
+    //     // Ambil list gambar
+    //     $listGambar = json_decode($spesifik['bukti_transaksi']);
+
+    //     // Tulis ulang jalur foldernya
+    //     $path = ROOTPATH.'public/uploads/bukti_transaksi/'.$spesifik['uuid'].'/';
+
+    //     // Hapus gambar jika ada
+    //     if (count($listGambar) > 0) {
+    //         foreach ($listGambar as $index => $value) {
+    //             if (is_file($path.$listGambar[$index])) {
+    //                 unlink($path.$listGambar[$index]);
+    //             };
+    //         }
+    //     }
+
+    //     // Hapus folder
+    //     rmdir($path);
+
+    //     // Hapus catatan
+    //     $jurnal->delete($uuid);
+
+    //     return $this->respond(['path' => $path]);
+    // }
+
+    // public function listlatest($timestamp){
+    //     $akun = new Model_Jurnal();
+    //     return $this->respond($akun->where('timestamp', $timestamp)->first());
+    // }
+
+
+
+    // public function getAccount($uuid){
+    //     $akun = new Model_Daftar_Akun();
+    //     return $this->respond($akun->where('uuid', $uuid));
+    // }
 
 
 

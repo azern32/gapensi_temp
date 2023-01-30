@@ -43,19 +43,14 @@
 </div>
 
 <script >
-    // let dataLabaRugi = fetch('<?= base_url('neraca/labarugi')?>')
-    //     .then(res=>{
-    //         return res.json()
-    //     })
-
-    let datalabarugi, akun, tipe;
+    let datalabarugi, akun, bs;
     fetch('<?= base_url('neraca/labarugi')?>')
     .then(res=>{
         return res.json()
     }).then(res=>{
         datalabarugi = res.data
         akun = res.akun
-        tipe = res.tipe
+        bs = res.bs
 
         buatIsian()
 
@@ -72,10 +67,10 @@
             }            
         }
 
-        for (let i = 0; i < tipe.length; i++) {
-            if (tipe[i].uuid == uuid) {
-                return tipe[i].nama_tipe;
-            }            
+        for (let i = 0; i < bs.length; i++) {
+            if (bs[i].uuid == uuid) {
+                return bs[i].nama_bs;
+            }
         }
     }
 

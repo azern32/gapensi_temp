@@ -9,7 +9,7 @@ function tanggal(milisec){
 }
 
 var akunRekening;
-fetch('http://localhost/gapensi_keuangan/public/dashboard/list')
+fetch('http://localhost/gapensi_keuangan/public/akun/list/akun')
 .then((x)=>{return x.json()})
 .then((x)=>{akunRekening = x})
 

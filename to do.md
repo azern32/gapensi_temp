@@ -9,7 +9,7 @@
 - ~~tampilan card jurnal hilangkan nominal~~
 - ~~tombol "Input Keuangan" ganti jadi li saja, jangan tombol~~
 - ~~halaman yang tampil, terhiglight di sidebar~~
-- atur ulang pengkategorian laba rugi
+- ~~~atur ulang pengkategorian laba rugi~~~
 - rapikan susunan MVC keseluruhan
 - edit jurnal ketika sudah otomatis terganti
 - rka ketika mengupload otomatis terganti statusnya

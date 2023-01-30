@@ -4,14 +4,14 @@ namespace App\Controllers;
 
 use App\Models\Model_Jurnal;
 use App\Models\Model_Daftar_Akun;
-use App\Models\Model_Daftar_Tipe;
+use App\Models\Model_Daftar_BS;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\RequestTrait;
 
 helper('auth');
-// class Neraca extends ResourceController{
-class Neraca extends BaseController{
+class Neraca extends ResourceController{
+// class Neraca extends BaseController{
     use RequestTrait;
     use ResponseTrait;
     
@@ -32,7 +32,6 @@ class Neraca extends BaseController{
         // Simpan dalam variabel dependency dan session        
         return view('layout/layout_neraca', $tohead);
     }
-
 
     
     public function list(){
@@ -59,10 +58,10 @@ class Neraca extends BaseController{
         */ 
         $jurnal = new Model_Jurnal();
         $akun = new Model_Daftar_Akun();
-        $tipe = new Model_Daftar_Tipe();
+        $bs = new Model_Daftar_BS();
         $dataJurnal = $jurnal->findAll();
         $dataAkun = $akun->orderBy('kode_akun', 'asc')->findAll();
-        $dataTipe = $tipe->findAll();
+        $dataBS = $bs->findAll();
         $thisYear = date('Y');
         $thisTanggal = 21;
 
@@ -70,21 +69,21 @@ class Neraca extends BaseController{
         $bulanan = [[],[],[],[],[],[],[],[],[],[],[],[]];
         $arranged = $this->rearrangeLabaRugi();
 
-        foreach ($arranged as $uuid_tipe => $akun) {
-            // $uuid_tipe itu string uuid tipe
+        foreach ($arranged as $uuid_bs => $akun) {
+            // $uuid_bs itu string uuid tipe
             // $akun itu array string uuid akun
 
             foreach ($akun as $key => $uuid_akun) {
                 // $key itu int index
                 // $uuid_akun itu string uuid akun
 
-                $arranged[$uuid_tipe] = [$uuid_akun => $bulanan];
+                $arranged[$uuid_bs] = [$uuid_akun => $bulanan];
 
                 for ($i=0; $i < count($bulanan); $i++) {
 
-                    if (empty($arranged[$uuid_tipe][$uuid_akun][$i])) {
-                        $arranged[$uuid_tipe][$uuid_akun][$i]['debet'] = 0;
-                        $arranged[$uuid_tipe][$uuid_akun][$i]['kredit'] = 0;
+                    if (empty($arranged[$uuid_bs][$uuid_akun][$i])) {
+                        $arranged[$uuid_bs][$uuid_akun][$i]['debet'] = 0;
+                        $arranged[$uuid_bs][$uuid_akun][$i]['kredit'] = 0;
                     }
 
                     foreach ($dataJurnal as $keyJurnal => $jurnal) {
@@ -95,11 +94,11 @@ class Neraca extends BaseController{
                         }                        
 
                         if ($uuid_akun == $temp['akun_debet']) {
-                            $arranged[$uuid_tipe][$uuid_akun][$i]['debet'] += $temp['nilai'];
+                            $arranged[$uuid_bs][$uuid_akun][$i]['debet'] += $temp['nilai'];
                         }
 
                         if ($uuid_akun == $temp['akun_kredit']) {
-                            $arranged[$uuid_tipe][$uuid_akun][$i]['kredit'] += $temp['nilai'];
+                            $arranged[$uuid_bs][$uuid_akun][$i]['kredit'] += $temp['nilai'];
                         }                        
                     }
                 }
@@ -109,7 +108,7 @@ class Neraca extends BaseController{
         $data = [
             'data'=>$arranged,
             'akun'=>$dataAkun,
-            'tipe'=>$dataTipe,
+            'bs'=>$dataBS,
         ];
 
         return $this->respond($data);
@@ -142,27 +141,29 @@ class Neraca extends BaseController{
             $dataAkun = $akun->findAll();
         }
 
-        if (!isset($dataTipe)) {
-            $tipe = new Model_Daftar_Tipe();
-            $dataTipe = $tipe->findAll();
+        if (!isset($dataBS)) {
+            $bs = new Model_Daftar_BS();
+            $dataBS = $bs->findAll();
         }
 
         $arranged=[];
 
-        foreach ($dataTipe as $key => $value) {
+        foreach ($dataBS as $key => $value) {
             if (!isset($arranged[$value['uuid']])) {
                 $arranged[$value['uuid']] = [];
             }
         }
 
         foreach ($dataAkun as $key => $value) {
-            if (array_key_exists($value['tipe_akun'], $arranged)) {
-                $tipe_uuid = $value['tipe_akun'];
+            if (array_key_exists($value['tipe_bs'], $arranged)) {
+                $tipe_uuid = $value['tipe_bs'];
                 array_push($arranged[$tipe_uuid], $value['uuid']);
             }
         }
     
         return $arranged;
+
+        // return $this->respond($arranged);
     }
 
 
