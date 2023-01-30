@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Model_Jurnal;
 use App\Models\Model_Daftar_Akun;
 use App\Models\Model_Daftar_BS;
+use App\Models\Model_Daftar_Tipe;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\RequestTrait;
@@ -114,6 +115,73 @@ class Neraca extends ResourceController{
         return $this->respond($data);
     }
 
+    public function neraca(){
+        /*
+        Tarik jurnal
+        Buat variabel bulan
+        Susun ulang jurnal ke dalam variabel bulan
+        Tiap bulan, cek masing-masing akun
+            masing-masing akun hitung debit dan kreditnya sendiri-sendiri
+
+        
+        */ 
+        $jurnal = new Model_Jurnal();
+        $akun = new Model_Daftar_Akun();
+        $tipe = new Model_Daftar_Tipe();
+        $dataJurnal = $jurnal->findAll();
+        $dataAkun = $akun->orderBy('kode_akun', 'asc')->findAll();
+        $dataTipe = $tipe->findAll();
+        $thisYear = date('Y');
+        $thisTanggal = 21;
+
+
+        $bulanan = [[],[],[],[],[],[],[],[],[],[],[],[]];
+        $arranged = $this->rearrangeNeraca();
+
+        // foreach ($arranged as $nama_kategori => $arr) {
+        //     var_dump($arr);
+
+        //     // foreach ($akun as $key => $uuid_akun) {
+        //     //     // $key itu int index
+        //     //     // $uuid_akun itu string uuid akun
+
+        //     //     $arranged[$uuid_tipe] = [$uuid_akun => $bulanan];
+
+        //     //     for ($i=0; $i < count($bulanan); $i++) {
+
+        //     //         if (empty($arranged[$uuid_tipe][$uuid_akun][$i])) {
+        //     //             $arranged[$uuid_tipe][$uuid_akun][$i]['debet'] = 0;
+        //     //             $arranged[$uuid_tipe][$uuid_akun][$i]['kredit'] = 0;
+        //     //         }
+
+        //     //         foreach ($dataJurnal as $keyJurnal => $jurnal) {
+        //     //             $temp = $this->filterJurnal($jurnal, $thisYear, $i + 1, $thisTanggal); // pake fungsi filterJurnal yang dibikin di bawah, biar nda blepotan
+
+        //     //             if (!isset($temp)) {
+        //     //                 continue;
+        //     //             }                        
+
+        //     //             if ($uuid_akun == $temp['akun_debet']) {
+        //     //                 $arranged[$uuid_tipe][$uuid_akun][$i]['debet'] += $temp['nilai'];
+        //     //             }
+
+        //     //             if ($uuid_akun == $temp['akun_kredit']) {
+        //     //                 $arranged[$uuid_tipe][$uuid_akun][$i]['kredit'] += $temp['nilai'];
+        //     //             }                        
+        //     //         }
+        //     //     }
+        //     // }
+        // }
+
+        $data = [
+            'data'=>$arranged,
+            'akun'=>$dataAkun,
+            'tipe'=>$dataTipe,
+        ];
+
+        return $this->respond($data);
+    }
+
 
 
 
@@ -161,6 +229,54 @@ class Neraca extends ResourceController{
             }
         }
     
+        return $arranged;
+
+        // return $this->respond($arranged);
+    }
+
+
+    public function rearrangeNeraca(){
+        if (!isset($dataAkun)) {
+            $akun = new Model_Daftar_Akun();
+            $dataAkun = $akun->findAll();
+        }
+
+        if (!isset($dataTipe)) {
+            $tipe = new Model_Daftar_Tipe();
+            $dataTipe = $tipe->findAll();
+        }
+
+        $arranged=[];
+
+        foreach ($dataTipe as $key => $value) {
+            if (!isset($arranged[$value['kategori']])) {
+                $arranged[$value['kategori']] = [];
+            }
+
+            $arranged[$value['kategori']][$value['uuid']] = [];
+        }
+
+        foreach ($dataAkun as $key => $value) {
+            // $value itu objectnya
+            // $key itu indexnya
+
+            $tipe_uuid = $value['tipe_akun'];
+            // $tipe_uuid itu tipe dari si object
+
+            // cek apakah dalam $arrange itu ada uuid yang sama dengan $tipe_uuid
+            foreach ($arranged as $nama_kategori => $kategori) {
+                foreach ($kategori as $uuid_kategori => $isi_tipe) {
+
+                    // kalo sama, simpan dalamnya uuid akun
+                    if ($uuid_kategori == $tipe_uuid) {
+                        array_push($arranged[$nama_kategori][$uuid_kategori], $value['uuid']);
+                    }
+                    
+                }
+            }
+        }
+        
+        
         return $arranged;
 
         // return $this->respond($arranged);
