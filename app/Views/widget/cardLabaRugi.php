@@ -11,7 +11,7 @@
 
 <div class="table-responsive" style="position: relative;">
     <div id="penutup" style="position: absolute; z-index:200; "></div>
-    <table class="table table-sm table-hover table-bordered" id="tabel-labarugi-<?= $document_uuid?>">
+    <table class="text-center table table-sm table-hover table-bordered" id="tabel-labarugi-<?= $document_uuid?>">
         <thead>
             <tr class="table-primary">
                 <th rowspan=2>
@@ -39,8 +39,133 @@
         </thead>
 
         <tbody>
-
+            <tr class="table-secondary">
+                <th>Revenue</th>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<th></th>';
+                    }
+                ?>
+            </tr>
+            <tr>
+                <td>Service Revenue</td>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<td>0</td>';
+                    }
+                ?>
+            </tr>
+            <tr>
+                <td>Product Revenue</td>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<td>0</td>';
+                    }
+                ?>
+            </tr>
+            <tr>
+                <td>Revenue Return & Discount</td>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<td>0</td>';
+                    }
+                ?>
+            </tr>
         </tbody>
+
+        <thead>
+            <tr>
+                <th>Total Revenue</th>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<th>0</th>';
+                    }
+                ?>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr class="table-secondary">
+                <th>Operating Expenses</th>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<th></th>';
+                    }
+                ?>
+            </tr>
+            <tr>
+                <td>Salary</td>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<td>0</td>';
+                    }
+                ?>
+            </tr>
+            <tr>
+                <td>Honorerium & Insentif</td>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<td>0</td>';
+                    }
+                ?>
+            </tr>
+            <tr>
+                <td>Stationary</td>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<td>0</td>';
+                    }
+                ?>
+            </tr>
+            <tr>
+                <td>Allowance</td>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<td>0</td>';
+                    }
+                ?>
+            </tr>
+            <tr>
+                <td>Income Tax Art. 21</td>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<td>0</td>';
+                    }
+                ?>
+            </tr>
+            <tr>
+                <td>...</td>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<td>...</td>';
+                    }
+                ?>
+            </tr>
+        </tbody>
+
+        <thead>
+            <tr>
+                <th>Total Operating Expenses</th>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<th>0</th>';
+                    }
+                ?>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr>
+            <td>...</td>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<td>...</td>';
+                    }
+                ?>
+            </tr>
+        </tbody>
+
+
     </table>
 
 </div>
@@ -55,7 +180,8 @@
         akun = res.akun
         pl = res.pl
 
-        buatIsian()
+        // Enable lagi ketika datamu sudah benar
+        // buatIsian()
 
         return
     })
