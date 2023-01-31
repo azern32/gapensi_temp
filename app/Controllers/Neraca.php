@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Model_Jurnal;
 use App\Models\Model_Daftar_Akun;
 use App\Models\Model_Daftar_BS;
+use App\Models\Model_Daftar_PL;
 use App\Models\Model_Daftar_Tipe;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
@@ -59,10 +60,10 @@ class Neraca extends ResourceController{
         */ 
         $jurnal = new Model_Jurnal();
         $akun = new Model_Daftar_Akun();
-        $bs = new Model_Daftar_BS();
+        $pl = new Model_Daftar_PL();
         $dataJurnal = $jurnal->findAll();
         $dataAkun = $akun->orderBy('kode_akun', 'asc')->findAll();
-        $dataBS = $bs->findAll();
+        $dataPL = $pl->findAll();
         $thisYear = date('Y');
         $thisTanggal = 21;
 
@@ -70,21 +71,21 @@ class Neraca extends ResourceController{
         $bulanan = [[],[],[],[],[],[],[],[],[],[],[],[]];
         $arranged = $this->rearrangeLabaRugi();
 
-        foreach ($arranged as $uuid_bs => $akun) {
-            // $uuid_bs itu string uuid tipe
+        foreach ($arranged as $uuid_pl => $akun) {
+            // $uuid_pl itu string uuid tipe
             // $akun itu array string uuid akun
 
             foreach ($akun as $key => $uuid_akun) {
                 // $key itu int index
                 // $uuid_akun itu string uuid akun
 
-                $arranged[$uuid_bs] = [$uuid_akun => $bulanan];
+                $arranged[$uuid_pl] = [$uuid_akun => $bulanan];
 
                 for ($i=0; $i < count($bulanan); $i++) {
 
-                    if (empty($arranged[$uuid_bs][$uuid_akun][$i])) {
-                        $arranged[$uuid_bs][$uuid_akun][$i]['debet'] = 0;
-                        $arranged[$uuid_bs][$uuid_akun][$i]['kredit'] = 0;
+                    if (empty($arranged[$uuid_pl][$uuid_akun][$i])) {
+                        $arranged[$uuid_pl][$uuid_akun][$i]['debet'] = 0;
+                        $arranged[$uuid_pl][$uuid_akun][$i]['kredit'] = 0;
                     }
 
                     foreach ($dataJurnal as $keyJurnal => $jurnal) {
@@ -95,11 +96,11 @@ class Neraca extends ResourceController{
                         }                        
 
                         if ($uuid_akun == $temp['akun_debet']) {
-                            $arranged[$uuid_bs][$uuid_akun][$i]['debet'] += $temp['nilai'];
+                            $arranged[$uuid_pl][$uuid_akun][$i]['debet'] += $temp['nilai'];
                         }
 
                         if ($uuid_akun == $temp['akun_kredit']) {
-                            $arranged[$uuid_bs][$uuid_akun][$i]['kredit'] += $temp['nilai'];
+                            $arranged[$uuid_pl][$uuid_akun][$i]['kredit'] += $temp['nilai'];
                         }                        
                     }
                 }
@@ -109,7 +110,7 @@ class Neraca extends ResourceController{
         $data = [
             'data'=>$arranged,
             'akun'=>$dataAkun,
-            'bs'=>$dataBS,
+            'pl'=>$dataPL,
         ];
 
         return $this->respond($data);
@@ -138,40 +139,58 @@ class Neraca extends ResourceController{
         $bulanan = [[],[],[],[],[],[],[],[],[],[],[],[]];
         $arranged = $this->rearrangeNeraca();
 
-        // foreach ($arranged as $nama_kategori => $arr) {
-        //     var_dump($arr);
+        foreach ($arranged as $nama_kategori => $kategori) {
+            // $nama_kategori itu nama kategori dalam $arranged
+            // $kategori itu object dari $arranged
 
-        //     // foreach ($akun as $key => $uuid_akun) {
-        //     //     // $key itu int index
-        //     //     // $uuid_akun itu string uuid akun
+            foreach ($kategori as $index => $isi_tipe) {
+                // $index itu index dari $kategori
+                // $isi_tipe itu itu object dari $kategori
 
-        //     //     $arranged[$uuid_tipe] = [$uuid_akun => $bulanan];
+                foreach ($isi_tipe as $key => $uuid_akun) {
+                    // $key itu index dari $isi_tipe
+                    // $uuid_akun itu object dari $isi_tipe
 
-        //     //     for ($i=0; $i < count($bulanan); $i++) {
 
-        //     //         if (empty($arranged[$uuid_tipe][$uuid_akun][$i])) {
-        //     //             $arranged[$uuid_tipe][$uuid_akun][$i]['debet'] = 0;
-        //     //             $arranged[$uuid_tipe][$uuid_akun][$i]['kredit'] = 0;
-        //     //         }
+                    for ($i=0; $i < count($bulanan); $i++) { 
+                        # code...
+                    }
 
-        //     //         foreach ($dataJurnal as $keyJurnal => $jurnal) {
-        //     //             $temp = $this->filterJurnal($jurnal, $thisYear, $i + 1, $thisTanggal); // pake fungsi filterJurnal yang dibikin di bawah, biar nda blepotan
+                }
+            }
 
-        //     //             if (!isset($temp)) {
-        //     //                 continue;
-        //     //             }                        
 
-        //     //             if ($uuid_akun == $temp['akun_debet']) {
-        //     //                 $arranged[$uuid_tipe][$uuid_akun][$i]['debet'] += $temp['nilai'];
-        //     //             }
+            // foreach ($akun as $key => $uuid_akun) {
+            //     // $key itu int index
+            //     // $uuid_akun itu string uuid akun
 
-        //     //             if ($uuid_akun == $temp['akun_kredit']) {
-        //     //                 $arranged[$uuid_tipe][$uuid_akun][$i]['kredit'] += $temp['nilai'];
-        //     //             }                        
-        //     //         }
-        //     //     }
-        //     // }
-        // }
+            //     $arranged[$uuid_tipe] = [$uuid_akun => $bulanan];
+
+            //     for ($i=0; $i < count($bulanan); $i++) {
+
+            //         if (empty($arranged[$uuid_tipe][$uuid_akun][$i])) {
+            //             $arranged[$uuid_tipe][$uuid_akun][$i]['debet'] = 0;
+            //             $arranged[$uuid_tipe][$uuid_akun][$i]['kredit'] = 0;
+            //         }
+
+            //         foreach ($dataJurnal as $keyJurnal => $jurnal) {
+            //             $temp = $this->filterJurnal($jurnal, $thisYear, $i + 1, $thisTanggal); // pake fungsi filterJurnal yang dibikin di bawah, biar nda blepotan
+
+            //             if (!isset($temp)) {
+            //                 continue;
+            //             }                        
+
+            //             if ($uuid_akun == $temp['akun_debet']) {
+            //                 $arranged[$uuid_tipe][$uuid_akun][$i]['debet'] += $temp['nilai'];
+            //             }
+
+            //             if ($uuid_akun == $temp['akun_kredit']) {
+            //                 $arranged[$uuid_tipe][$uuid_akun][$i]['kredit'] += $temp['nilai'];
+            //             }                        
+            //         }
+            //     }
+            // }
+        }
 
         $data = [
             'data'=>$arranged,
@@ -179,7 +198,7 @@ class Neraca extends ResourceController{
             'tipe'=>$dataTipe,
         ];
 
-        return $this->respond($data);
+        // return $this->respond($data);
     }
 
 
@@ -209,22 +228,22 @@ class Neraca extends ResourceController{
             $dataAkun = $akun->findAll();
         }
 
-        if (!isset($dataBS)) {
-            $bs = new Model_Daftar_BS();
-            $dataBS = $bs->findAll();
+        if (!isset($dataPL)) {
+            $pl = new Model_Daftar_PL();
+            $dataPL = $pl->findAll();
         }
 
         $arranged=[];
 
-        foreach ($dataBS as $key => $value) {
+        foreach ($dataPL as $key => $value) {
             if (!isset($arranged[$value['uuid']])) {
                 $arranged[$value['uuid']] = [];
             }
         }
 
         foreach ($dataAkun as $key => $value) {
-            if (array_key_exists($value['tipe_bs'], $arranged)) {
-                $tipe_uuid = $value['tipe_bs'];
+            if (array_key_exists($value['tipe_pl'], $arranged)) {
+                $tipe_uuid = $value['tipe_pl'];
                 array_push($arranged[$tipe_uuid], $value['uuid']);
             }
         }
@@ -316,8 +335,8 @@ class Neraca extends ResourceController{
                     'Roboto Fonts'=>'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap',
                     'Material Icons'=>'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined',
                     'Font Awesome' => 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css',
-                    'Datatable' => 'https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css',
-                    'DatatableResponsive' => 'https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css',
+                    //'Datatable' => 'https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css',
+                    //'DatatableResponsive' => 'https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css',
                     'adminlte'=>base_url()."/adminlte/css/adminlte.min.css",
                     'myown'=>base_url()."/css/myown.css",
                 ],
@@ -326,8 +345,8 @@ class Neraca extends ResourceController{
                     'polyfills' => "https://polyfill.io/v3/polyfill.min.js?features=Array.prototype.find,Promise,Object.assign",
                     'popper' => "https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js",
                     'bootstrap' => "https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js",
-                    'DatatablesBootstrap' => 'https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js', 
-                    'DatatablesResponsive' => 'https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js', 
+                    //'DatatablesBootstrap' => 'https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js', 
+                    //'DatatablesResponsive' => 'https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js', 
                     'adminlte' => base_url().'/adminlte/js/adminlte.min.js',
                     'myown' => base_url()."/js/myown.js",
 

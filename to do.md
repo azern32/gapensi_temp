@@ -10,6 +10,9 @@
 - ~~tombol "Input Keuangan" ganti jadi li saja, jangan tombol~~
 - ~~halaman yang tampil, terhiglight di sidebar~~
 - ~~~atur ulang pengkategorian laba rugi~~~
+- kerja ulang soal pengelompokan
+- bs ada parentnya
+- pl ada parentnya
 - rapikan susunan MVC keseluruhan
 - edit jurnal ketika sudah otomatis terganti
 - rka ketika mengupload otomatis terganti statusnya

@@ -9,7 +9,8 @@
 </div>
 
 
-<div class="table-responsive">
+<div class="table-responsive" style="position: relative;">
+    <div id="penutup" style="position: absolute; z-index:200; "></div>
     <table class="table table-sm table-hover table-bordered" id="tabel-labarugi-<?= $document_uuid?>">
         <thead>
             <tr class="table-primary">
@@ -19,7 +20,9 @@
                 <?php 
                     setlocale(LC_ALL,"ID");
                     for ($i=1; $i < 13; $i++) { 
-                        echo '<th>'.strftime('%B', mktime(0, 0, 0, $i)).'</th>';
+                        $dateObj   = DateTime::createFromFormat('!m', $i);
+                        $monthName = $dateObj->format('F');
+                        echo '<th>'.$monthName.'</th>';
                     }
                 ?>
                 <th>
@@ -50,7 +53,7 @@
     }).then(res=>{
         datalabarugi = res.data
         akun = res.akun
-        bs = res.bs
+        pl = res.pl
 
         buatIsian()
 
@@ -67,9 +70,9 @@
             }            
         }
 
-        for (let i = 0; i < bs.length; i++) {
-            if (bs[i].uuid == uuid) {
-                return bs[i].nama_bs;
+        for (let i = 0; i < pl.length; i++) {
+            if (pl[i].uuid == uuid) {
+                return pl[i].nama_pl;
             }
         }
     }
@@ -90,12 +93,14 @@
             totalkredit += Number(debit_kredit[i].kredit)
         }
 
-        return $('#tabel-labarugi-<?= $document_uuid?> tbody')
+        $('#tabel-labarugi-<?= $document_uuid?> tbody')
         .append( `<tr id="${uuid}" class="text-center"><td>${name}</td>
         ${isi}
         <td>${totaldebet - totalkredit}</td>
         </tr>`);
 
+        updatetinggi();
+        return
     }
 
     function makeRowTipe(uuid) {
@@ -116,4 +121,18 @@
         }
     }
 
+</script>
+
+<script>
+    let boxwidth
+    let boxheight
+    function updatetinggi() {
+        // buat object transparant di depan table
+        boxwidth = $('[class=table-responsive]')[0].offsetWidth
+        boxheight = $('[class=table-responsive]')[0].offsetHeight
+    
+        $('#penutup').css('width', boxwidth)
+        $('#penutup').css('height', boxheight)
+        $('#penutup').css('background-color', 'rgb(0 0 0 / 1%)')
+    }
 </script>

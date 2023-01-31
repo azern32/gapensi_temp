@@ -67,27 +67,11 @@
             </div>
             
             <div class="card p-3">
-                <!-- Check level pengguna -->
-                <?php switch ($session['level']) {
-                case 1:
-                    // Jika level pengguna pegawai, tampilkan sidebar_pegawai
-                    echo view_cell('\App\Libraries\Widget::cardArusKas',['document_uuid'=>'null']);
-                    break;
-                
-                    case 2:
-                    // Jika level pengguna direktur, tampilkan sidebar_direktur
-                    echo view_cell('\App\Libraries\Widget::cardNeracaSaldo',['document_uuid'=>'null']);
-                    echo view_cell('\App\Libraries\Widget::cardLabaRugi',['document_uuid'=>'wah']);
-                    break;
+                <?= view_cell('\App\Libraries\Widget::cardNeracaSaldoLaporan',['document_uuid'=>'null']);?>
+            </div>
 
-                default:
-                    // Untuk keperluan debugging 
-                    // Jika levelnya tidak ditemukan, otomatis jadi root
-                    echo view_cell('\App\Libraries\Widget::cardArusKas',['document_uuid'=>'null']);
-                    echo view_cell('\App\Libraries\Widget::cardNeracaSaldo',['document_uuid'=>'null']);
-                    break;
-                }?>
-
+            <div class="card p-3">
+                <?= view_cell('\App\Libraries\Widget::cardLabaRugi',['document_uuid'=>'wah']);?>
             </div>
         </div>
     </div>

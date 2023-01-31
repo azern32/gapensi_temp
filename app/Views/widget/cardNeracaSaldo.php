@@ -1,72 +1,240 @@
 <div class="d-flex justify-content-between my-3">
-    
-    <!-- Check level pengguna -->
-    <?php switch ($session['level']) {
-    case 1:
-        // Jika level pengguna pegawai, tampilkan sidebar_pegawai
-        echo '<h5 class="mr-auto">LAPORAN KEUANGAN</h5>';
-        break;
-        
-        case 2:
-        echo '<h5 class="mr-auto">NERACA SALDO</h5>';
-        // Jika level pengguna direktur, tampilkan sidebar_direktur
-        break;
+    <h5 class="mr-auto">NERACA SALDO</h5>
 
-    default:
-        // Untuk keperluan debugging 
-        // Jika levelnya tidak ditemukan, otomatis jadi root
-        echo '<h5 class="mr-auto">LAPORAN KEUANGAN atau NERACA SALDO</h5>';
-        break;
-    }?>
-
-
-    <select class="mx-2" name="select_neraca" id="select_neraca">
-        <option value="0">Tahun ini, hingga hari ini</option>
-        <?php 
-            setlocale(LC_ALL,"ID");
-            for ($i=1; $i < 13; $i++) { ?>
-
-            <option value="<?= $i;?>"><?= strftime('%B', mktime(0, 0, 0, $i));?></option>
-        <?php }?>
-    </select>
-    <button class="mx-2 btn btn-main1" data-toggle="modal" data-target="#modal_input_kegiatan">
+    <!-- <button class="mx-2 btn btn-main1" data-toggle="modal" data-target="#modal_input_kegiatan">
         <i class="fas fa-download"></i>
         Download
-    </button>
+    </button> -->
 </div>
 
-<table class="table table-hover table-sm">
+<div class="table-responsive" style="position:relative;">
+    <div id="penutup" style="position: absolute; z-index:200; "></div>
+    <table class="table table-sm table-hover table-bordered" id="tabel-neraca-<?= $document_uuid?>">
     <thead>
-        <tr>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Description</th>
-            <th>Amount</th>
-        </tr>        
-        <tr>
-            <th>Assets</th>
-            <th></th>
-            <th>Liabilities</th>
-            <th></th>
-        </tr>
-    </thead>
+            <tr class="table-primary">
+                <th rowspan=2 >
+                    Akun
+                </th>
+                <?php 
+                    setlocale(LC_ALL,"ID");
+                    for ($i=1; $i < 13; $i++) {
+                        $dateObj   = DateTime::createFromFormat('!m', $i);
+                        $monthName = $dateObj->format('F');
+                        echo '<th>'.$monthName.'-21</th>';
+                    }
+                ?>
+                <th>
+                    Years To Date <?=date("Y")?>
+                </th>
+            </tr>
+            <tr class="table-primary">
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<th>Rp. </th>';
+                    }
+                ?>
+            </tr>
+        </thead>
 
-    <tbody>
+        <tbody>
+            <tr class="table-secondary">
+                <th>Assets</th>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<th></th>';
+                    }
+                ?>
+            </tr>
 
-    </tbody>
+            <tr>
+                <th>Current Assets</th>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<th></th>';
+                    }
+                ?>
+            </tr>
 
-    <thead>
-        <tr>
-            <th>Total Current Assets</th>
-            <th></th>
-            <th>Total Liabilities</th>
-            <th></th>
-        </tr>
-    </thead>
+            <tr>
+                <td>Petty Cash</td>
+                <td>0</td>
+                <td>20000</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>40000</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>500000</td>
+                <td>0</td>
+                <td>0</td>
+                <td>560000</td>
+                <?php 
+                    // $petty_cash = 0;
+                    
+                    // for ($i=0; $i < 12; $i++) { 
+                    //     $toadd = rand(0,1000000);
+                    //     echo '<td>'.$toadd.'</td>';
+                    //     $petty_cash += $toadd;
+                    // }
+                    // echo '<td>'.$petty_cash.'</td>';
+                ?>
+            </tr>
 
-    <tbody>
+            <tr>
+                <td>Cash On Hand</td>
+                <td>10000</td>
+                <td>0</td>
+                <td>0</td>
+                <td>30000</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>20000</td>
+                <td>0</td>
+                <td>0</td>
+                <td>60000</td>
+                <?php 
+                    // $coh = 0;
+                    
+                    // for ($i=0; $i < 12; $i++) { 
+                    //     $toadd = rand(0,1000000);
+                    //     echo '<td>'.$toadd.'</td>';
+                    //     $coh += $toadd;
+                    // }
+                    // echo '<td>'.$coh.'</td>';
+                ?>
+            </tr>
 
-    </tbody>
-</table>
+
+            <tr class="table-success">
+                <th>Total Current Assets</th>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<th></th>';
+                    }
+                ?>
+            </tr>
 
 
+            <tr class="table-secondary">
+                <th>Fixed Assets</th>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<th></th>';
+                    }
+                ?>
+            </tr>
+
+            <tr>
+                <td>Building and Land</td>
+                <td>0</td>
+                <td>20000</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>40000</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>500000</td>
+                <td>0</td>
+                <td>0</td>
+                <td>560000</td>
+                <?php 
+                    // $petty_cash = 0;
+                    
+                    // for ($i=0; $i < 12; $i++) { 
+                    //     $toadd = rand(0,1000000);
+                    //     echo '<td>'.$toadd.'</td>';
+                    //     $petty_cash += $toadd;
+                    // }
+                    // echo '<td>'.$petty_cash.'</td>';
+                ?>
+            </tr>
+
+            <tr>
+                <td>Vehicle</td>
+                <td>10000</td>
+                <td>0</td>
+                <td>0</td>
+                <td>30000</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                <td>20000</td>
+                <td>0</td>
+                <td>0</td>
+                <td>60000</td>
+                <?php 
+                    // $coh = 0;
+                    
+                    // for ($i=0; $i < 12; $i++) { 
+                    //     $toadd = rand(0,1000000);
+                    //     echo '<td>'.$toadd.'</td>';
+                    //     $coh += $toadd;
+                    // }
+                    // echo '<td>'.$coh.'</td>';
+                ?>
+            </tr>
+
+            <tr class="table-secondary">
+                <th>Accumulated Depreciation</th>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<th></th>';
+                    }
+                ?>
+            </tr>
+
+            <tr class="table-success">
+                <th>Total Fixed Assets</th>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<th></th>';
+                    }
+                ?>
+            </tr>
+
+
+
+
+            <tr class="table-success">
+                <th>Total Liabilities</th>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<th></th>';
+                    }
+                ?>
+            </tr>
+
+
+
+            <tr class="table-success">
+                <th>Total Long Term Liabilities</th>
+                <?php 
+                    for ($i=0; $i < 13; $i++) { 
+                        echo '<th></th>';
+                    }
+                ?>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    // buat object transparant di depan table
+    let boxwidth = $('#tabel-neraca-<?= $document_uuid?>')[0].offsetWidth
+    let boxheight = $('#tabel-neraca-<?= $document_uuid?>')[0].offsetHeight
+
+    $('#penutup').css('width', boxwidth)
+    $('#penutup').css('height', boxheight)
+    $('#penutup').css('background-color', 'rgb(0 0 0 / 1%)')
+</script>

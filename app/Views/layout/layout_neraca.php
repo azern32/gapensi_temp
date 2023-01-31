@@ -53,7 +53,7 @@
 
         <div class="content-wrapper p-2">
             <div class="card p-3">
-                
+                <?= view_cell('\App\Libraries\Widget::cardNeracaSaldo',['document_uuid'=>'null']);?>
             </div>            
         </div>
     </div>

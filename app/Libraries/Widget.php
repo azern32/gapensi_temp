@@ -31,6 +31,10 @@ class Widget
 
     public function cardNeracaSaldo(array $arg = null){
         return view('widget/cardNeracaSaldo', $arg);
+    }   
+    
+    public function cardNeracaSaldoLaporan(array $arg = null){
+        return view('widget/cardNeracaSaldoLaporan', $arg);
     }
 
     public function cardLabaRugi(array $arg = null){
